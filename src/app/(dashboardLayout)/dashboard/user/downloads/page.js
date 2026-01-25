@@ -43,7 +43,7 @@ export default function AllAssetsPage() {
 
     // Card class based on theme
     const cardClass = `rounded-2xl border transition-all duration-300 ${isDark
-        ? 'bg-slate-800/50 border-white/5 hover:border-[#ED1C3E]/20'
+        ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
         : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md'
         }`;
 
@@ -79,7 +79,7 @@ export default function AllAssetsPage() {
             {/* Professional Compact Header */}
             <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 ${cardClass}`}>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ED1C3E] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#ED1C3E]/10">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
                         <FiDownload size={24} />
                     </div>
                     <div>
@@ -104,7 +104,7 @@ export default function AllAssetsPage() {
                     </button>
                     <Link
                         href="/software"
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#ED1C3E]/10 hover:scale-105 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                     >
                         <FiPackage size={16} />
                         Browse More
@@ -128,11 +128,11 @@ export default function AllAssetsPage() {
                                 All downloads
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiDownload size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
 
                 {/* Softwares */}
@@ -170,11 +170,11 @@ export default function AllAssetsPage() {
                                 Templates & themes
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiGlobe size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
                 </Link>
             </div>
 
@@ -187,8 +187,8 @@ export default function AllAssetsPage() {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm transition-all focus:outline-none focus:ring-2 ${isDark
-                            ? 'bg-slate-800/50 border-white/5 text-slate-200 focus:ring-[#ED1C3E]/30'
-                            : 'bg-slate-50 border-slate-200 text-slate-700 focus:ring-[#ED1C3E]/20'
+                            ? 'bg-slate-800/50 border-white/5 text-slate-200 focus:ring-[#FD9A00]/30'
+                            : 'bg-slate-50 border-slate-200 text-slate-700 focus:ring-[#FD9A00]/20'
                             }`}
                     />
                 </div>
@@ -196,7 +196,7 @@ export default function AllAssetsPage() {
                     <button
                         onClick={() => setFilterType('all')}
                         className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${filterType === 'all'
-                            ? isDark ? 'bg-[#ED1C3E]/20 text-[#ED1C3E] border border-[#ED1C3E]/30' : 'bg-[#ED1C3E]/10 text-[#ED1C3E] border border-[#ED1C3E]/20'
+                            ? isDark ? 'bg-[#FD9A00]/20 text-[#FD9A00] border border-[#FD9A00]/30' : 'bg-[#FD9A00]/10 text-[#FD9A00] border border-[#FD9A00]/20'
                             : isDark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                             }`}>
                         All
@@ -204,7 +204,7 @@ export default function AllAssetsPage() {
                     <button
                         onClick={() => setFilterType('software')}
                         className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${filterType === 'software'
-                            ? isDark ? 'bg-[#ED1C3E]/20 text-[#ED1C3E] border border-[#ED1C3E]/30' : 'bg-[#ED1C3E]/10 text-[#ED1C3E] border border-[#ED1C3E]/20'
+                            ? isDark ? 'bg-[#FD9A00]/20 text-[#FD9A00] border border-[#FD9A00]/30' : 'bg-[#FD9A00]/10 text-[#FD9A00] border border-[#FD9A00]/20'
                             : isDark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                             }`}>
                         Software
@@ -212,7 +212,7 @@ export default function AllAssetsPage() {
                     <button
                         onClick={() => setFilterType('website')}
                         className={`px-3 py-2 rounded-xl text-xs font-bold transition-all ${filterType === 'website'
-                            ? isDark ? 'bg-[#ED1C3E]/20 text-[#ED1C3E] border border-[#ED1C3E]/30' : 'bg-[#ED1C3E]/10 text-[#ED1C3E] border border-[#ED1C3E]/20'
+                            ? isDark ? 'bg-[#FD9A00]/20 text-[#FD9A00] border border-[#FD9A00]/30' : 'bg-[#FD9A00]/10 text-[#FD9A00] border border-[#FD9A00]/20'
                             : isDark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                             }`}>
                         Website
@@ -261,7 +261,7 @@ export default function AllAssetsPage() {
                     {!searchTerm && (
                         <Link
                             href="/software"
-                            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md shadow-[#ED1C3E]/10 hover:scale-105 transition-all"
+                            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                         >
                             Browse Marketplace <FiArrowRight />
                         </Link>
@@ -273,7 +273,7 @@ export default function AllAssetsPage() {
                         <div
                             key={item._id}
                             className={`group relative rounded-2xl border overflow-hidden transition-all duration-300 ${isDark
-                                ? 'bg-slate-800/50 border-white/5 hover:border-[#ED1C3E]/20'
+                                ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
                                 : 'bg-white border-slate-200 hover:shadow-lg'
                                 }`}
                         >
@@ -292,7 +292,7 @@ export default function AllAssetsPage() {
                                 <div className="absolute top-3 left-3">
                                     <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest text-white ${item.productType === 'software'
                                         ? 'bg-gradient-to-r from-[#FD9A00] to-[#fb923c]'
-                                        : 'bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf]'
+                                        : 'bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf]'
                                         }`}>
                                         {item.productType === 'software' ? <FiCode size={10} /> : <FiGlobe size={10} />}
                                         {item.productType}
@@ -330,13 +330,13 @@ export default function AllAssetsPage() {
                                     <button
                                         onClick={() => window.open(item.product?.downloadFile, '_blank')}
                                         disabled={!item.product?.downloadFile}
-                                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] text-white rounded-xl font-bold text-xs shadow-md shadow-[#ED1C3E]/10 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50"
+                                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white rounded-xl font-bold text-xs shadow-md shadow-[#FD9A00]/10 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50"
                                     >
                                         <FiDownload size={14} /> Download
                                     </button>
                                     <button className={`p-2.5 rounded-xl transition-all ${isDark
-                                        ? 'bg-slate-700 text-slate-300 hover:text-[#ED1C3E]'
-                                        : 'bg-slate-100 text-slate-500 hover:text-[#ED1C3E]'
+                                        ? 'bg-slate-700 text-slate-300 hover:text-[#FD9A00]'
+                                        : 'bg-slate-100 text-slate-500 hover:text-[#FD9A00]'
                                         }`}>
                                         <FiExternalLink size={16} />
                                     </button>
@@ -370,8 +370,8 @@ export default function AllAssetsPage() {
                                 onClick={() => window.open(item.product?.downloadFile, '_blank')}
                                 disabled={!item.product?.downloadFile}
                                 className={`p-2.5 rounded-xl transition-all ${isDark
-                                    ? 'bg-slate-700 text-slate-300 hover:bg-[#ED1C3E] hover:text-white'
-                                    : 'bg-slate-100 text-slate-500 hover:bg-[#ED1C3E] hover:text-white'
+                                    ? 'bg-slate-700 text-slate-300 hover:bg-[#FD9A00] hover:text-white'
+                                    : 'bg-slate-100 text-slate-500 hover:bg-[#FD9A00] hover:text-white'
                                     } disabled:opacity-50`}
                             >
                                 <FiDownload size={16} />
@@ -388,8 +388,8 @@ export default function AllAssetsPage() {
                 }`}>
                 <div className="flex items-center gap-4 text-center md:text-left">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${isDark
-                        ? 'bg-slate-700 text-[#ED1C3E]'
-                        : 'bg-white text-[#ED1C3E] shadow-md border border-slate-100'
+                        ? 'bg-slate-700 text-[#FD9A00]'
+                        : 'bg-white text-[#FD9A00] shadow-md border border-slate-100'
                         }`}>
                         <FiShield size={22} />
                     </div>

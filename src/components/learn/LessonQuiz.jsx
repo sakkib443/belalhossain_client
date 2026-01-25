@@ -131,11 +131,11 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
             <div className="space-y-6">
                 {/* Result Card */}
                 <div className={`p-8 rounded-2xl text-center ${result.passed
-                    ? 'bg-gradient-to-br from-[#ED1C3E]/10 to-[#2dd4bf]/10 border border-[#ED1C3E]/20'
+                    ? 'bg-gradient-to-br from-[#FD9A00]/10 to-[#2dd4bf]/10 border border-[#FD9A00]/20'
                     : 'bg-gradient-to-br from-[#FD9A00]/10 to-orange-100 border border-[#FD9A00]/20'
                     }`}>
                     <div className={`w-20 h-20 rounded-full mx-auto mb-4 flex items-center justify-center ${result.passed
-                        ? 'bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] shadow-lg shadow-[#ED1C3E]/30'
+                        ? 'bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] shadow-lg shadow-[#FD9A00]/30'
                         : 'bg-gradient-to-br from-[#FD9A00] to-orange-400 shadow-lg shadow-[#FD9A00]/30'
                         }`}>
                         {result.passed ? (
@@ -145,11 +145,11 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                         )}
                     </div>
 
-                    <h3 className={`text-2xl font-bold mb-2 ${result.passed ? 'text-[#ED1C3E]' : 'text-[#FD9A00]'}`}>
+                    <h3 className={`text-2xl font-bold mb-2 ${result.passed ? 'text-[#FD9A00]' : 'text-[#FD9A00]'}`}>
                         {result.passed ? 'Congratulations!' : 'Keep Learning!'}
                     </h3>
 
-                    <p className={`text-sm mb-6 ${result.passed ? 'text-[#ED1C3E]/80' : 'text-[#FD9A00]/80'}`}>
+                    <p className={`text-sm mb-6 ${result.passed ? 'text-[#FD9A00]/80' : 'text-[#FD9A00]/80'}`}>
                         {result.passed
                             ? 'You have successfully passed this quiz!'
                             : `You need ${quizSettings.passingScore || 70}% to pass. Try again!`}
@@ -172,7 +172,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                     {!result.passed && (quizSettings.maxAttempts === 0 || true) && (
                         <button
                             onClick={handleRetry}
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] text-white font-semibold hover:shadow-lg hover:shadow-[#ED1C3E]/30 transition-all"
+                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white font-semibold hover:shadow-lg hover:shadow-[#FD9A00]/30 transition-all"
                         >
                             <FiRefreshCw size={18} />
                             Retry Quiz
@@ -190,12 +190,12 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                                 <div
                                     key={r.questionId}
                                     className={`p-4 rounded-xl border ${r.correct
-                                        ? 'bg-[#ED1C3E]/5 border-[#ED1C3E]/20'
+                                        ? 'bg-[#FD9A00]/5 border-[#FD9A00]/20'
                                         : 'bg-red-50 border-red-100'
                                         }`}
                                 >
                                     <div className="flex items-start gap-3">
-                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${r.correct ? 'bg-[#ED1C3E] text-white' : 'bg-red-500 text-white'}`}>
+                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${r.correct ? 'bg-[#FD9A00] text-white' : 'bg-red-500 text-white'}`}>
                                             {r.correct ? <FiCheck size={16} /> : <FiX size={16} />}
                                         </div>
                                         <div className="flex-1">
@@ -206,7 +206,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                                                 Your answer: <span className="font-medium">{r.userAnswer || 'Not answered'}</span>
                                             </p>
                                             {!r.correct && r.correctAnswer && (
-                                                <p className="text-xs text-[#ED1C3E] mt-1">
+                                                <p className="text-xs text-[#FD9A00] mt-1">
                                                     Correct answer: <span className="font-medium">{r.correctAnswer}</span>
                                                 </p>
                                             )}
@@ -229,7 +229,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
             {/* Quiz Header */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center shadow-lg shadow-[#ED1C3E]/20">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center shadow-lg shadow-[#FD9A00]/20">
                         <FiHelpCircle size={20} className="text-white" />
                     </div>
                     <div>
@@ -245,7 +245,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                             {formatTime(timeRemaining)}
                         </div>
                     )}
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#ED1C3E]/10 text-[#ED1C3E] text-sm font-semibold">
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#FD9A00]/10 text-[#FD9A00] text-sm font-semibold">
                         <FiList size={14} />
                         {answeredCount}/{questions.length}
                     </div>
@@ -255,7 +255,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
             {/* Progress Bar */}
             <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                 <motion.div
-                    className="h-full bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00]"
+                    className="h-full bg-gradient-to-r from-[#FD9A00] to-[#FD9A00]"
                     initial={{ width: 0 }}
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.3 }}
@@ -275,7 +275,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                     {/* Question Text */}
                     <div className="mb-6">
                         <span className={`inline-block px-2.5 py-1 rounded-lg text-xs font-bold mb-3 ${currentQuestion.type === 'mcq'
-                            ? 'bg-[#ED1C3E]/10 text-[#ED1C3E]'
+                            ? 'bg-[#FD9A00]/10 text-[#FD9A00]'
                             : 'bg-[#FD9A00]/10 text-[#FD9A00]'
                             }`}>
                             {currentQuestion.type === 'mcq' ? 'Multiple Choice' : 'Short Answer'}
@@ -300,21 +300,21 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                                         key={option._id || idx}
                                         onClick={() => handleAnswer(currentQuestion._id, option._id)}
                                         className={`w-full p-4 rounded-xl border-2 text-left flex items-center gap-4 transition-all ${isSelected
-                                            ? 'border-[#ED1C3E] bg-[#ED1C3E]/5'
+                                            ? 'border-[#FD9A00] bg-[#FD9A00]/5'
                                             : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                                             }`}
                                     >
                                         <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${isSelected
-                                            ? 'bg-[#ED1C3E] text-white'
+                                            ? 'bg-[#FD9A00] text-white'
                                             : 'bg-gray-100 text-gray-500'
                                             }`}>
                                             {String.fromCharCode(65 + idx)}
                                         </div>
-                                        <span className={`flex-1 font-medium ${isSelected ? 'text-[#ED1C3E]' : 'text-gray-700'}`}>
+                                        <span className={`flex-1 font-medium ${isSelected ? 'text-[#FD9A00]' : 'text-gray-700'}`}>
                                             {option.text}
                                         </span>
                                         {isSelected && (
-                                            <FiCheck className="text-[#ED1C3E]" size={20} />
+                                            <FiCheck className="text-[#FD9A00]" size={20} />
                                         )}
                                     </button>
                                 );
@@ -330,7 +330,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                                 onChange={(e) => handleAnswer(currentQuestion._id, e.target.value)}
                                 placeholder="Type your answer here..."
                                 rows={4}
-                                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none text-gray-700 resize-none transition-all"
+                                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none text-gray-700 resize-none transition-all"
                             />
                         </div>
                     )}
@@ -354,9 +354,9 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                             key={idx}
                             onClick={() => setCurrentIndex(idx)}
                             className={`w-3 h-3 rounded-full transition-all ${idx === currentIndex
-                                ? 'bg-[#ED1C3E] scale-125'
+                                ? 'bg-[#FD9A00] scale-125'
                                 : answers[questions[idx]._id]
-                                    ? 'bg-[#ED1C3E]/50'
+                                    ? 'bg-[#FD9A00]/50'
                                     : 'bg-gray-200'
                                 }`}
                         />
@@ -367,7 +367,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                     <button
                         onClick={handleSubmit}
                         disabled={loading}
-                        className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] text-white font-semibold hover:shadow-lg hover:shadow-[#ED1C3E]/30 transition-all disabled:opacity-50"
+                        className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white font-semibold hover:shadow-lg hover:shadow-[#FD9A00]/30 transition-all disabled:opacity-50"
                     >
                         {loading ? 'Submitting...' : 'Submit Quiz'}
                         <FiCheck size={18} />
@@ -375,7 +375,7 @@ export default function LessonQuiz({ lessonId, questions = [], quizSettings = {}
                 ) : (
                     <button
                         onClick={() => setCurrentIndex(prev => Math.min(questions.length - 1, prev + 1))}
-                        className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#ED1C3E] text-white font-semibold hover:bg-[#2dd4bf] transition-all"
+                        className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#FD9A00] text-white font-semibold hover:bg-[#2dd4bf] transition-all"
                     >
                         Next
                         <FiChevronRight size={18} />

@@ -203,7 +203,7 @@ export default function LessonCreateTab() {
         router.push('/dashboard/admin/course');
     };
 
-    const inputClass = "w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none text-sm transition-all bg-white text-gray-700 placeholder:text-gray-400";
+    const inputClass = "w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none text-sm transition-all bg-white text-gray-700 placeholder:text-gray-400";
     const labelClass = "block text-sm font-medium text-gray-700 mb-1.5";
 
     const tabs = [
@@ -226,7 +226,7 @@ export default function LessonCreateTab() {
                     {/* Course & Module Info */}
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-lg bg-[#ED1C3E]/20 flex items-center justify-center text-[#ED1C3E]">
+                            <div className="w-8 h-8 rounded-lg bg-[#FD9A00]/20 flex items-center justify-center text-[#FD9A00]">
                                 <FiBook size={14} />
                             </div>
                             <div>
@@ -251,7 +251,7 @@ export default function LessonCreateTab() {
                         <button
                             onClick={handleSubmit}
                             disabled={loading || !formData.title || !formData.course || !formData.module}
-                            className="flex items-center gap-2 bg-[#ED1C3E] hover:bg-[#2dd4bf] text-white px-5 py-2.5 rounded-lg font-medium text-sm transition-all disabled:opacity-50"
+                            className="flex items-center gap-2 bg-[#FD9A00] hover:bg-[#2dd4bf] text-white px-5 py-2.5 rounded-lg font-medium text-sm transition-all disabled:opacity-50"
                         >
                             <FiPlus size={16} />
                             {loading ? 'Creating...' : 'Add Lesson'}
@@ -270,14 +270,14 @@ export default function LessonCreateTab() {
 
             {/* Collapsible Created Lessons - Compact */}
             {createdLessons.length > 0 && (
-                <div className="bg-[#ED1C3E]/10 border border-[#ED1C3E]/30 rounded-xl overflow-hidden">
+                <div className="bg-[#FD9A00]/10 border border-[#FD9A00]/30 rounded-xl overflow-hidden">
                     <button
                         onClick={() => setShowCreatedList(!showCreatedList)}
-                        className="w-full flex items-center justify-between px-4 py-3 hover:bg-[#ED1C3E]/5 transition-colors"
+                        className="w-full flex items-center justify-between px-4 py-3 hover:bg-[#FD9A00]/5 transition-colors"
                     >
                         <div className="flex items-center gap-2">
-                            <FiCheck className="text-[#ED1C3E]" size={16} />
-                            <span className="font-semibold text-[#ED1C3E] text-sm">
+                            <FiCheck className="text-[#FD9A00]" size={16} />
+                            <span className="font-semibold text-[#FD9A00] text-sm">
                                 {createdLessons.length} Lesson{createdLessons.length > 1 ? 's' : ''} Created
                             </span>
                             <div className="flex items-center gap-1 ml-2">
@@ -295,7 +295,7 @@ export default function LessonCreateTab() {
                     </button>
 
                     {showCreatedList && (
-                        <div className="px-4 pb-3 border-t border-[#ED1C3E]/20 pt-2">
+                        <div className="px-4 pb-3 border-t border-[#FD9A00]/20 pt-2">
                             <div className="flex flex-wrap gap-2">
                                 {createdLessons.map((lesson, idx) => (
                                     <div key={lesson._id || idx} className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200">
@@ -304,7 +304,7 @@ export default function LessonCreateTab() {
                                         </span>
                                         <span className="text-sm text-gray-700">{lesson.title}</span>
                                         <span className="text-[10px] text-gray-400 capitalize">({lesson.lessonType})</span>
-                                        <FiCheck className="text-[#ED1C3E]" size={12} />
+                                        <FiCheck className="text-[#FD9A00]" size={12} />
                                     </div>
                                 ))}
                             </div>
@@ -402,7 +402,7 @@ export default function LessonCreateTab() {
                                 type="button"
                                 onClick={() => setFormData(prev => ({ ...prev, lessonType: type.value }))}
                                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${formData.lessonType === type.value
-                                    ? 'border-[#ED1C3E] bg-[#ED1C3E] text-white'
+                                    ? 'border-[#FD9A00] bg-[#FD9A00] text-white'
                                     : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
                                     }`}
                             >
@@ -423,7 +423,7 @@ export default function LessonCreateTab() {
                                 type="button"
                                 onClick={() => setFormData(prev => ({ ...prev, isPublished: true }))}
                                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${formData.isPublished
-                                    ? 'bg-[#ED1C3E] text-white shadow-sm'
+                                    ? 'bg-[#FD9A00] text-white shadow-sm'
                                     : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
@@ -450,7 +450,7 @@ export default function LessonCreateTab() {
                             name="isFree"
                             checked={formData.isFree}
                             onChange={handleChange}
-                            className="w-4 h-4 rounded border-gray-300 text-[#ED1C3E] focus:ring-[#ED1C3E]"
+                            className="w-4 h-4 rounded border-gray-300 text-[#FD9A00] focus:ring-[#FD9A00]"
                         />
                         <label htmlFor="isFree" className="text-sm text-gray-600 cursor-pointer">Free Preview</label>
                     </div>
@@ -464,7 +464,7 @@ export default function LessonCreateTab() {
                             value={formData.order}
                             onChange={handleChange}
                             min="1"
-                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 text-sm text-center focus:border-[#ED1C3E] outline-none"
+                            className="w-16 px-2 py-1.5 rounded-lg border border-gray-200 text-sm text-center focus:border-[#FD9A00] outline-none"
                         />
                     </div>
                 </div>
@@ -480,14 +480,14 @@ export default function LessonCreateTab() {
                             type="button"
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex items-center gap-1.5 px-4 py-3 font-medium text-sm border-b-2 transition-all whitespace-nowrap ${activeTab === tab.id
-                                ? 'border-[#ED1C3E] text-[#ED1C3E] bg-[#ED1C3E]/5'
+                                ? 'border-[#FD9A00] text-[#FD9A00] bg-[#FD9A00]/5'
                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                                 }`}
                         >
                             <tab.icon size={14} />
                             {tab.label}
                             {tab.badge > 0 && (
-                                <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs font-bold bg-[#ED1C3E]/20 text-[#ED1C3E]">
+                                <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs font-bold bg-[#FD9A00]/20 text-[#FD9A00]">
                                     {tab.badge}
                                 </span>
                             )}
@@ -583,9 +583,9 @@ export default function LessonCreateTab() {
                             />
 
                             {formData.questions?.length > 0 && (
-                                <div className="mt-4 p-4 bg-[#ED1C3E]/10 rounded-xl border border-[#ED1C3E]/20 space-y-3">
+                                <div className="mt-4 p-4 bg-[#FD9A00]/10 rounded-xl border border-[#FD9A00]/20 space-y-3">
                                     <h4 className="font-semibold text-gray-800 text-sm flex items-center gap-2">
-                                        <FiSettings className="text-[#ED1C3E]" />
+                                        <FiSettings className="text-[#FD9A00]" />
                                         Quiz Settings
                                     </h4>
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -626,7 +626,7 @@ export default function LessonCreateTab() {
                                                     type="checkbox"
                                                     checked={formData.quizSettings.showCorrectAnswers}
                                                     onChange={(e) => handleQuizSettingsChange('showCorrectAnswers', e.target.checked)}
-                                                    className="w-3.5 h-3.5 rounded border-gray-300 text-[#ED1C3E]"
+                                                    className="w-3.5 h-3.5 rounded border-gray-300 text-[#FD9A00]"
                                                 />
                                                 Show Answers
                                             </label>
@@ -635,7 +635,7 @@ export default function LessonCreateTab() {
                                                     type="checkbox"
                                                     checked={formData.quizSettings.shuffleQuestions}
                                                     onChange={(e) => handleQuizSettingsChange('shuffleQuestions', e.target.checked)}
-                                                    className="w-3.5 h-3.5 rounded border-gray-300 text-[#ED1C3E]"
+                                                    className="w-3.5 h-3.5 rounded border-gray-300 text-[#FD9A00]"
                                                 />
                                                 Shuffle
                                             </label>
@@ -656,7 +656,7 @@ export default function LessonCreateTab() {
                                         name="isPublished"
                                         checked={formData.isPublished}
                                         onChange={handleChange}
-                                        className="w-4 h-4 rounded border-gray-300 text-[#ED1C3E] focus:ring-[#ED1C3E]"
+                                        className="w-4 h-4 rounded border-gray-300 text-[#FD9A00] focus:ring-[#FD9A00]"
                                     />
                                     <div>
                                         <span className="text-sm font-medium text-gray-700 block">Publish</span>
@@ -687,7 +687,7 @@ export default function LessonCreateTab() {
                                         <p className="text-xs text-gray-500">Video</p>
                                     </div>
                                     <div className="p-2 bg-white rounded-lg">
-                                        <p className="text-xl font-bold text-[#ED1C3E]">{formData.documents?.length || 0}</p>
+                                        <p className="text-xl font-bold text-[#FD9A00]">{formData.documents?.length || 0}</p>
                                         <p className="text-xs text-gray-500">Docs</p>
                                     </div>
                                     <div className="p-2 bg-white rounded-lg">

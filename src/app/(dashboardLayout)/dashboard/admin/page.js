@@ -410,9 +410,8 @@ export default function AdminDashboard() {
 
   // Platform distribution for donut chart
   const platformData = [
-    { name: 'Courses', value: dashboardData.totalCourses || 3, color: '#6366F1' },
-    { name: 'Websites', value: dashboardData.totalWebsites || 5, color: '#10B981' },
-    { name: 'Software', value: dashboardData.totalSoftware || 4, color: '#F59E0B' },
+    { name: 'Websites', value: dashboardData.totalWebsites || 0, color: '#10B981' },
+    { name: 'Software', value: dashboardData.totalSoftware || 0, color: '#F59E0B' },
   ];
 
   // Stats cards data
@@ -457,17 +456,17 @@ export default function AdminDashboard() {
 
   // Product stats for cards
   const productStats = [
-    { title: 'All Courses', value: dashboardData.totalCourses, icon: FiBook, gradient: 'from-indigo-500 to-purple-500', href: '/dashboard/admin/course' },
     { title: 'All Softwares', value: dashboardData.totalSoftware, icon: FiCode, gradient: 'from-cyan-500 to-rose-600', href: '/dashboard/admin/software' },
     { title: 'All Websites', value: dashboardData.totalWebsites, icon: FiGlobe, gradient: 'from-pink-500 to-rose-500', href: '/dashboard/admin/website' },
     { title: 'All Categories', value: dashboardData.categories, icon: FiLayers, gradient: 'from-amber-500 to-orange-500', href: '/dashboard/admin/category' },
+    { title: 'Total Users', value: dashboardData.totalUsers, icon: FiUsers, gradient: 'from-blue-500 to-indigo-500', href: '/dashboard/admin/user' },
   ];
 
   const quickActions = [
-    { title: 'Add Course', href: '/dashboard/admin/course/create', icon: FiBook, gradient: 'from-amber-500 to-orange-500' },
     { title: 'Add Website', href: '/dashboard/admin/website/create', icon: FiGlobe, gradient: 'from-pink-500 to-rose-500' },
     { title: 'Add Software', href: '/dashboard/admin/software/create', icon: FiCode, gradient: 'from-cyan-500 to-rose-600' },
     { title: 'Add Category', href: '/dashboard/admin/category/create', icon: FiLayers, gradient: 'from-violet-500 to-purple-500' },
+    { title: 'Add User', href: '/dashboard/admin/user/create', icon: FiUsers, gradient: 'from-blue-500 to-indigo-500' },
   ];
 
   // Helper function for time ago
@@ -691,47 +690,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Top Content */}
-        <div className="p-6 rounded-2xl border transition-all hover:shadow-lg bg-white border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center">
-                <FiAward size={28} />
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-slate-800">Top Content</h2>
-                <p className="text-sm text-slate-500">Best selling courses</p>
-              </div>
-            </div>
-            <Link href="/dashboard/admin/course" className="px-3 py-1 bg-indigo-500/10 text-indigo-600 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
-              View All <FiArrowRight size={10} />
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {loading ? (
-              <div className="text-center py-8 text-slate-400">
-                <FiRefreshCw className="animate-spin mx-auto mb-2" size={24} />
-                Loading...
-              </div>
-            ) : topCourses.length === 0 ? (
-              <div className="text-center py-8 text-slate-400">No content found</div>
-            ) : (
-              topCourses.slice(0, 4).map((course, idx) => (
-                <div key={course._id || idx} className="flex items-center gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors group">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${['from-indigo-500 to-purple-500', 'from-amber-500 to-orange-500', 'from-emerald-500 to-rose-600', 'from-pink-500 to-rose-500'][idx % 4]
-                    } flex items-center justify-center text-white font-bold text-sm shadow-lg`}>
-                    {idx + 1}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-slate-800 truncate group-hover:text-indigo-600 transition-colors">{course.title}</h3>
-                    <p className="text-xs text-slate-500">{course.salesCount || 0} sales</p>
-                  </div>
-                  <span className="text-sm font-bold text-emerald-600">৳{course.price || 0}</span>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
 
         {/* Live Stats */}
         <div className="p-6 rounded-2xl border transition-all hover:shadow-lg bg-white border-slate-200 shadow-sm">
@@ -759,8 +717,8 @@ export default function AdminDashboard() {
               <span className="text-lg font-bold text-emerald-600">+{dashboardData.newUsersThisMonth}</span>
             </div>
             <div className="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-100">
-              <span className="text-sm text-slate-500">Active Enrollments</span>
-              <span className="text-lg font-bold text-indigo-600">{dashboardData.activeEnrollments}</span>
+              <span className="text-sm text-slate-500">Total Users</span>
+              <span className="text-lg font-bold text-indigo-600">{dashboardData.totalUsers}</span>
             </div>
           </div>
         </div>

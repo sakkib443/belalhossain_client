@@ -68,7 +68,7 @@ const UserHeader = () => {
 
     const getNotificationIcon = (type) => {
         switch (type) {
-            case 'course': return <FiBookOpen className="text-[#ED1C3E]" size={14} />;
+            case 'course': return <FiBookOpen className="text-[#FD9A00]" size={14} />;
             case 'certificate': return <FiAward className="text-[#FD9A00]" size={14} />;
             case 'success': return <FiCheck className="text-green-500" size={14} />;
             case 'resource': return <FiDownload className="text-blue-500" size={14} />;
@@ -90,8 +90,8 @@ const UserHeader = () => {
                             type="text"
                             placeholder="Search courses, resources..."
                             className={`w-full pl-11 pr-4 py-2.5 border-0 rounded-xl text-sm transition-all ${isDark
-                                ? 'bg-slate-800/80 text-slate-200 placeholder:text-slate-500 focus:ring-[#ED1C3E]/30 focus:bg-slate-800'
-                                : 'bg-slate-100/80 text-slate-700 placeholder:text-slate-400 focus:ring-[#ED1C3E]/20 focus:bg-white'
+                                ? 'bg-slate-800/80 text-slate-200 placeholder:text-slate-500 focus:ring-[#FD9A00]/30 focus:bg-slate-800'
+                                : 'bg-slate-100/80 text-slate-700 placeholder:text-slate-400 focus:ring-[#FD9A00]/20 focus:bg-white'
                                 } focus:outline-none focus:ring-2`}
                         />
                     </div>
@@ -103,7 +103,7 @@ const UserHeader = () => {
                     <button
                         onClick={toggleTheme}
                         className={`relative p-2.5 rounded-xl transition-all duration-300 overflow-hidden group ${isDark
-                            ? 'bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] text-white shadow-lg shadow-[#ED1C3E]/30'
+                            ? 'bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] text-white shadow-lg shadow-[#FD9A00]/30'
                             : 'bg-gradient-to-br from-[#FD9A00] to-orange-500 text-white shadow-lg shadow-[#FD9A00]/30'
                             }`}
                         title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
@@ -130,7 +130,7 @@ const UserHeader = () => {
                         >
                             <FiBell size={18} />
                             {unreadCount > 0 && (
-                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
                                     {unreadCount}
                                 </span>
                             )}
@@ -143,19 +143,19 @@ const UserHeader = () => {
                                 : 'bg-white border-slate-100 shadow-slate-200/50'
                                 }`}>
                                 <div className={`flex items-center justify-between px-4 py-3 border-b ${isDark
-                                    ? 'bg-gradient-to-r from-[#ED1C3E]/10 to-[#2dd4bf]/10 border-slate-700'
-                                    : 'bg-gradient-to-r from-[#ED1C3E]/5 to-[#2dd4bf]/5 border-slate-100'
+                                    ? 'bg-gradient-to-r from-[#FD9A00]/10 to-[#2dd4bf]/10 border-slate-700'
+                                    : 'bg-gradient-to-r from-[#FD9A00]/5 to-[#2dd4bf]/5 border-slate-100'
                                     }`}>
                                     <h3 className={`font-semibold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>Notifications</h3>
                                     {unreadCount > 0 && (
-                                        <span className="px-2 py-0.5 bg-[#ED1C3E] text-white text-xs font-bold rounded-full">{unreadCount} new</span>
+                                        <span className="px-2 py-0.5 bg-[#FD9A00] text-white text-xs font-bold rounded-full">{unreadCount} new</span>
                                     )}
                                 </div>
                                 <div className="max-h-80 overflow-y-auto">
                                     {notifications.map((notif) => (
                                         <div key={notif.id} className={`flex items-start gap-3 px-4 py-3 transition-colors cursor-pointer border-l-2 ${notif.read
                                             ? `border-transparent ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-50'}`
-                                            : `border-[#ED1C3E] ${isDark ? 'bg-[#ED1C3E]/5 hover:bg-[#ED1C3E]/10' : 'bg-[#ED1C3E]/5 hover:bg-[#ED1C3E]/10'}`
+                                            : `border-[#FD9A00] ${isDark ? 'bg-[#FD9A00]/5 hover:bg-[#FD9A00]/10' : 'bg-[#FD9A00]/5 hover:bg-[#FD9A00]/10'}`
                                             }`}>
                                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isDark ? 'bg-slate-700' : 'bg-gray-100'}`}>
                                                 {getNotificationIcon(notif.type)}
@@ -166,7 +166,7 @@ const UserHeader = () => {
                                                 <p className={`text-[10px] mt-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>{notif.time}</p>
                                             </div>
                                             {!notif.read && (
-                                                <div className="w-2 h-2 rounded-full bg-[#ED1C3E] mt-2"></div>
+                                                <div className="w-2 h-2 rounded-full bg-[#FD9A00] mt-2"></div>
                                             )}
                                         </div>
                                     ))}
@@ -175,8 +175,8 @@ const UserHeader = () => {
                                     href="/dashboard/user/notifications"
                                     onClick={() => setShowNotifications(false)}
                                     className={`block text-center py-3 text-sm font-medium border-t transition-colors ${isDark
-                                        ? 'border-slate-700 text-[#ED1C3E] hover:bg-slate-700/50'
-                                        : 'border-slate-100 text-[#ED1C3E] hover:bg-slate-50'
+                                        ? 'border-slate-700 text-[#FD9A00] hover:bg-slate-700/50'
+                                        : 'border-slate-100 text-[#FD9A00] hover:bg-slate-50'
                                         }`}
                                 >
                                     View All Notifications
@@ -194,11 +194,11 @@ const UserHeader = () => {
                                 setShowNotifications(false);
                             }}
                             className={`flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-xl transition-all ${isDark
-                                ? 'bg-gradient-to-r from-[#ED1C3E]/20 to-[#2dd4bf]/20 hover:from-[#ED1C3E]/30 hover:to-[#2dd4bf]/30'
-                                : 'bg-gradient-to-r from-[#ED1C3E]/10 to-[#2dd4bf]/10 hover:from-[#ED1C3E]/20 hover:to-[#2dd4bf]/20'
+                                ? 'bg-gradient-to-r from-[#FD9A00]/20 to-[#2dd4bf]/20 hover:from-[#FD9A00]/30 hover:to-[#2dd4bf]/30'
+                                : 'bg-gradient-to-r from-[#FD9A00]/10 to-[#2dd4bf]/10 hover:from-[#FD9A00]/20 hover:to-[#2dd4bf]/20'
                                 }`}
                         >
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-[#ED1C3E]/25">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-[#FD9A00]/25">
                                 {user?.firstName?.[0] || 'S'}
                             </div>
                             <div className="hidden md:block text-left">
@@ -219,11 +219,11 @@ const UserHeader = () => {
                                 : 'bg-white border-slate-100'
                                 }`}>
                                 <div className={`p-4 border-b ${isDark
-                                    ? 'bg-gradient-to-r from-[#ED1C3E]/10 to-[#2dd4bf]/10 border-slate-700'
-                                    : 'bg-gradient-to-r from-[#ED1C3E]/5 to-[#2dd4bf]/5 border-slate-100'
+                                    ? 'bg-gradient-to-r from-[#FD9A00]/10 to-[#2dd4bf]/10 border-slate-700'
+                                    : 'bg-gradient-to-r from-[#FD9A00]/5 to-[#2dd4bf]/5 border-slate-100'
                                     }`}>
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white font-bold shadow-lg">
+                                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white font-bold shadow-lg">
                                             {user?.firstName?.[0] || 'S'}
                                         </div>
                                         <div>

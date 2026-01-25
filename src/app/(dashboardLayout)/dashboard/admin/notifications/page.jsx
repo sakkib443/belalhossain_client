@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://motionboss-backend.vercel.app/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 export default function NotificationsPage() {
     const [notifications, setNotifications] = useState([]);
@@ -136,9 +136,9 @@ export default function NotificationsPage() {
             <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 p-6 rounded-2xl ${isDark ? 'bg-slate-800/50' : 'bg-white'
                 } border ${isDark ? 'border-slate-700' : 'border-slate-200'}`}>
                 <div className="flex items-center gap-4">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${isDark ? 'bg-gradient-to-br from-[#ED1C3E]/20 to-[#FD9A00]/20' : 'bg-gradient-to-br from-[#ED1C3E]/10 to-[#FD9A00]/10'
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${isDark ? 'bg-gradient-to-br from-[#FD9A00]/20 to-[#FD9A00]/20' : 'bg-gradient-to-br from-[#FD9A00]/10 to-[#FD9A00]/10'
                         }`}>
-                        <FiBell size={24} className="text-[#ED1C3E]" />
+                        <FiBell size={24} className="text-[#FD9A00]" />
                     </div>
                     <div>
                         <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>
@@ -162,7 +162,7 @@ export default function NotificationsPage() {
                     {meta.unreadCount > 0 && (
                         <button
                             onClick={markAllAsRead}
-                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white font-medium text-sm hover:opacity-90 transition-opacity"
+                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white font-medium text-sm hover:opacity-90 transition-opacity"
                         >
                             <FiCheckCircle size={16} />
                             Mark all as read
@@ -176,7 +176,7 @@ export default function NotificationsPage() {
                 }`}>
                 {loading ? (
                     <div className="flex items-center justify-center py-20">
-                        <div className="w-8 h-8 border-3 border-[#ED1C3E] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="w-8 h-8 border-3 border-[#FD9A00] border-t-transparent rounded-full animate-spin"></div>
                     </div>
                 ) : notifications.length === 0 ? (
                     <div className="py-20 text-center">
@@ -197,8 +197,8 @@ export default function NotificationsPage() {
                             <div
                                 key={notification._id}
                                 className={`p-5 transition-colors ${!notification.isRead
-                                        ? isDark ? 'bg-[#ED1C3E]/5' : 'bg-[#ED1C3E]/5'
-                                        : ''
+                                    ? isDark ? 'bg-[#FD9A00]/5' : 'bg-[#FD9A00]/5'
+                                    : ''
                                     } ${isDark ? 'hover:bg-slate-700/50' : 'hover:bg-slate-50'}`}
                             >
                                 <div className="flex gap-4">
@@ -216,7 +216,7 @@ export default function NotificationsPage() {
                                                         {notification.title}
                                                     </p>
                                                     {!notification.isRead && (
-                                                        <span className="w-2 h-2 bg-[#ED1C3E] rounded-full"></span>
+                                                        <span className="w-2 h-2 bg-[#FD9A00] rounded-full"></span>
                                                     )}
                                                 </div>
                                                 <p className={`text-sm mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>

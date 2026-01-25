@@ -112,7 +112,7 @@ export default function UserDashboard() {
                         <div className="space-y-4">
                             <div>
                                 <h2 className={`text-xl font-normal ${isDark ? 'text-white' : 'text-slate-900'}`}>Digital Assets</h2>
-                                <Link href="/dashboard/user/downloads" className="text-xs font-normal text-slate-500 hover:text-[#ED1C3E] hover:underline flex items-center gap-1 mt-1">
+                                <Link href="/dashboard/user/downloads" className="text-xs font-normal text-slate-500 hover:text-[#FD9A00] hover:underline flex items-center gap-1 mt-1">
                                     Browse All Assets <FiArrowRight size={12} />
                                 </Link>
                             </div>
@@ -189,7 +189,7 @@ export default function UserDashboard() {
                     <div className={cardClass}>
                         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/10">
                             <h3 className={`font-normal text-sm ${isDark ? 'text-white' : 'text-slate-900'}`}>Private Asset Vault</h3>
-                            <Link href="/dashboard/user/downloads" className="text-[10px] font-normal text-slate-400 uppercase tracking-widest hover:text-[#ED1C3E]">Manage All</Link>
+                            <Link href="/dashboard/user/downloads" className="text-[10px] font-normal text-slate-400 uppercase tracking-widest hover:text-[#FD9A00]">Manage All</Link>
                         </div>
                         <div className="divide-y divide-slate-100 dark:divide-slate-800">
                             {downloads.length === 0 ? (

@@ -127,7 +127,7 @@ const RightWebsiteDetails = ({ searchQuery, selectedType }) => {
                             setRatingFilter("all");
                         }}
                         className={`flex items-center gap-2 px-5 py-2 rounded-md text-[14px] !font-normal transition-all shadow-sm outfit ${selectedCategories.length === 0 && priceFilter === "all" && ratingFilter === "all"
-                            ? "bg-[#ED1C3E] text-white"
+                            ? "bg-[#FD9A00] text-white"
                             : "bg-gray-100 text-slate-500 hover:bg-gray-200"
                             }`}
                     >

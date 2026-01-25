@@ -91,12 +91,11 @@ export default function AnalyticsPage() {
     const [topProducts, setTopProducts] = useState([]);
     const [categoryRevenue, setCategoryRevenue] = useState({
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        courses: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        websites: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        software: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        categories: {},
     });
 
-    const BASE_URL = 'https://motionboss-backend.vercel.app/api';
+    // Use the base URL from config or local default
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
     const fetchAnalytics = async () => {
         try {
@@ -177,13 +176,27 @@ export default function AnalyticsPage() {
         },
     ];
 
-    // Format data for Recharts
-    const chartData = categoryRevenue.labels.map((label, index) => ({
-        name: label,
-        courses: categoryRevenue.courses[index] || 0,
-        websites: categoryRevenue.websites[index] || 0,
-        software: categoryRevenue.software[index] || 0,
-    }));
+    // Format data for Recharts dynamically
+    const chartData = categoryRevenue.labels.map((label, index) => {
+        const item = { name: label };
+        Object.keys(categoryRevenue.categories).forEach(cat => {
+            item[cat] = categoryRevenue.categories[cat][index] || 0;
+        });
+        return item;
+    });
+
+    // Dynamic colors for categories
+    const categoryColors = {
+        courses: '#6366F1',
+        websites: '#10B981',
+        software: '#F59E0B',
+        fonts: '#EC4899',
+        photos: '#8B5CF6',
+        audio: '#3B82F6',
+        other: '#94A3B8'
+    };
+
+    const getCategoryColor = (cat) => categoryColors[cat.toLowerCase()] || categoryColors.other;
 
     return (
         <div className="space-y-6 pb-10">
@@ -230,19 +243,13 @@ export default function AnalyticsPage() {
                             <h3 className={`text-lg font-bold font-outfit ${isDark ? 'text-white' : 'text-slate-800'}`}>Revenue by Category</h3>
                             <p className="text-sm text-slate-500 font-poppins">Monthly comparison across products</p>
                         </div>
-                        <div className="flex items-center gap-4 text-xs font-poppins">
-                            <div className="flex items-center gap-1.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
-                                <span className="text-slate-500">Courses</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
-                                <span className="text-slate-500">Websites</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
-                                <span className="text-slate-500">Software</span>
-                            </div>
+                        <div className="flex items-center gap-4 text-xs font-poppins flex-wrap">
+                            {Object.keys(categoryRevenue.categories).map(cat => (
+                                <div key={cat} className="flex items-center gap-1.5">
+                                    <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getCategoryColor(cat) }}></div>
+                                    <span className="text-slate-500 capitalize">{cat}s</span>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
@@ -251,18 +258,12 @@ export default function AnalyticsPage() {
                             <ResponsiveContainer width="100%" height="100%">
                                 <AreaChart data={chartData}>
                                     <defs>
-                                        <linearGradient id="colorCourses" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#6366F1" stopOpacity={0.3} />
-                                            <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
-                                        </linearGradient>
-                                        <linearGradient id="colorWebsites" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} />
-                                            <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
-                                        </linearGradient>
-                                        <linearGradient id="colorSoftware" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3} />
-                                            <stop offset="95%" stopColor="#F59E0B" stopOpacity={0} />
-                                        </linearGradient>
+                                        {Object.keys(categoryRevenue.categories).map(cat => (
+                                            <linearGradient key={`color${cat}`} id={`color${cat}`} x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor={getCategoryColor(cat)} stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor={getCategoryColor(cat)} stopOpacity={0} />
+                                            </linearGradient>
+                                        ))}
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? '#1e293b' : '#f1f5f9'} />
                                     <XAxis
@@ -290,48 +291,31 @@ export default function AnalyticsPage() {
                                         itemStyle={{ fontSize: '11px', fontWeight: '600' }}
                                         formatter={(value) => [`৳${value.toLocaleString()}`, '']}
                                     />
-                                    <Area
-                                        type="monotone"
-                                        dataKey="courses"
-                                        stroke="#6366F1"
-                                        strokeWidth={3}
-                                        fillOpacity={1}
-                                        fill="url(#colorCourses)"
-                                    />
-                                    <Area
-                                        type="monotone"
-                                        dataKey="websites"
-                                        stroke="#10B981"
-                                        strokeWidth={3}
-                                        fillOpacity={1}
-                                        fill="url(#colorWebsites)"
-                                    />
-                                    <Area
-                                        type="monotone"
-                                        dataKey="software"
-                                        stroke="#F59E0B"
-                                        strokeWidth={3}
-                                        fillOpacity={1}
-                                        fill="url(#colorSoftware)"
-                                    />
+                                    {Object.keys(categoryRevenue.categories).map(cat => (
+                                        <Area
+                                            key={cat}
+                                            type="monotone"
+                                            dataKey={cat}
+                                            stroke={getCategoryColor(cat)}
+                                            strokeWidth={3}
+                                            fillOpacity={1}
+                                            fill={`url(#color${cat})`}
+                                        />
+                                    ))}
                                 </AreaChart>
                             </ResponsiveContainer>
                         </div>
 
                         <div className={`flex items-center justify-between mt-6 pt-4 border-t flex-wrap gap-4 ${isDark ? 'border-slate-800' : 'border-slate-100'}`}>
-                            <div className="flex items-center gap-6">
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Courses</span>
-                                    <span className="text-sm font-bold text-indigo-600">৳{(categoryRevenue.courses[categoryRevenue.courses.length - 1] || 0).toLocaleString()}</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Websites</span>
-                                    <span className="text-sm font-bold text-emerald-600">৳{(categoryRevenue.websites[categoryRevenue.websites.length - 1] || 0).toLocaleString()}</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Software</span>
-                                    <span className="text-sm font-bold text-amber-600">৳{(categoryRevenue.software[categoryRevenue.software.length - 1] || 0).toLocaleString()}</span>
-                                </div>
+                            <div className="flex items-center gap-6 overflow-x-auto pb-2 scrollbar-hide">
+                                {Object.keys(categoryRevenue.categories).map(cat => (
+                                    <div key={cat} className="flex flex-col min-w-[80px]">
+                                        <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider capitalize">{cat}s</span>
+                                        <span className="text-sm font-bold" style={{ color: getCategoryColor(cat) }}>
+                                            ৳{(categoryRevenue.categories[cat][categoryRevenue.categories[cat].length - 1] || 0).toLocaleString()}
+                                        </span>
+                                    </div>
+                                ))}
                             </div>
                             <div className="text-right">
                                 <p className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total Revenue</p>

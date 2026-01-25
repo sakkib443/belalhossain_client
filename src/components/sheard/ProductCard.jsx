@@ -57,7 +57,7 @@ const ProductCard = ({ product, type, view = "grid" }) => {
     const title = product.title || product.name || "Untitled Product";
     const categoryName = product.category?.name || (type === 'website' ? 'Website' : 'Software');
     const version = product.version || 'v1.0';
-    const sales = product.salesCount || product.totalSales || 10;
+    const sales = product.totalOrders || product.salesCount || 0;
     const rating = product.rating || 5;
     const reviewsCount = product.reviews?.length || 0;
     const lastUpdated = product.updatedAt ? new Date(product.updatedAt).toLocaleDateString() : "Recently Updated";
@@ -77,7 +77,7 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                     </Link>
                     {/* Eye Overlay */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[1px]">
-                        <Link href={detailUrl} className="w-12 h-12 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50 hover:bg-[#ED1C3E] hover:border-[#ED1C3E] transition-colors">
+                        <Link href={detailUrl} className="w-12 h-12 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50 hover:bg-[#FD9A00] hover:border-[#FD9A00] transition-colors">
                             <LuEye className="ml-1" size={20} />
                         </Link>
                     </div>
@@ -86,7 +86,7 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                 {/* Middle: Content (40%) */}
                 <div className="flex-1 p-6 border-r border-gray-50 flex flex-col justify-center">
                     <Link href={detailUrl}>
-                        <h3 className={`text-xl font-bold text-slate-800 leading-tight mb-2 hover:text-[#ED1C3E] transition-colors ${bengaliClass}`}>
+                        <h3 className={`text-xl font-bold text-slate-800 leading-tight mb-2 hover:text-[#FD9A00] transition-colors ${bengaliClass}`}>
                             {title}
                         </h3>
                     </Link>
@@ -99,15 +99,15 @@ const ProductCard = ({ product, type, view = "grid" }) => {
 
                     <ul className="space-y-2 mb-4">
                         <li className="flex items-start gap-2 text-sm text-slate-600">
-                            <LuLayers className="text-[#ED1C3E] mt-0.5 shrink-0" size={16} />
+                            <LuLayers className="text-[#FD9A00] mt-0.5 shrink-0" size={16} />
                             <span>Version: {version}</span>
                         </li>
                         <li className="flex items-start gap-2 text-sm text-slate-600">
-                            <LuUsers className="text-[#ED1C3E] mt-0.5 shrink-0" size={16} />
+                            <LuUsers className="text-[#FD9A00] mt-0.5 shrink-0" size={16} />
                             <span>{sales}+ Sales</span>
                         </li>
                         <li className="flex items-start gap-2 text-sm text-slate-600">
-                            <LuCheck className="text-[#ED1C3E] mt-0.5 shrink-0" size={16} />
+                            <LuCheck className="text-[#FD9A00] mt-0.5 shrink-0" size={16} />
                             <span>Lifetime Updates</span>
                         </li>
                     </ul>
@@ -117,11 +117,11 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                 <div className="w-full md:w-[25%] p-6 bg-gray-50/50 flex flex-col items-center justify-center text-center gap-1 border-l border-gray-100">
                     {/* Icons Top Right */}
                     <div className="flex w-full justify-end gap-2 mb-2 text-slate-400">
-                        <button className="hover:text-[#ED1C3E]"><LuList size={18} /></button>
+                        <button className="hover:text-[#FD9A00]"><LuList size={18} /></button>
                         <button className="hover:text-amber-500"><LuHeart size={18} /></button>
                     </div>
 
-                    <div className="text-3xl font-bold text-[#ED1C3E] font-outfit mb-1">
+                    <div className="text-3xl font-bold text-[#FD9A00] font-outfit mb-1">
                         ৳{displayPrice?.toLocaleString()}
                     </div>
 
@@ -139,13 +139,13 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                         <button
                             onClick={handleAddToCart}
                             disabled={isAdded}
-                            className={`p-2.5 border rounded-md transition-colors shadow-sm ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#ED1C3E] hover:border-[#ED1C3E]'}`}
+                            className={`p-2.5 border rounded-md transition-colors shadow-sm ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#FD9A00] hover:border-[#FD9A00]'}`}
                         >
                             {isAdded ? <LuCheck size={20} /> : <LuShoppingCart size={20} />}
                         </button>
                         <Link
                             href={detailUrl}
-                            className="flex-1 py-2.5 bg-white border border-[#ED1C3E] text-[#ED1C3E] rounded-md text-sm font-normal hover:bg-[#ED1C3E] hover:text-white transition-all shadow-sm flex items-center justify-center gap-2"
+                            className="flex-1 py-2.5 bg-white border border-[#FD9A00] text-[#FD9A00] rounded-md text-sm font-normal hover:bg-[#FD9A00] hover:text-white transition-all shadow-sm flex items-center justify-center gap-2"
                         >
                             Details
                         </Link>
@@ -192,32 +192,36 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                     </span>
 
                     {/* Title */}
-                    <Link href={detailUrl} className="mb-3 block">
-                        <h3 className={`text-sm font-bold text-slate-800 dark:text-white leading-tight line-clamp-2 hover:text-slate-600 transition-colors ${bengaliClass}`}>
+                    <Link href={detailUrl} className="mb-2 block">
+                        <h3 className={`text-lg lg:text-xl font-black text-slate-900 dark:text-white leading-tight line-clamp-2 hover:text-black dark:hover:text-[#C4EE18] transition-colors font-teko uppercase ${bengaliClass}`}>
                             {title}
                         </h3>
                     </Link>
 
                     {/* Metadata (Sales) */}
-                    <div className="flex items-center gap-3 mb-4 text-[10px] text-slate-500 font-medium">
-                        <div className="flex items-center gap-1">
-                            <LuUsers size={12} className="text-slate-400" />
-                            <span>{sales}+ Sales</span>
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded text-[10px] font-bold text-slate-600 dark:text-slate-400 font-poppins">
+                            <LuUsers size={12} className="text-[#C4EE18]" />
+                            <span>{sales.toLocaleString()} Units Sold</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                            <LuLayers size={12} className="text-slate-400" />
-                            <span>{version}</span>
+                        <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded text-[10px] font-bold text-slate-600 dark:text-slate-400 font-poppins">
+                            <LuLayers size={12} className="text-[#C4EE18]" />
+                            <span>Version {version}</span>
                         </div>
                     </div>
 
                     {/* Price & Actions */}
-                    <div className="mt-auto flex items-center justify-between pt-3 border-t border-gray-50 dark:border-white/5">
+                    <div className="mt-auto flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/5">
                         <div className="flex flex-col">
-                            <span className="text-xs text-slate-400 font-medium">{language === 'bn' ? 'মূল্য' : 'Price'}</span>
-                            <div className="flex items-center gap-2">
-                                <span className="text-lg font-bold text-slate-900 dark:text-white outfit">
+                            <div className="flex items-center gap-2 leading-none">
+                                <span className="text-2xl font-black text-slate-950 dark:text-[#C4EE18] font-teko">
                                     ৳{displayPrice?.toLocaleString()}
                                 </span>
+                                {hasDiscount && (
+                                    <span className="text-xs text-slate-400 line-through font-medium mt-1">
+                                        ৳{originalPrice?.toLocaleString()}
+                                    </span>
+                                )}
                             </div>
                         </div>
 
@@ -226,8 +230,8 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                                 onClick={handleAddToCart}
                                 disabled={isAdded}
                                 className={`p-2.5 rounded-lg transition-all ${isAdded
-                                        ? 'bg-emerald-500 text-white'
-                                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700'
+                                    ? 'bg-emerald-500 text-white'
+                                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700'
                                     }`}
                                 title="Add to Cart"
                             >

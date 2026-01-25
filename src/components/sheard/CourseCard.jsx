@@ -74,7 +74,7 @@ const CourseCard = ({ course, view = "grid" }) => {
           </Link>
           {/* Play Overlay */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[1px]">
-            <Link href={`/courses/${courseId}`} className="w-12 h-12 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50 hover:bg-[#ED1C3E] hover:border-[#ED1C3E] transition-colors">
+            <Link href={`/courses/${courseId}`} className="w-12 h-12 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50 hover:bg-[#FD9A00] hover:border-[#FD9A00] transition-colors">
               <LuPlay className="ml-1" fill="currentColor" />
             </Link>
           </div>
@@ -83,7 +83,7 @@ const CourseCard = ({ course, view = "grid" }) => {
         {/* Middle: Content (40%) */}
         <div className="flex-1 p-6 border-r border-gray-50 flex flex-col justify-center">
           <Link href={`/courses/${courseId}`}>
-            <h3 className={`text-xl font-bold text-slate-800 leading-tight mb-2 hover:text-[#ED1C3E] transition-colors ${bengaliClass}`}>
+            <h3 className={`text-xl font-bold text-slate-800 leading-tight mb-2 hover:text-[#FD9A00] transition-colors ${bengaliClass}`}>
               {title}
             </h3>
           </Link>
@@ -96,15 +96,15 @@ const CourseCard = ({ course, view = "grid" }) => {
 
           <ul className="space-y-2 mb-4">
             <li className="flex items-start gap-2 text-sm text-slate-600">
-              <LuClock className="text-[#ED1C3E] mt-0.5 shrink-0" size={16} />
+              <LuClock className="text-[#FD9A00] mt-0.5 shrink-0" size={16} />
               <span>Duration: {duration}</span>
             </li>
             <li className="flex items-start gap-2 text-sm text-slate-600">
-              <LuUsers className="text-[#ED1C3E] mt-0.5 shrink-0" size={16} />
+              <LuUsers className="text-[#FD9A00] mt-0.5 shrink-0" size={16} />
               <span>{students}</span>
             </li>
             <li className="flex items-start gap-2 text-sm text-slate-600">
-              <LuCheck className="text-[#ED1C3E] mt-0.5 shrink-0" size={16} />
+              <LuCheck className="text-[#FD9A00] mt-0.5 shrink-0" size={16} />
               <span>Lifetime Access</span>
             </li>
           </ul>
@@ -114,11 +114,11 @@ const CourseCard = ({ course, view = "grid" }) => {
         <div className="w-full md:w-[25%] p-6 bg-gray-50/50 flex flex-col items-center justify-center text-center gap-1 border-l border-gray-100">
           {/* Icons Top Right (Absolute in relative container if needed, but here simple column) */}
           <div className="flex w-full justify-end gap-2 mb-2 text-slate-400">
-            <button className="hover:text-[#ED1C3E]"><LuList size={18} /></button>
+            <button className="hover:text-[#FD9A00]"><LuList size={18} /></button>
             <button className="hover:text-amber-500"><LuHeart size={18} /></button>
           </div>
 
-          <div className="text-3xl font-bold text-[#ED1C3E] font-outfit mb-1">
+          <div className="text-3xl font-bold text-[#FD9A00] font-outfit mb-1">
             ৳{(discountPrice || price).toLocaleString()}
           </div>
 
@@ -136,13 +136,13 @@ const CourseCard = ({ course, view = "grid" }) => {
             <button
               onClick={handleAddToCart}
               disabled={isAdded}
-              className={`p-2.5 border rounded-md transition-colors shadow-sm ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#ED1C3E] hover:border-[#ED1C3E]'}`}
+              className={`p-2.5 border rounded-md transition-colors shadow-sm ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#FD9A00] hover:border-[#FD9A00]'}`}
             >
               {isAdded ? <LuCheck size={20} /> : <LuShoppingCart size={20} />}
             </button>
             <Link
               href={`/courses/${courseId}`}
-              className="flex-1 py-2.5 bg-white border border-[#ED1C3E] text-[#ED1C3E] rounded-md text-sm font-normal hover:bg-[#ED1C3E] hover:text-white transition-all shadow-sm flex items-center justify-center gap-2"
+              className="flex-1 py-2.5 bg-white border border-[#FD9A00] text-[#FD9A00] rounded-md text-sm font-normal hover:bg-[#FD9A00] hover:text-white transition-all shadow-sm flex items-center justify-center gap-2"
             >
               Details
             </Link>
@@ -185,7 +185,7 @@ const CourseCard = ({ course, view = "grid" }) => {
 
           {/* Play Overlay */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[1px]">
-            <Link href={`/courses/${courseId}`} className="w-12 h-12 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50 hover:bg-[#ED1C3E] hover:border-[#ED1C3E] transition-colors">
+            <Link href={`/courses/${courseId}`} className="w-12 h-12 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50 hover:bg-[#FD9A00] hover:border-[#FD9A00] transition-colors">
               <LuPlay className="ml-1" fill="currentColor" />
             </Link>
           </div>
@@ -195,7 +195,7 @@ const CourseCard = ({ course, view = "grid" }) => {
         <div className="p-4 flex flex-col flex-1">
           {/* Category */}
           <div className="flex items-center gap-2 mb-2 text-slate-500">
-            <LuLayoutGrid className="text-[#ED1C3E]" />
+            <LuLayoutGrid className="text-[#FD9A00]" />
             <span className={`text-xs font-medium ${bengaliClass}`}>
               {getCategoryName(course.category)}
             </span>
@@ -203,7 +203,7 @@ const CourseCard = ({ course, view = "grid" }) => {
 
           {/* Title */}
           <Link href={`/courses/${courseId}`} className="mb-3 block">
-            <h3 className={`text-lg font-bold text-slate-800 leading-tight line-clamp-2 hover:text-[#ED1C3E] transition-colors ${bengaliClass}`}>
+            <h3 className={`text-lg font-bold text-slate-800 leading-tight line-clamp-2 hover:text-[#FD9A00] transition-colors ${bengaliClass}`}>
               {title}
             </h3>
           </Link>
@@ -211,11 +211,11 @@ const CourseCard = ({ course, view = "grid" }) => {
           {/* Metadata */}
           <div className="flex items-center gap-4 mb-4 text-xs text-slate-500 font-medium pb-4 border-b border-slate-50">
             <div className="flex items-center gap-1.5">
-              <LuBookOpenCheck className="text-[#ED1C3E]" />
+              <LuBookOpenCheck className="text-[#FD9A00]" />
               <span>{lessons}</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <LuUsers className="text-[#ED1C3E]" />
+              <LuUsers className="text-[#FD9A00]" />
               <span>{students}</span>
             </div>
           </div>
@@ -225,7 +225,7 @@ const CourseCard = ({ course, view = "grid" }) => {
             <div>
               <p className="text-[10px] text-slate-400 font-medium mb-0.5">Course Fee</p>
               <div className="flex items-center gap-2">
-                <span className="text-xl font-bold text-[#ED1C3E] font-outfit">
+                <span className="text-xl font-bold text-[#FD9A00] font-outfit">
                   ৳{(discountPrice || price).toLocaleString()}
                 </span>
                 {discountPrice && (
@@ -244,7 +244,7 @@ const CourseCard = ({ course, view = "grid" }) => {
           <div className="grid grid-cols-2 gap-3 mt-auto">
             <Link
               href={`/courses/${courseId}`}
-              className="flex items-center justify-center gap-2 py-2.5 bg-[#ED1C3E] text-white rounded-md text-sm font-normal hover:bg-[#3aa8a2] transition-colors"
+              className="flex items-center justify-center gap-2 py-2.5 bg-[#FD9A00] text-white rounded-md text-sm font-normal hover:bg-[#3aa8a2] transition-colors"
             >
               <LuBookOpenCheck size={16} />
               Details
@@ -252,7 +252,7 @@ const CourseCard = ({ course, view = "grid" }) => {
             <button
               onClick={handleAddToCart}
               disabled={isAdded}
-              className={`flex items-center justify-center gap-2 py-2.5 border rounded-md text-sm font-normal transition-colors ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-[#ED1C3E] text-[#ED1C3E] hover:bg-rose-50'}`}
+              className={`flex items-center justify-center gap-2 py-2.5 border rounded-md text-sm font-normal transition-colors ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-[#FD9A00] text-[#FD9A00] hover:bg-rose-50'}`}
             >
               {isAdded ? <LuCheck size={16} /> : <LuShoppingCart size={16} />}
               {isAdded ? 'Added' : 'Add To Cart'}

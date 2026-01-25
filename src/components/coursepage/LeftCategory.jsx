@@ -61,7 +61,7 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
             placeholder="Search courses..."
             value={searchQuery || ""}
             onChange={(e) => setSearchQuery && setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:border-[#ED1C3E] focus:bg-white transition-colors work"
+            className="w-full pl-10 pr-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:border-[#FD9A00] focus:bg-white transition-colors work"
           />
           <IoSearchSharp className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg" />
           {searchQuery && (
@@ -99,13 +99,13 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
                 key={type}
                 onClick={() => setSelectedType && setSelectedType(type)}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${selectedType === type
-                  ? "bg-[#ED1C3E]/10 text-[#ED1C3E]"
+                  ? "bg-[#FD9A00]/10 text-[#FD9A00]"
                   : "text-gray-600 hover:bg-gray-50"
                   }`}
               >
                 <span className="work">{type}</span>
                 {selectedType === type && (
-                  <div className="w-2 h-2 rounded-full bg-[#ED1C3E]"></div>
+                  <div className="w-2 h-2 rounded-full bg-[#FD9A00]"></div>
                 )}
               </button>
             ))}
@@ -116,10 +116,10 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
       {/* Categories Filter */}
       <div className="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
         <div className="flex items-center gap-2 px-4 py-3 bg-gray-50 border-b border-gray-200">
-          <LuFilter className="text-[#ED1C3E]" />
+          <LuFilter className="text-[#FD9A00]" />
           <h3 className="font-semibold text-gray-800 outfit text-sm">Categories</h3>
           {isMounted && selectedCategories.length > 0 && (
-            <span className="ml-auto text-xs bg-[#ED1C3E] text-white px-2 py-0.5 rounded-full">
+            <span className="ml-auto text-xs bg-[#FD9A00] text-white px-2 py-0.5 rounded-full">
               {selectedCategories.length}
             </span>
           )}
@@ -129,12 +129,12 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
           {/* All Option */}
           <label
             className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors ${isMounted && selectedCategories.length === 0
-              ? "bg-[#ED1C3E]/10 text-[#ED1C3E]"
+              ? "bg-[#FD9A00]/10 text-[#FD9A00]"
               : "hover:bg-gray-50 text-gray-700"
               }`}
             onClick={() => dispatch(setSelectedCategories([]))}
           >
-            <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${isMounted && selectedCategories.length === 0 ? "border-[#ED1C3E] bg-[#ED1C3E]" : "border-gray-300"
+            <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${isMounted && selectedCategories.length === 0 ? "border-[#FD9A00] bg-[#FD9A00]" : "border-gray-300"
               }`}>
               {isMounted && selectedCategories.length === 0 && (
                 <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -147,7 +147,7 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
 
           {isMounted && status === "loading" && (
             <div className="text-center py-4">
-              <div className="w-5 h-5 border-2 border-[#ED1C3E] border-t-transparent rounded-full animate-spin mx-auto"></div>
+              <div className="w-5 h-5 border-2 border-[#FD9A00] border-t-transparent rounded-full animate-spin mx-auto"></div>
             </div>
           )}
 
@@ -156,13 +156,13 @@ const LeftCategory = ({ searchQuery, setSearchQuery, selectedType, setSelectedTy
               <label
                 key={category._id || category.id}
                 className={`flex items-center gap-3 px-2 py-2 rounded-md cursor-pointer transition-colors ${selectedCategories.includes(category.name)
-                  ? "bg-[#ED1C3E]/10 text-[#ED1C3E]"
+                  ? "bg-[#FD9A00]/10 text-[#FD9A00]"
                   : "hover:bg-gray-50 text-gray-700"
                   }`}
                 onClick={() => handleCategoryChange(category.name)}
               >
                 <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-colors ${selectedCategories.includes(category.name)
-                  ? "border-[#ED1C3E] bg-[#ED1C3E]"
+                  ? "border-[#FD9A00] bg-[#FD9A00]"
                   : "border-gray-300"
                   }`}>
                   {selectedCategories.includes(category.name) && (

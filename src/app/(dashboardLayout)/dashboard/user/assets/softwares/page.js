@@ -41,7 +41,7 @@ export default function MySoftwaresPage() {
     };
 
     const cardClass = `rounded-2xl border transition-all duration-300 ${isDark
-        ? 'bg-slate-800/50 border-white/5 hover:border-[#ED1C3E]/20'
+        ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
         : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md'
         }`;
 
@@ -156,11 +156,11 @@ export default function MySoftwaresPage() {
                                 {stats.downloads.toString().padStart(2, '0')}
                             </h3>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
                             <FiDownload size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
             </div>
 
@@ -287,7 +287,7 @@ export default function MySoftwaresPage() {
                                         <span className={`uppercase tracking-widest flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
                                             <FiShield size={10} /> License
                                         </span>
-                                        <span className="text-[#ED1C3E]">Universal</span>
+                                        <span className="text-[#FD9A00]">Universal</span>
                                     </div>
                                 </div>
 

@@ -40,7 +40,7 @@ export default function UserNotificationsPage() {
 
     const getNotificationIcon = (type) => {
         switch (type) {
-            case 'course': return <FiBookOpen className="text-[#ED1C3E]" size={18} />;
+            case 'course': return <FiBookOpen className="text-[#FD9A00]" size={18} />;
             case 'certificate': return <FiAward className="text-[#FD9A00]" size={18} />;
             case 'success': return <FiCheckCircle className="text-green-500" size={18} />;
             case 'resource': return <FiDownload className="text-blue-500" size={18} />;
@@ -56,7 +56,7 @@ export default function UserNotificationsPage() {
             <div className={`${cardClass} p-6`}>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white shadow-lg">
+                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-lg">
                             <FiBell size={28} />
                         </div>
                         <div>
@@ -69,7 +69,7 @@ export default function UserNotificationsPage() {
                     {unreadCount > 0 && (
                         <button
                             onClick={markAllAsRead}
-                            className="flex items-center gap-2 px-4 py-2 bg-[#ED1C3E]/10 text-[#ED1C3E] rounded-xl font-medium hover:bg-[#ED1C3E]/20 transition-all text-sm"
+                            className="flex items-center gap-2 px-4 py-2 bg-[#FD9A00]/10 text-[#FD9A00] rounded-xl font-medium hover:bg-[#FD9A00]/20 transition-all text-sm"
                         >
                             <FiCheck size={16} />
                             Mark all as read
@@ -89,7 +89,7 @@ export default function UserNotificationsPage() {
                         key={f.id}
                         onClick={() => setFilter(f.id)}
                         className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${filter === f.id
-                            ? 'bg-[#ED1C3E] text-white'
+                            ? 'bg-[#FD9A00] text-white'
                             : isDark ? 'bg-slate-800 text-slate-400 hover:bg-slate-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                     >
@@ -115,7 +115,7 @@ export default function UserNotificationsPage() {
                         <div
                             key={notif.id}
                             className={`flex items-start gap-4 p-5 transition-colors ${!notif.read
-                                ? isDark ? 'bg-[#ED1C3E]/5' : 'bg-[#ED1C3E]/5'
+                                ? isDark ? 'bg-[#FD9A00]/5' : 'bg-[#FD9A00]/5'
                                 : isDark ? 'hover:bg-slate-700/30' : 'hover:bg-gray-50'
                                 }`}
                         >
@@ -128,7 +128,7 @@ export default function UserNotificationsPage() {
                                         <p className={`font-semibold ${isDark ? 'text-white' : 'text-gray-800'}`}>
                                             {notif.title}
                                             {!notif.read && (
-                                                <span className="ml-2 w-2 h-2 bg-[#ED1C3E] rounded-full inline-block"></span>
+                                                <span className="ml-2 w-2 h-2 bg-[#FD9A00] rounded-full inline-block"></span>
                                             )}
                                         </p>
                                         <p className={`text-sm mt-1 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
@@ -143,8 +143,8 @@ export default function UserNotificationsPage() {
                                             <button
                                                 onClick={() => markAsRead(notif.id)}
                                                 className={`p-2 rounded-lg transition-colors ${isDark
-                                                    ? 'bg-slate-700 text-slate-400 hover:text-[#ED1C3E]'
-                                                    : 'bg-gray-100 text-gray-500 hover:text-[#ED1C3E]'
+                                                    ? 'bg-slate-700 text-slate-400 hover:text-[#FD9A00]'
+                                                    : 'bg-gray-100 text-gray-500 hover:text-[#FD9A00]'
                                                     }`}
                                                 title="Mark as read"
                                             >

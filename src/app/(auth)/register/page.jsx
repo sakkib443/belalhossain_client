@@ -95,7 +95,7 @@ const Register = () => {
           <div className="grid lg:grid-cols-5 gap-0 bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
 
             {/* Left Side - Info Section */}
-            <div className="lg:col-span-2 bg-gradient-to-br from-[#ED1C3E] to-[#38a89d] p-8 lg:p-12 text-white relative overflow-hidden">
+            <div className="lg:col-span-2 bg-gradient-to-br from-[#FD9A00] to-[#38a89d] p-8 lg:p-12 text-white relative overflow-hidden">
               {/* Background Pattern */}
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-10 right-10 w-40 h-40 border-2 border-white rounded-full"></div>
@@ -174,7 +174,7 @@ const Register = () => {
                         value={formData.firstName}
                         onChange={handleChange}
                         required
-                        className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none transition ${bengaliClass}`}
+                        className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none transition ${bengaliClass}`}
                       />
                     </div>
                     <div className="relative">
@@ -185,7 +185,7 @@ const Register = () => {
                         value={formData.lastName}
                         onChange={handleChange}
                         required
-                        className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none transition ${bengaliClass}`}
+                        className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none transition ${bengaliClass}`}
                       />
                     </div>
                   </div>
@@ -200,7 +200,7 @@ const Register = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none transition ${bengaliClass}`}
+                      className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none transition ${bengaliClass}`}
                     />
                   </div>
 
@@ -212,7 +212,7 @@ const Register = () => {
                       placeholder={language === "bn" ? "ফোন নম্বর (ঐচ্ছিক)" : "Phone number (optional)"}
                       value={formData.phoneNumber}
                       onChange={handleChange}
-                      className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none transition ${bengaliClass}`}
+                      className={`w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none transition ${bengaliClass}`}
                     />
                   </div>
 
@@ -228,12 +228,12 @@ const Register = () => {
                           value={formData.password}
                           onChange={handleChange}
                           required
-                          className={`w-full pl-11 pr-10 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none transition ${bengaliClass}`}
+                          className={`w-full pl-11 pr-10 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none transition ${bengaliClass}`}
                         />
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 top-3.5 text-gray-400 hover:text-[#ED1C3E] transition"
+                          className="absolute right-3 top-3.5 text-gray-400 hover:text-[#FD9A00] transition"
                         >
                           {showPassword ? <MdOutlineVisibilityOff size={18} /> : <MdOutlineRemoveRedEye size={18} />}
                         </button>
@@ -260,12 +260,12 @@ const Register = () => {
                         value={formData.confirmPassword}
                         onChange={handleChange}
                         required
-                        className={`w-full pl-11 pr-10 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#ED1C3E] focus:ring-2 focus:ring-[#ED1C3E]/20 outline-none transition ${bengaliClass}`}
+                        className={`w-full pl-11 pr-10 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-[#FD9A00] focus:ring-2 focus:ring-[#FD9A00]/20 outline-none transition ${bengaliClass}`}
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-3.5 text-gray-400 hover:text-[#ED1C3E] transition"
+                        className="absolute right-3 top-3.5 text-gray-400 hover:text-[#FD9A00] transition"
                       >
                         {showConfirmPassword ? <MdOutlineVisibilityOff size={18} /> : <MdOutlineRemoveRedEye size={18} />}
                       </button>
@@ -281,7 +281,7 @@ const Register = () => {
 
                   {/* Terms */}
                   <label className="flex items-start gap-3 cursor-pointer">
-                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition ${termsAccepted ? 'bg-[#ED1C3E] border-[#ED1C3E]' : 'border-gray-300'}`}>
+                    <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition ${termsAccepted ? 'bg-[#FD9A00] border-[#FD9A00]' : 'border-gray-300'}`}>
                       {termsAccepted && <FiCheck className="text-white" size={12} />}
                     </div>
                     <input
@@ -292,11 +292,11 @@ const Register = () => {
                     />
                     <span className={`text-sm text-gray-600 ${bengaliClass}`}>
                       {language === "bn" ? "আমি " : "I agree to the "}
-                      <Link href="/terms" className="text-[#ED1C3E] font-medium hover:underline">
+                      <Link href="/terms" className="text-[#FD9A00] font-medium hover:underline">
                         {language === "bn" ? "শর্তাবলী" : "Terms & Conditions"}
                       </Link>
                       {language === "bn" ? " এবং " : " and "}
-                      <Link href="/privacy" className="text-[#ED1C3E] font-medium hover:underline">
+                      <Link href="/privacy" className="text-[#FD9A00] font-medium hover:underline">
                         {language === "bn" ? "গোপনীয়তা নীতি" : "Privacy Policy"}
                       </Link>
                       {language === "bn" ? " মেনে নিচ্ছি।" : "."}
@@ -309,7 +309,7 @@ const Register = () => {
                     disabled={loading || !termsAccepted}
                     className={`w-full py-3.5 rounded-xl text-white font-semibold shadow-lg transition text-base ${loading || !termsAccepted
                       ? "bg-gray-300 cursor-not-allowed"
-                      : "bg-gradient-to-r from-[#ED1C3E] to-[#38a89d] hover:shadow-xl hover:-translate-y-0.5"
+                      : "bg-gradient-to-r from-[#FD9A00] to-[#38a89d] hover:shadow-xl hover:-translate-y-0.5"
                       } ${bengaliClass}`}
                   >
                     {loading ? (
@@ -325,7 +325,7 @@ const Register = () => {
                   {/* Login Link */}
                   <p className={`text-sm text-gray-500 text-center ${bengaliClass}`}>
                     {language === "bn" ? "আগে থেকেই অ্যাকাউন্ট আছে? " : "Already have an account? "}
-                    <Link href="/login" className="text-[#ED1C3E] font-semibold hover:underline">
+                    <Link href="/login" className="text-[#FD9A00] font-semibold hover:underline">
                       {language === "bn" ? "লগইন করুন" : "Sign in"}
                     </Link>
                   </p>

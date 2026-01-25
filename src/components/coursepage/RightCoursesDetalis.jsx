@@ -116,8 +116,8 @@ const RightCoursesDetalis = ({ searchQuery, selectedType }) => {
       {/* Top Bar - Simplified */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white border border-slate-100 rounded-2xl p-4 shadow-sm sticky top-20 z-10 backdrop-blur-md bg-white/90">
         {/* Left - Course Count */}
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#ED1C3E]/10 rounded-lg">
-          <HiOutlineSparkles className="text-[#ED1C3E]" />
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#FD9A00]/10 rounded-lg">
+          <HiOutlineSparkles className="text-[#FD9A00]" />
           <span className="text-slate-800 font-bold outfit text-xs">
             {sortedCourses.length} <span className="text-slate-500 font-normal">Courses Found</span>
           </span>
@@ -130,7 +130,7 @@ const RightCoursesDetalis = ({ searchQuery, selectedType }) => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none pl-3 pr-8 py-2 bg-slate-50 border border-slate-100 rounded-xl text-xs font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#ED1C3E]/20 focus:border-[#ED1C3E] cursor-pointer transition-all hover:bg-white"
+              className="appearance-none pl-3 pr-8 py-2 bg-slate-50 border border-slate-100 rounded-xl text-xs font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#FD9A00]/20 focus:border-[#FD9A00] cursor-pointer transition-all hover:bg-white"
             >
               <option value="default">Sort By</option>
               <option value="rating">Top Rated</option>
@@ -145,13 +145,13 @@ const RightCoursesDetalis = ({ searchQuery, selectedType }) => {
           <div className="flex items-center p-1 bg-slate-100 rounded-xl">
             <button
               onClick={() => setIsGridView(true)}
-              className={`p-1.5 rounded-lg transition-all ${isGridView ? 'bg-white text-[#ED1C3E] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+              className={`p-1.5 rounded-lg transition-all ${isGridView ? 'bg-white text-[#FD9A00] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
             >
               <LuLayoutGrid size={16} />
             </button>
             <button
               onClick={() => setIsGridView(false)}
-              className={`p-1.5 rounded-lg transition-all ${!isGridView ? 'bg-white text-[#ED1C3E] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+              className={`p-1.5 rounded-lg transition-all ${!isGridView ? 'bg-white text-[#FD9A00] shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
             >
               <LuList size={16} />
             </button>

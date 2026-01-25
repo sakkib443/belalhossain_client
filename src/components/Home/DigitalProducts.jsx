@@ -41,82 +41,103 @@ const DigitalProducts = () => {
     }, [activeType]);
 
     const displayList = useMemo(() => {
-        let baseList = activeType === 'software' ? softwareList : websiteList;
+        let baseList = [...(activeType === 'software' ? softwareList : websiteList)];
+
+        // Sort by popularity (sales count) descending
+        baseList.sort((a, b) => {
+            const salesA = a.totalOrders || a.salesCount || 0;
+            const salesB = b.totalOrders || b.salesCount || 0;
+            return salesB - salesA;
+        });
+
         if (selectedSubCategory !== 'all') {
             return baseList.filter(item =>
                 item.category === selectedSubCategory ||
                 item.category?._id === selectedSubCategory ||
                 item.subcategory === selectedSubCategory ||
                 item.subcategory?._id === selectedSubCategory
-            ).slice(0, 8);
+            ).slice(0, 6);
         }
-        return baseList.slice(0, 8);
+        return baseList.slice(0, 6);
     }, [activeType, softwareList, websiteList, selectedSubCategory]);
 
     const isLoading = activeType === 'software' ? softwareLoading : websiteLoading;
 
     return (
         <section className="py-24 bg-[#FAFAFA] dark:bg-[#0A0A0A] relative overflow-hidden">
-            {/* Soft Ambient Background */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-rose-500/5 dark:bg-rose-500/10 rounded-full blur-[120px]" />
-                <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-amber-500/5 dark:bg-amber-500/10 rounded-full blur-[120px]" />
+            {/* Background Texture - Elite Grid */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-[#C4EE18]/5 to-transparent rounded-full blur-[120px]" />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-[#90b800]/5 to-transparent rounded-full blur-[120px]" />
+                <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+                    style={{ backgroundImage: 'linear-gradient(#C4EE18 0.5px, transparent 0.5px), linear-gradient(90deg, #C4EE18 0.5px, transparent 0.5px)', backgroundSize: '40px 40px' }}
+                />
             </div>
 
             <div className="container mx-auto px-4 lg:px-16 relative z-10">
 
                 {/* Header Section */}
-                <div className="max-w-4xl mx-auto text-center mb-16">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm text-[#ED1C3E] text-xs font-bold uppercase tracking-widest mb-6">
-                        <LuLayers className="w-4 h-4" />
-                        <span>{language === 'bn' ? 'আওয়ার কালেকশন' : 'Our Collection'}</span>
+                {/* Left-Aligned Modern Header */}
+                <div className="text-left mb-8 px-2">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-10 h-[2px] bg-[#C4EE18]" />
+                        <span className={`text-[10px] font-black text-[#C4EE18] uppercase tracking-[0.4em] ${bengaliClass}`}>
+                            {language === 'bn' ? 'আওয়ার কালেকশন' : 'Our Collection'}
+                        </span>
                     </div>
 
-                    <h2 className={`text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight ${bengaliClass}`}>
-                        {language === 'bn' ? 'জনপ্রিয়' : 'Premium'} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00]">{language === 'bn' ? 'ডিজিটাল প্রোডাক্ট' : 'Digital Products'}</span>
+                    <h2 className={`text-5xl lg:text-7xl font-black text-gray-950 dark:text-white mb-2 uppercase leading-[0.85] tracking-tighter max-w-3xl font-teko ${bengaliClass}`}>
+                        {language === 'bn' ? 'পছন্দের' : 'Premium'} <br />
+                        <span className="text-[#C4EE18]">{language === 'bn' ? 'ডিজিটাল প্রোডাক্টস' : 'Digital Products'}</span>
                     </h2>
 
-                    <p className={`text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed ${bengaliClass}`}>
+                    <div className="w-20 h-1 bg-gray-100 dark:bg-white/10 mb-4" />
+
+                    <p className={`text-gray-500 dark:text-gray-400 text-sm lg:text-base max-w-2xl leading-relaxed ${bengaliClass}`}>
                         {language === 'bn'
                             ? 'আমাদের প্রিমিয়াম সফটওয়্যার এবং রেডিমেড ওয়েবসাইট কালেকশন এক্সপ্লোর করুন যা আপনার ব্যবসা বাড়াতে সাহায্য করবে।'
-                            : 'Explore our collection of premium software and ready-made websites designed to scale your business.'}
+                            : 'Explore our curated collection of elite software and ready-made websites designed for professional scale.'}
                     </p>
                 </div>
 
-                {/* Main Tabs Selection */}
-                <div className="flex flex-col items-center gap-8 mb-16">
-                    <div className="flex p-1 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm">
+                {/* Professional Filter Row - Left Aligned */}
+                <div className="flex flex-wrap items-center gap-4 mb-6 px-2">
+                    {/* Main Type Toggles */}
+                    <div className="flex p-1 bg-slate-100 dark:bg-slate-900/50 rounded-md border border-slate-200 dark:border-slate-800 backdrop-blur-md">
                         <button
                             onClick={() => setActiveType('website')}
-                            className={`flex items-center gap-3 px-8 py-4 rounded-xl text-sm font-bold transition-all duration-300 ${activeType === 'website'
-                                ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg'
-                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-md text-[13px] font-medium transition-all duration-300 ${activeType === 'website'
+                                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
+                                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                                 }`}
                         >
-                            <LuLayoutList className="w-5 h-5" />
+                            <LuGlobe className="w-4 h-4" />
                             <span className={bengaliClass}>{language === 'bn' ? 'ওয়েবসাইট' : 'Websites'}</span>
                         </button>
 
                         <button
                             onClick={() => setActiveType('software')}
-                            className={`flex items-center gap-3 px-8 py-4 rounded-xl text-sm font-bold transition-all duration-300 ${activeType === 'software'
-                                ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-lg'
-                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-md text-[13px] font-medium transition-all duration-300 ${activeType === 'software'
+                                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
+                                : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
                                 }`}
                         >
-                            <LuCode className="w-5 h-5" />
+                            <LuCode className="w-4 h-4" />
                             <span className={bengaliClass}>{language === 'bn' ? 'সফটওয়্যার' : 'Software'}</span>
                         </button>
                     </div>
 
-                    {/* Sub-Category Filters */}
+                    {/* Vertical Divider for Desktop */}
+                    <div className="hidden lg:block w-[1px] h-8 bg-gray-200 dark:bg-white/10 mx-2" />
+
+                    {/* Sub-Category Filters - Same Row */}
                     {subCategories.length > 0 && (
-                        <div className="flex flex-wrap justify-center gap-3">
+                        <div className="flex flex-wrap gap-2">
                             <button
                                 onClick={() => setSelectedSubCategory('all')}
-                                className={`px-5 py-2 rounded-full text-sm font-medium border transition-all ${selectedSubCategory === 'all'
-                                    ? 'bg-[#ED1C3E] border-[#ED1C3E] text-white shadow-md shadow-red-500/20'
-                                    : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:border-[#ED1C3E] hover:text-[#ED1C3E]'
+                                className={`px-4 py-2.5 rounded-md text-[13px] font-medium border transition-all duration-300 ${selectedSubCategory === 'all'
+                                    ? 'bg-[#C4EE18] text-black border-[#C4EE18] shadow-lg shadow-[#C4EE18]/20'
+                                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 hover:border-[#C4EE18] hover:text-[#C4EE18]'
                                     }`}
                             >
                                 {language === 'bn' ? 'সবগুলো' : 'All Items'}
@@ -125,9 +146,9 @@ const DigitalProducts = () => {
                                 <button
                                     key={sub._id}
                                     onClick={() => setSelectedSubCategory(sub._id)}
-                                    className={`px-5 py-2 rounded-full text-sm font-medium border transition-all ${selectedSubCategory === sub._id
-                                        ? 'bg-[#ED1C3E] border-[#ED1C3E] text-white shadow-md shadow-red-500/20'
-                                        : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:border-[#ED1C3E] hover:text-[#ED1C3E]'
+                                    className={`px-4 py-2.5 rounded-md text-[13px] font-medium border transition-all duration-300 ${selectedSubCategory === sub._id
+                                        ? 'bg-[#C4EE18] text-black border-[#C4EE18] shadow-lg shadow-[#C4EE18]/20'
+                                        : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-500 hover:border-[#C4EE18] hover:text-[#C4EE18]'
                                         }`}
                                 >
                                     <span className={bengaliClass}>{sub.name}</span>
@@ -138,7 +159,7 @@ const DigitalProducts = () => {
                 </div>
 
                 {/* Content Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
                     {isLoading ? (
                         [...Array(4)].map((_, i) => (
                             <div key={i} className="bg-white dark:bg-gray-900 rounded-3xl p-4 border border-gray-100 dark:border-gray-800 h-[420px] shadow-sm animate-pulse">
@@ -170,16 +191,16 @@ const DigitalProducts = () => {
                     )}
                 </div>
 
-                {/* Footer Link */}
-                <div className="text-center">
+                {/* Professional Left-Aligned Footer Link */}
+                <div className="text-left px-2">
                     <Link
                         href={activeType === 'website' ? '/website' : '/software'}
-                        className="inline-flex items-center gap-3 px-10 py-5 bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-bold rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-[#ED1C3E] hover:text-[#ED1C3E] transition-all shadow-sm hover:shadow-xl group"
+                        className="inline-flex items-center gap-4 px-8 py-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-medium rounded-md border border-slate-200 dark:border-slate-800 hover:border-[#C4EE18] transition-all duration-300 group shadow-sm font-poppins"
                     >
                         <span className={bengaliClass}>
                             {language === 'bn' ? 'সবগুলো প্রোডাক্ট দেখুন' : 'Explore Full Collection'}
                         </span>
-                        <div className="w-8 h-8 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-[#ED1C3E] group-hover:text-white transition-all">
+                        <div className="w-8 h-8 rounded bg-slate-50 dark:bg-slate-800 flex items-center justify-center group-hover:bg-[#C4EE18] group-hover:text-black transition-all duration-300">
                             <LuArrowRight className="w-4 h-4" />
                         </div>
                     </Link>

@@ -23,7 +23,7 @@ export default function UserCertificatesPage() {
 
     // Card class based on theme
     const cardClass = `rounded-2xl border transition-all duration-300 ${isDark
-        ? 'bg-slate-800/50 border-white/5 hover:border-[#ED1C3E]/20'
+        ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
         : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md'
         }`;
 
@@ -32,7 +32,7 @@ export default function UserCertificatesPage() {
             {/* Professional Compact Header */}
             <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 ${cardClass}`}>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#ED1C3E] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
                         <FiAward size={24} />
                     </div>
                     <div>
@@ -56,7 +56,7 @@ export default function UserCertificatesPage() {
                     </button>
                     <Link
                         href="/dashboard/user/courses"
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#ED1C3E]/10 hover:scale-105 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                     >
                         <FiBook size={16} />
                         My Courses
@@ -80,11 +80,11 @@ export default function UserCertificatesPage() {
                                 Completed certificates
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiAward size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
 
                 {/* In Progress */}
@@ -122,11 +122,11 @@ export default function UserCertificatesPage() {
                                 On social platforms
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiShare2 size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
             </div>
 
@@ -147,7 +147,7 @@ export default function UserCertificatesPage() {
                 </p>
                 <Link
                     href="/dashboard/user/courses"
-                    className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md shadow-[#ED1C3E]/10 hover:scale-105 transition-all"
+                    className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                 >
                     Continue Learning <FiArrowRight />
                 </Link>
@@ -160,8 +160,8 @@ export default function UserCertificatesPage() {
                 }`}>
                 <div className="flex items-center gap-4 text-center md:text-left">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${isDark
-                        ? 'bg-slate-700 text-[#ED1C3E]'
-                        : 'bg-white text-[#ED1C3E] shadow-md border border-slate-100'
+                        ? 'bg-slate-700 text-[#FD9A00]'
+                        : 'bg-white text-[#FD9A00] shadow-md border border-slate-100'
                         }`}>
                         <FiDownload size={22} />
                     </div>

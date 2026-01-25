@@ -10,41 +10,48 @@ const WhatWeProvide = () => {
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const features = [
-    { icon: LuLayoutGrid, titleKey: "premiumDesign", descKey: "premiumDesignDesc", emoji: "✨", color: "orange" },
-    { icon: LuCode, titleKey: "readyScripts", descKey: "readyScriptsDesc", emoji: "🚀", color: "teal" },
-    { icon: LuHeadphones, titleKey: "lifetimeSupport", descKey: "lifetimeSupportDesc", emoji: "🛠️", color: "orange" }
+    { icon: LuLayoutGrid, titleKey: "premiumDesign", descKey: "premiumDesignDesc", emoji: "✨", color: "lime" },
+    { icon: LuCode, titleKey: "readyScripts", descKey: "readyScriptsDesc", emoji: "🚀", color: "lime" },
+    { icon: LuHeadphones, titleKey: "lifetimeSupport", descKey: "lifetimeSupportDesc", emoji: "🛠️", color: "lime" }
   ];
 
-  const getColorClasses = (color) => color === 'teal'
-    ? { gradient: 'from-[#ED1C3E] to-[#2dd4bf]', light: 'bg-[#ED1C3E]/10', text: 'text-[#ED1C3E]', border: 'border-[#ED1C3E]/20' }
-    : { gradient: 'from-[#FD9A00] to-[#fb923c]', light: 'bg-[#FD9A00]/10', text: 'text-[#FD9A00]', border: 'border-[#FD9A00]/20' };
+  const getColorClasses = (color) => ({
+    gradient: 'from-[#C4EE18] to-[#C4EE18]',
+    light: 'bg-[#C4EE18]/5',
+    text: 'text-[#C4EE18]',
+    border: 'border-[#C4EE18]/20'
+  });
 
   return (
     <section className="relative py-24 overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-[10%] w-72 h-72 bg-gradient-to-br from-[#ED1C3E]/10 to-transparent rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-gradient-to-br from-[#FD9A00]/10 to-transparent rounded-full blur-3xl" />
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-[#C4EE18]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-[#C4EE18]/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 lg:px-16 relative z-10">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-3 mb-5 px-5 py-2.5 rounded-full bg-white dark:bg-black/50 border border-rose-600/30 shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-rose-600/20 to-cyan-500/20 flex items-center justify-center">
-              <HiOutlineSparkles className="text-[#ED1C3E]" size={14} />
-            </div>
-            <span className={`text-xs font-black text-gray-700 dark:text-gray-300 uppercase tracking-[0.2em] ${bengaliClass}`}>{t("whatWeProvide.badge")}</span>
+        <div className="text-left mb-10 px-2">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-[2px] bg-[#C4EE18]" />
+            <span className={`text-[10px] font-black text-[#C4EE18] uppercase tracking-[0.4em] ${bengaliClass}`}>
+              {t("whatWeProvide.badge")}
+            </span>
           </div>
-          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-5 ${bengaliClass}`}>
-            {t("whatWeProvide.title1")}<span className="text-primary">{t("whatWeProvide.title2")}</span>
+          <h2 className={`text-5xl lg:text-7xl font-black text-gray-950 dark:text-white mb-2 uppercase leading-[0.85] tracking-tighter max-w-3xl font-teko ${bengaliClass}`}>
+            {t("whatWeProvide.title1")} <br />
+            <span className="text-[#C4EE18]">{t("whatWeProvide.title2")}</span>
           </h2>
-          <p className={`text-gray-500 dark:text-gray-400 text-base lg:text-lg max-w-2xl mx-auto ${bengaliClass}`}>{t("whatWeProvide.subtitle")}</p>
+          <div className="w-20 h-1 bg-gray-100 dark:bg-white/10 mb-4" />
+          <p className={`text-gray-500 dark:text-gray-400 text-sm lg:text-base max-w-2xl leading-relaxed ${bengaliClass}`}>
+            {t("whatWeProvide.subtitle")}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => {
             const colors = getColorClasses(feature.color);
             return (
-              <div key={index} className="group relative bg-white dark:bg-[#0d0d0d] rounded-[2rem] p-8 border border-gray-200 dark:border-white/10 transition-shadow duration-300 hover:shadow-lg overflow-hidden">
+              <div key={index} className="group relative bg-white dark:bg-[#0d0d0d] rounded-md p-8 border border-gray-200 dark:border-white/10 transition-shadow duration-300 hover:shadow-lg overflow-hidden">
                 <div className={`absolute -top-10 -right-10 w-24 h-24 rounded-full bg-gradient-to-br ${colors.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-500`} />
                 <div className="relative z-10">
                   <div className="relative mb-5">
@@ -52,11 +59,11 @@ const WhatWeProvide = () => {
                       <feature.icon size={28} className={colors.text} />
                     </div>
                   </div>
-                  <h3 className={`text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2 ${bengaliClass}`}>{t(`whatWeProvide.features.${feature.titleKey}`)} <span>{feature.emoji}</span></h3>
+                  <h3 className={`text-2xl font-black uppercase font-teko text-gray-900 dark:text-white mb-3 flex items-center gap-2 ${bengaliClass}`}>{t(`whatWeProvide.features.${feature.titleKey}`)} <span className="text-xl">{feature.emoji}</span></h3>
                   <p className={`text-sm text-gray-500 dark:text-gray-400 mb-6 ${bengaliClass}`}>{t(`whatWeProvide.features.${feature.descKey}`)}</p>
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-white/10">
-                    <span className={`text-xs font-semibold ${colors.text} uppercase tracking-widest ${bengaliClass}`}>{t("whatWeProvide.learnMore")}</span>
-                    <div className={`w-8 h-8 rounded-lg ${colors.light} flex items-center justify-center`}><LuArrowRight size={16} className={colors.text} /></div>
+                    <span className={`text-xs font-bold text-gray-900 dark:text-white uppercase tracking-widest ${bengaliClass}`}>{t("whatWeProvide.learnMore")}</span>
+                    <div className={`w-8 h-8 rounded-lg ${colors.light} group-hover:bg-[#C4EE18] transition-colors duration-300 flex items-center justify-center`}><LuArrowRight size={16} className="text-black dark:text-white -rotate-45" /></div>
                   </div>
                 </div>
                 <div className={`absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r ${colors.gradient} rounded-b-2xl group-hover:w-full transition-all duration-500`} />
@@ -65,10 +72,12 @@ const WhatWeProvide = () => {
           })}
         </div>
 
-        <div className="flex justify-center mt-14">
-          <Link href="/website" className={`group relative bg-white dark:bg-[#0d0d0d] rounded-2xl px-8 py-4 border border-gray-200 dark:border-white/10 hover:shadow-lg flex items-center gap-4 transition-shadow ${bengaliClass}`}>
-            <span className="font-bold text-gray-900 dark:text-white">{t("whatWeProvide.learnMoreAboutUs")}</span>
-            <div className="w-10 h-10 rounded-xl bg-[#ED1C3E]/10 flex items-center justify-center group-hover:bg-[#ED1C3E] transition-colors"><LuArrowRight size={18} className="text-[#ED1C3E] group-hover:text-white" /></div>
+        <div className="flex justify-start px-2 mt-14">
+          <Link href="/about" className={`group relative bg-white dark:bg-[#0d0d0d] rounded-md px-8 py-4 border border-gray-200 dark:border-white/10 hover:shadow-lg flex items-center gap-4 transition-all duration-300 ${bengaliClass} font-poppins`}>
+            <span className="font-medium text-gray-900 dark:text-white">{t("whatWeProvide.learnMoreAboutUs")}</span>
+            <div className="w-10 h-10 rounded-md bg-[#C4EE18]/10 flex items-center justify-center group-hover:bg-[#C4EE18] transition-colors duration-300">
+              <LuArrowRight size={18} className="text-slate-700 dark:text-slate-300 group-hover:text-black" />
+            </div>
           </Link>
         </div>
       </div>

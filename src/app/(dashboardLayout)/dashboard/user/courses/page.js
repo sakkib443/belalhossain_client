@@ -44,7 +44,7 @@ export default function UserCoursesPage() {
 
     // Card class based on theme
     const cardClass = `rounded-2xl border transition-all duration-300 ${isDark
-        ? 'bg-slate-800/50 border-white/5 hover:border-[#ED1C3E]/20'
+        ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
         : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md'
         }`;
 
@@ -87,7 +87,7 @@ export default function UserCoursesPage() {
             {/* Professional Compact Header */}
             <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 ${cardClass}`}>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ED1C3E] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#ED1C3E]/10">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
                         <FiBook size={24} />
                     </div>
                     <div>
@@ -113,7 +113,7 @@ export default function UserCoursesPage() {
                     </button>
                     <Link
                         href="/courses"
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#ED1C3E]/10 hover:scale-105 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                     >
                         <FiArrowRight size={16} />
                         Explore More
@@ -137,11 +137,11 @@ export default function UserCoursesPage() {
                                 All enrolled courses
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiBook size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
 
                 {/* In Progress */}
@@ -200,11 +200,11 @@ export default function UserCoursesPage() {
                                 Learning rewards
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiStar size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
             </div>
 
@@ -217,8 +217,8 @@ export default function UserCoursesPage() {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm transition-all focus:outline-none focus:ring-2 ${isDark
-                            ? 'bg-slate-800/50 border-white/5 text-slate-200 focus:ring-[#ED1C3E]/30'
-                            : 'bg-slate-50 border-slate-200 text-slate-700 focus:ring-[#ED1C3E]/20'
+                            ? 'bg-slate-800/50 border-white/5 text-slate-200 focus:ring-[#FD9A00]/30'
+                            : 'bg-slate-50 border-slate-200 text-slate-700 focus:ring-[#FD9A00]/20'
                             }`}
                     />
                 </div>
@@ -265,7 +265,7 @@ export default function UserCoursesPage() {
                     {!searchTerm && (
                         <Link
                             href="/courses"
-                            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md shadow-[#ED1C3E]/10 hover:scale-105 transition-all"
+                            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                         >
                             Browse All Courses <FiArrowRight />
                         </Link>
@@ -277,7 +277,7 @@ export default function UserCoursesPage() {
                         <div
                             key={enroll._id}
                             className={`group relative rounded-2xl border overflow-hidden transition-all duration-300 ${isDark
-                                ? 'bg-slate-800/50 border-white/5 hover:border-[#ED1C3E]/20'
+                                ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
                                 : 'bg-white border-slate-200 hover:shadow-lg'
                                 }`}
                         >
@@ -292,7 +292,7 @@ export default function UserCoursesPage() {
 
                                 {/* Progress Badge */}
                                 <div className="absolute top-3 right-3 px-2.5 py-1 bg-white/90 backdrop-blur-sm rounded-lg text-[10px] font-black shadow-sm">
-                                    <span className="text-[#ED1C3E]">{enroll.progress || 0}%</span>
+                                    <span className="text-[#FD9A00]">{enroll.progress || 0}%</span>
                                 </div>
 
                                 <div className="absolute bottom-3 left-3 right-3">
@@ -315,7 +315,7 @@ export default function UserCoursesPage() {
                                     </div>
                                     <div className={`h-1.5 w-full rounded-full overflow-hidden ${isDark ? 'bg-slate-700' : 'bg-slate-100'}`}>
                                         <div
-                                            className="h-full bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] rounded-full transition-all duration-500"
+                                            className="h-full bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] rounded-full transition-all duration-500"
                                             style={{ width: `${enroll.progress || 0}%` }}
                                         />
                                     </div>
@@ -324,7 +324,7 @@ export default function UserCoursesPage() {
                                 {/* Stats Row */}
                                 <div className="grid grid-cols-2 gap-2">
                                     <div className={`p-2 rounded-xl text-center ${isDark ? 'bg-white/5' : 'bg-slate-50'}`}>
-                                        <FiLayers className="text-[#ED1C3E] mx-auto mb-1" size={12} />
+                                        <FiLayers className="text-[#FD9A00] mx-auto mb-1" size={12} />
                                         <p className={`text-[10px] font-bold ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                                             {enroll.completedLessons || 0} Lessons
                                         </p>
@@ -340,7 +340,7 @@ export default function UserCoursesPage() {
                                 {/* Action Button */}
                                 <Link
                                     href={`/learn/${enroll.course?._id}`}
-                                    className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] text-white rounded-xl font-bold text-xs shadow-md shadow-[#ED1C3E]/10 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all"
+                                    className="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white rounded-xl font-bold text-xs shadow-md shadow-[#FD9A00]/10 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all"
                                 >
                                     <FiPlay size={14} /> Continue Learning
                                 </Link>
@@ -374,14 +374,14 @@ export default function UserCoursesPage() {
                                 </div>
                             </div>
                             <div className="text-right shrink-0">
-                                <p className="text-sm font-black text-[#ED1C3E]">{enroll.progress || 0}%</p>
+                                <p className="text-sm font-black text-[#FD9A00]">{enroll.progress || 0}%</p>
                                 <p className={`text-[10px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Progress</p>
                             </div>
                             <Link
                                 href={`/learn/${enroll.course?._id}`}
                                 className={`p-2.5 rounded-xl transition-all ${isDark
-                                    ? 'bg-slate-700 text-slate-300 hover:bg-[#ED1C3E] hover:text-white'
-                                    : 'bg-slate-100 text-slate-500 hover:bg-[#ED1C3E] hover:text-white'
+                                    ? 'bg-slate-700 text-slate-300 hover:bg-[#FD9A00] hover:text-white'
+                                    : 'bg-slate-100 text-slate-500 hover:bg-[#FD9A00] hover:text-white'
                                     }`}
                             >
                                 <FiPlay size={16} />
@@ -398,8 +398,8 @@ export default function UserCoursesPage() {
                 }`}>
                 <div className="flex items-center gap-4 text-center md:text-left">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${isDark
-                        ? 'bg-slate-700 text-[#ED1C3E]'
-                        : 'bg-white text-[#ED1C3E] shadow-md border border-slate-100'
+                        ? 'bg-slate-700 text-[#FD9A00]'
+                        : 'bg-white text-[#FD9A00] shadow-md border border-slate-100'
                         }`}>
                         <FiInfo size={22} />
                     </div>

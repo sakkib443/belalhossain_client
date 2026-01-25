@@ -1,14 +1,29 @@
 "use client";
 
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { LuArrowRight, LuPlay, LuArrowDown, LuSparkles, LuCode, LuGlobe, LuSearch, LuSmile, LuHeadphones } from "react-icons/lu";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { FiPlay, FiArrowDown } from "react-icons/fi";
 import { useLanguage } from "@/context/LanguageContext";
 import { API_BASE_URL } from "@/config/api";
 
+const avatars = [
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100",
+    "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100"
+];
+
+const tickerItems = [
+    { en: "DESIGN", bn: "ডিজাইন" },
+    { en: "DEVELOPMENT", bn: "ডেভেলপমেন্ট" },
+    { en: "STRATEGY", bn: "স্ট্র্যাটেজি" },
+    { en: "SOLUTIONS", bn: "সল্যুশন" },
+];
+
 const Hero = () => {
     const { language } = useLanguage();
-    const bengaliClass = language === "bn" ? "hind-siliguri" : "";
+    const isBn = language === 'bn';
+    const bengaliClass = isBn ? "hind-siliguri" : "";
 
     const [softwareCount, setSoftwareCount] = useState(0);
     const [websiteCount, setWebsiteCount] = useState(0);
@@ -31,158 +46,228 @@ const Hero = () => {
         fetchCounts();
     }, []);
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+        }
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+        }
+    };
+
+    const floatingVariants = {
+        animate: {
+            y: [0, -10, 0],
+            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+        }
+    };
+
+    const translations = {
+        description: isBn ? "আমরা এক্সট্রেন ওয়েব, আপনার ব্যবসার জন্য ক্রিয়েটিভ এবং ইউজার-কেন্দ্রিক ডিজিটাল সমাধান তৈরি করি।" : "We're Extrain Web, to build creative & user-centric designs also develop for customer.",
+        line1: isBn ? "ওয়েবসাইট ও" : "WEBSITE &",
+        line2Part1: isBn ? "সফটওয়্যার" : "SOFTWARE",
+        line2Part2: isBn ? "সল্যুশন" : "SOLUTION",
+        line3: isBn ? "সাথে এক্সট্রেন ওয়েব" : "WITH EXTRAIN WEB.",
+        statsCount: `${websiteCount + softwareCount}+`,
+        statsText: isBn ? "সন্তুষ্ট গ্রাহক বিশ্বজুড়ে।" : "customers in world-wide.",
+        agencyType: isBn ? "গ্লোবাল ডিজিটাল মার্কেটপ্লেস।" : "Global Digital Marketplace."
+    };
+
     return (
-        <section className="relative min-h-screen flex items-center bg-[#FAFAFA] dark:bg-[#0A0A0A] overflow-hidden">
+        <section className="relative min-h-[90vh] flex flex-col pt-24 lg:pt-32 pb-12 overflow-hidden bg-white dark:bg-[#0A0A0A]">
+            {/* Background Elements */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]"
+                style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
-            {/* Modern Background */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                {/* Static Gradient Blobs */}
-                <div className="absolute -top-[30%] -left-[10%] w-[70vw] h-[70vw] bg-gradient-to-br from-[#ED1C3E]/10 via-[#FD9A00]/10 to-transparent rounded-full blur-[100px] dark:opacity-30" />
-                <div className="absolute top-[20%] right-[10%] w-[40vw] h-[40vw] bg-gradient-to-bl from-[#FD9A00]/10 via-[#ED1C3E]/5 to-transparent rounded-full blur-[80px] dark:opacity-20" />
-                <div className="absolute -bottom-[20%] left-[20%] w-[50vw] h-[50vw] bg-gradient-to-t from-blue-500/5 via-purple-500/5 to-transparent rounded-full blur-[100px] dark:opacity-20" />
+            <motion.div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-[#FD9A00]/5 rounded-full blur-[120px]"
+                animate={{ x: [0, 30, 0], y: [0, 20, 0] }} transition={{ duration: 15, repeat: Infinity }} />
 
-                {/* Grid Pattern Overlay */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_50%,transparent,white)] dark:bg-[radial-gradient(circle_800px_at_50%_50%,transparent,#0A0A0A)]"></div>
-            </div>
+            <div className="container relative z-10 px-6 lg:px-12 max-w-[1400px] mx-auto flex-1">
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
 
-            <div className="container mx-auto px-4 lg:px-16 relative z-10">
-                <div className="max-w-6xl mx-auto">
+                    {/* Left Content Area */}
+                    <div className="flex-1">
+                        <motion.div variants={containerVariants} initial="hidden" animate="visible">
 
-                    {/* Top Badge */}
-                    <div className="flex justify-center mb-8">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm">
-                            <LuSparkles className="w-4 h-4 text-[#ED1C3E]" />
-                            <span className={`text-sm font-medium text-gray-700 dark:text-gray-300 ${bengaliClass}`}>
-                                {language === 'bn' ? 'বাংলাদেশের #১ ডিজিটাল মার্কেটপ্লেস' : '#1 Digital Marketplace in Bangladesh'}
-                            </span>
-                        </div>
-                    </div>
+                            {/* Row 1: Desc + Line 1 + Bird */}
+                            <div className="flex items-start gap-6 lg:gap-12 mb-2 lg:mb-4">
+                                <motion.div variants={itemVariants} className="w-32 lg:w-48 pt-4 hidden md:block">
+                                    <div className="w-12 lg:w-16 h-[1.5px] bg-black dark:bg-white mb-3" />
+                                    <p className={`text-[10px] lg:text-[11px] leading-relaxed text-gray-500 font-medium ${bengaliClass}`}>
+                                        {translations.description}
+                                    </p>
+                                </motion.div>
 
-                    {/* Main Heading */}
-                    <div className="text-center mb-6">
-                        <h1 className={`font-bold leading-[1.1] tracking-tight ${language === 'bn' ? 'hind-siliguri text-4xl sm:text-5xl lg:text-6xl' : 'text-4xl sm:text-5xl lg:text-6xl'}`}>
-                            <span className="block mb-2 text-gray-900 dark:text-white">
-                                {language === 'bn' ? 'প্রিমিয়াম' : 'Premium'}
-                            </span>
-                            <span className="block">
-                                <span className="text-[#ED1C3E]">
-                                    {language === 'bn' ? 'ওয়েবসাইট' : 'Website'}
-                                </span>
-                                <span className="text-gray-900 dark:text-white">
-                                    {language === 'bn' ? ' ও ' : ' & '}
-                                </span>
-                                <span className="text-[#FD9A00]">
-                                    {language === 'bn' ? 'সফটওয়্যার' : 'Software'}
-                                </span>
-                            </span>
-                        </h1>
-                    </div>
+                                <motion.h1 className={`text-5xl lg:text-[85px] font-black text-gray-950 dark:text-white uppercase font-teko leading-[0.95] tracking-tight ${bengaliClass}`}>
+                                    {translations.line1}
+                                </motion.h1>
 
-                    {/* Subtitle */}
-                    <p className={`text-center text-gray-500 dark:text-gray-400 text-sm lg:text-base max-w-xl mx-auto mb-8 ${bengaliClass}`}>
-                        {language === 'bn'
-                            ? 'হাই-কোয়ালিটি টেমপ্লেট এবং রেডিমেড সফটওয়্যার দিয়ে আপনার বিজনেস শুরু করুন'
-                            : 'Get high-quality templates and ready-made software to kickstart your business'}
-                    </p>
-
-                    {/* Search Bar */}
-                    <div className="max-w-xl mx-auto mb-10 relative z-20">
-                        <div className="relative group">
-                            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] rounded-full opacity-30 group-hover:opacity-50 blur transition duration-500"></div>
-                            <div className="relative flex items-center bg-white dark:bg-gray-900 rounded-full shadow-lg p-1.5 border border-gray-100 dark:border-gray-800">
-                                <div className="pl-4 text-gray-400">
-                                    <LuSearch className="w-5 h-5" />
-                                </div>
-                                <input
-                                    type="text"
-                                    placeholder={language === 'bn' ? 'কি খুঁজছেন? (যেমন: ই-কমার্স, স্কুল ম্যানেজমেন্ট...)' : 'What are you looking for? (e.g. e-commerce, school...)'}
-                                    className={`flex-1 w-full px-4 py-2.5 bg-transparent text-gray-700 dark:text-gray-200 placeholder-gray-400 focus:outline-none text-sm ${bengaliClass}`}
-                                />
-                                <button className="px-6 py-2.5 bg-[#ED1C3E] hover:bg-[#C91633] text-white font-medium rounded-full transition-all shadow-md shadow-red-500/20 text-sm">
-                                    {language === 'bn' ? 'খুঁজুন' : 'Search'}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* CTA Buttons */}
-                    <div className="flex flex-wrap justify-center gap-4 mb-16">
-                        <Link
-                            href="/website"
-                            className="group inline-flex items-center gap-3 px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition-all shadow-lg shadow-gray-900/10"
-                        >
-                            <span className={bengaliClass}>
-                                {language === 'bn' ? 'টেমপ্লেট দেখুন' : 'Browse Templates'}
-                            </span>
-                            <LuArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                        <Link
-                            href="/software"
-                            className="group inline-flex items-center gap-3 px-8 py-4 bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-semibold rounded-xl border border-gray-200 dark:border-gray-800 hover:border-[#ED1C3E] hover:text-[#ED1C3E] transition-all"
-                        >
-                            <span className={bengaliClass}>
-                                {language === 'bn' ? 'সফটওয়্যার দেখুন' : 'Browse Software'}
-                            </span>
-                        </Link>
-                    </div>
-
-                    {/* Compact Stats Section */}
-                    <div className="max-w-4xl mx-auto">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                            {[
-                                { icon: LuGlobe, value: `${websiteCount}+`, label: language === 'bn' ? 'টেমপ্লেট' : 'Templates', color: 'text-rose-500' },
-                                { icon: LuCode, value: `${softwareCount}+`, label: language === 'bn' ? 'সফটওয়্যার' : 'Software', color: 'text-amber-500' },
-                                { icon: LuSmile, value: '500+', label: language === 'bn' ? 'সন্তুষ্ট গ্রাহক' : 'Happy Clients', color: 'text-emerald-500' },
-                                { icon: LuHeadphones, value: '24/7', label: language === 'bn' ? 'সাপোর্ট' : 'Support', color: 'text-blue-500' },
-                            ].map((stat, i) => (
-                                <div
-                                    key={i}
-                                    className="p-4 rounded-xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow"
-                                >
-                                    <stat.icon className={`w-8 h-8 mb-3 ${stat.color}`} />
-                                    <div className="text-2xl font-bold text-gray-900 dark:text-white leading-none mb-1">
-                                        {stat.value}
-                                    </div>
-                                    <div className={`text-sm text-gray-500 dark:text-gray-400 ${bengaliClass}`}>
-                                        {stat.label}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Trust Badges */}
-                    <div className="flex flex-wrap justify-center items-center gap-8 mt-16 pt-8 border-t border-gray-200 dark:border-gray-800">
-                        <div className="flex items-center gap-3">
-                            <div className="flex -space-x-2">
-                                {[1, 2, 3, 4].map((i) => (
-                                    <div
-                                        key={i}
-                                        className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-950 bg-gradient-to-br from-gray-300 to-gray-400 dark:from-gray-600 dark:to-gray-700"
-                                    />
-                                ))}
-                            </div>
-                            <span className={`text-sm text-gray-600 dark:text-gray-400 ${bengaliClass}`}>
-                                {language === 'bn' ? '৫০০+ সন্তুষ্ট গ্রাহক' : '500+ Happy Customers'}
-                            </span>
-                        </div>
-                        <div className="h-4 w-px bg-gray-300 dark:bg-gray-700 hidden sm:block" />
-                        <div className="flex items-center gap-2">
-                            <div className="flex gap-1">
-                                {[1, 2, 3, 4, 5].map((i) => (
-                                    <svg key={i} className="w-4 h-4 text-[#FD9A00]" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                <motion.div variants={floatingVariants} animate="animate" className="mt-2 hidden lg:block">
+                                    <svg width="60" height="40" viewBox="0 0 112 60" fill="none" className="text-gray-900 dark:text-white">
+                                        <path d="M0 1C30.8503 1 34.8743 21.4865 34.8743 42.3801C46.3872 37.2924 68.8096 33.4936 66.3952 59C71.3134 46.6764 81.1497 11.5146 112 11.5146" stroke="currentColor" strokeWidth="1.5" />
+                                        <path d="M40.5749 20.3333C41.1337 22.4815 42.1844 27.5918 41.9162 30.848C43.7046 29.039 48.4216 25.8281 52.982 27.4561" stroke="currentColor" strokeWidth="1.5" />
                                     </svg>
-                                ))}
+                                </motion.div>
                             </div>
-                            <span className={`text-sm text-gray-600 dark:text-gray-400 ${bengaliClass}`}>
-                                {language === 'bn' ? '৪.৯/৫ রেটিং' : '4.9/5 Rating'}
-                            </span>
-                        </div>
+
+                            {/* Row 2: SOFTWARE + Arrow + SOLUTION */}
+                            <motion.div variants={itemVariants} className="flex items-center gap-4 lg:gap-6 ml-0 lg:ml-48 mb-2 lg:mb-4">
+                                <h1
+                                    className={`text-5xl lg:text-[85px] font-black uppercase font-teko leading-[0.95] tracking-tight ${bengaliClass}`}
+                                    style={{ color: '#FD9A00' }}
+                                >
+                                    {translations.line2Part1}
+                                </h1>
+
+                                <div className="h-10 lg:h-14 px-5 lg:px-8 bg-[#C4EE18] rounded-full flex items-center justify-center shadow-lg group cursor-pointer hover:scale-105 transition-transform">
+                                    <svg className="w-8 lg:w-10 text-black" viewBox="0 0 40 16" fill="currentColor">
+                                        <path d="M29.88 15.8569L39.552 9.01379C39.6896 8.90372 39.8026 8.75338 39.8808 8.57638C39.959 8.39937 40 8.20127 40 8C40 7.79873 39.959 7.60063 39.8808 7.42363C39.8026 7.24662 39.6896 7.09628 39.552 6.98621L29.88 0.143139C29.6915 0.0179054 29.4743 -0.0269382 29.2628 0.0156776C29.0512 0.0582934 28.8572 0.185945 28.7114 0.378507C28.5656 0.571069 28.4763 0.817589 28.4575 1.0792C28.4387 1.34081 28.4916 1.60264 28.6077 1.8234L31.4128 6.82663L0.958012 6.82663C0.70393 6.82663 0.460255 6.95026 0.280594 7.1703C0.100933 7.39035 0 7.6888 0 8C0 8.3112 0.100933 8.60965 0.280594 8.8297C0.460255 9.04975 0.70393 9.17337 0.958012 9.17337L31.4128 9.17337L28.6077 14.1766C28.4916 14.3974 28.4387 14.6592 28.4575 14.9208C28.4763 15.1824 28.5656 15.4289 28.7114 15.6215C28.8572 15.8141 29.0512 15.9417 29.2628 15.9843C29.4743 16.0269 29.6915 15.9821 29.88 15.8569Z" />
+                                    </svg>
+                                </div>
+
+                                <h1 className={`text-5xl lg:text-[85px] font-black text-gray-950 dark:text-white uppercase font-teko leading-[0.95] tracking-tight ${bengaliClass}`}>
+                                    {translations.line2Part2}
+                                </h1>
+                            </motion.div>
+
+                            {/* Row 3: SOLUTIONS. + Shape */}
+                            <motion.div variants={itemVariants} className="flex items-center gap-6 ml-0 lg:ml-30 mb-12 relative">
+                                <span className={`absolute -top-1 -left-12 lg:-left-16 text-2xl lg:text-4xl text-[#FD9A00] font-normal lowercase tracking-wide z-10 caveat ${bengaliClass}`}>
+                                    {isBn ? "সাথে" : "with"}
+                                </span>
+                                <h1 className={`text-5xl lg:text-[85px] font-black text-gray-950 dark:text-white uppercase font-teko leading-[0.95] tracking-tight ${bengaliClass}`}>
+                                    {isBn ? "এক্সট্রেন ওয়েব" : "EXTRA IN WEB."}
+                                </h1>
+                                <div className="w-10 lg:w-12 h-10 lg:h-12 border-4 border-[#C4EE18] rounded-full hidden lg:block" />
+                            </motion.div>
+
+                            {/* Bottom Row: Stats & Play */}
+                            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-10 lg:gap-16 ml-0 lg:ml-20">
+                                <div className="flex items-center gap-4">
+                                    <div className="flex -space-x-3">
+                                        {avatars.map((url, i) => (
+                                            <img key={i} src={url} className="w-10 h-10 rounded-full border-2 border-white dark:border-[#0A0A0A] object-cover shadow-sm" alt="User" />
+                                        ))}
+                                    </div>
+                                    <p className={`text-[12px] leading-tight text-gray-400 font-medium ${bengaliClass}`}>
+                                        We have <span className="font-bold text-gray-900 dark:text-white text-base">{translations.statsCount}</span><br />
+                                        {translations.statsText}
+                                    </p>
+                                </div>
+
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-black cursor-pointer hover:scale-110 transition-transform shadow-lg">
+                                        <FiPlay className="ml-1" size={18} />
+                                    </div>
+                                    <p className={`text-[12px] leading-tight text-gray-400 font-medium ${bengaliClass}`}>
+                                        {isBn ? "আমরা গ্লোবাল" : "We're Global"}<br />
+                                        <span className="font-bold text-gray-900 dark:text-white">{translations.agencyType}</span>
+                                    </p>
+                                </div>
+                            </motion.div>
+                        </motion.div>
                     </div>
+
+                    {/* Right Card Panel */}
+                    <Link href="/websites" className="block w-full lg:w-[360px]">
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            whileHover={{ scale: 1.05, translateY: -5 }}
+                            transition={{ delay: 0.5, duration: 0.8 }}
+                            className="bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-white/5 rounded-md p-8 lg:mt-40 shadow-xl cursor-pointer overflow-hidden group"
+                        >
+                            <div className="flex items-center gap-4 mb-14">
+                                <div className="w-12 h-12 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-black font-black text-xl">
+                                    E.
+                                </div>
+                                <div className="w-12 h-12 bg-[#C4EE18] rounded-full flex items-center justify-center text-black shadow-inner transition-transform group-hover:rotate-45">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                        <path d="M7 17l10-10M17 17V7H7" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <h3 className={`text-xl font-black text-gray-900 dark:text-white mb-2 uppercase font-teko ${bengaliClass}`}>
+                                {isBn ? "এক্সট্রেন প্রোভাইডার" : "Extrain Provider"}
+                            </h3>
+                            <p className={`text-[12px] text-gray-500 leading-relaxed mb-6 ${bengaliClass}`}>
+                                {isBn ? "২০১৯ থেকে আপনার বিশ্বস্ত ডিজিটাল পার্টনার।" : "Helping businesses scale with expert solutions since 2019."}
+                            </p>
+
+                            {/* Project Info Stats */}
+                            <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-white/10">
+                                <div className="p-3 bg-white dark:bg-black/40 rounded-md border border-gray-100 dark:border-white/5 shadow-sm">
+                                    <h4 className="text-xl font-black text-gray-900 dark:text-white font-teko leading-none">{websiteCount}+</h4>
+                                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mt-1">
+                                        {isBn ? "ওয়েবসাইট" : "Websites"}
+                                    </p>
+                                </div>
+                                <div className="p-3 bg-white dark:bg-black/40 rounded-md border border-gray-100 dark:border-white/5 shadow-sm">
+                                    <h4 className="text-xl font-black text-gray-900 dark:text-white font-teko leading-none">{softwareCount}+</h4>
+                                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mt-1">
+                                        {isBn ? "সফটওয়্যার" : "Software"}
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </Link>
                 </div>
             </div>
+
+            {/* Infinite Text Marquee (Ticker) - As requested */}
+            <div className="absolute bottom-0 left-0 w-full bg-[#C4EE18] py-3 lg:py-5 overflow-hidden border-t-2 border-black/5">
+                <motion.div
+                    className="flex whitespace-nowrap items-center"
+                    animate={{ x: [0, "-50%"] }}
+                    transition={{
+                        duration: 20,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                >
+                    {/* Duplicate contents for seamless loop */}
+                    {[...Array(10)].map((_, i) => (
+                        <div key={i} className="flex items-center">
+                            {tickerItems.map((item, idx) => (
+                                <React.Fragment key={idx}>
+                                    <span className={`text-xl lg:text-3xl font-black text-black uppercase tracking-tighter mx-8 lg:mx-12 font-teko`}>
+                                        {isBn ? item.bn : item.en}
+                                    </span>
+                                    {idx % 2 === 0 ? (
+                                        <span className="text-black text-2xl lg:text-4xl">●</span>
+                                    ) : (
+                                        <div className="flex items-center">
+                                            <svg className="w-8 lg:w-12 h-6 lg:h-8 text-black" viewBox="0 0 40 16" fill="currentColor">
+                                                <path d="M29.88 15.8569L39.552 9.01379C39.6896 8.90372 39.8026 8.75338 39.8808 8.57638C39.959 8.39937 40 8.20127 40 8C40 7.79873 39.959 7.60063 39.8808 7.42363C39.8026 7.24662 39.6896 7.09628 39.552 6.98621L29.88 0.143139C29.6915 0.0179054 29.4743 -0.0269382 29.2628 0.0156776C29.0512 0.0582934 28.8572 0.185945 28.7114 0.378507C28.5656 0.571069 28.4763 0.817589 28.4575 1.0792C28.4387 1.34081 28.4916 1.60264 28.6077 1.8234L31.4128 6.82663L0.958012 6.82663C0.70393 6.82663 0.460255 6.95026 0.280594 7.1703C0.100933 7.39035 0 7.6888 0 8C0 8.3112 0.100933 8.60965 0.280594 8.8297C0.460255 9.04975 0.70393 9.17337 0.958012 9.17337L31.4128 9.17337L28.6077 14.1766C28.4916 14.3974 28.4387 14.6592 28.4575 14.9208C28.4763 15.1824 28.5656 15.4289 28.7114 15.6215C28.8572 15.8141 29.0512 15.9417 29.2628 15.9843C29.4743 16.0269 29.6915 15.9821 29.88 15.8569Z" />
+                                            </svg>
+                                        </div>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    ))}
+                </motion.div>
+            </div>
+
+            {/* Scroll Down Indication - Positioned above ticker */}
+            <div className="absolute left-6 lg:left-12 bottom-20 lg:bottom-28 hidden lg:flex flex-col items-center gap-4 opacity-30">
+                <FiArrowDown size={20} className="animate-bounce" />
+                <div className="w-[1px] h-12 bg-black dark:bg-white" />
+            </div>
+
+            <style jsx global>{`
+                @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+                .caveat { font-family: 'Caveat', cursive; }
+            `}</style>
         </section>
     );
 };

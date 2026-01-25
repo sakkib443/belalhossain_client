@@ -85,13 +85,13 @@ export default function EditableText({
                 )}
                 <button
                     onClick={() => setIsEditing(true)}
-                    className="absolute -right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 bg-[#ED1C3E] text-white rounded-lg shadow-lg hover:bg-[#2dd4bf] z-50"
+                    className="absolute -right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 bg-[#FD9A00] text-white rounded-lg shadow-lg hover:bg-[#2dd4bf] z-50"
                     title="Edit this text"
                 >
                     <FiEdit2 size={14} />
                 </button>
                 {/* Highlight border on hover */}
-                <div className="absolute inset-0 border-2 border-dashed border-transparent group-hover:border-[#ED1C3E]/50 rounded pointer-events-none -m-1" />
+                <div className="absolute inset-0 border-2 border-dashed border-transparent group-hover:border-[#FD9A00]/50 rounded pointer-events-none -m-1" />
             </div>
         );
     }
@@ -107,7 +107,7 @@ export default function EditableText({
                     value={editValue}
                     onChange={(e) => setEditValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className={`w-full p-2 border-2 border-[#ED1C3E] rounded-lg outline-none bg-white text-gray-800 resize-none ${className}`}
+                    className={`w-full p-2 border-2 border-[#FD9A00] rounded-lg outline-none bg-white text-gray-800 resize-none ${className}`}
                     rows={4}
                     disabled={loading}
                 />
@@ -118,7 +118,7 @@ export default function EditableText({
                     value={editValue}
                     onChange={(e) => setEditValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className={`w-full p-2 border-2 border-[#ED1C3E] rounded-lg outline-none bg-white text-gray-800 ${className}`}
+                    className={`w-full p-2 border-2 border-[#FD9A00] rounded-lg outline-none bg-white text-gray-800 ${className}`}
                     disabled={loading}
                 />
             )}
@@ -126,7 +126,7 @@ export default function EditableText({
                 <button
                     onClick={handleSave}
                     disabled={loading}
-                    className="p-1.5 bg-[#ED1C3E] text-white rounded-lg shadow-lg hover:bg-[#2dd4bf] disabled:opacity-50"
+                    className="p-1.5 bg-[#FD9A00] text-white rounded-lg shadow-lg hover:bg-[#2dd4bf] disabled:opacity-50"
                     title="Save"
                 >
                     <FiCheck size={14} />

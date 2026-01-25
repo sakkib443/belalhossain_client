@@ -69,12 +69,12 @@ export default function MentorProfilePage() {
             {/* Hero Section - Mentor Themed */}
             <div className="relative overflow-hidden">
                 {/* Background Gradient - Brand Colors for Mentor */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FD9A00] via-[#e88a43] to-[#ED1C3E]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#FD9A00] via-[#e88a43] to-[#FD9A00]" />
                 <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
 
                 {/* Decorative Blobs */}
                 <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#ED1C3E]/20 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#FD9A00]/20 rounded-full blur-3xl" />
 
                 <div className="relative px-6 py-12 md:py-16">
                     <div className="max-w-6xl mx-auto">
@@ -96,7 +96,7 @@ export default function MentorProfilePage() {
                                     <FiCamera size={20} />
                                 </button>
                                 {/* Mentor Badge */}
-                                <div className="absolute -top-3 -right-3 px-3 py-1.5 bg-gradient-to-r from-[#FD9A00] to-[#ED1C3E] text-white text-[10px] font-black uppercase tracking-wider rounded-lg shadow-lg border-2 border-white">
+                                <div className="absolute -top-3 -right-3 px-3 py-1.5 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white text-[10px] font-black uppercase tracking-wider rounded-lg shadow-lg border-2 border-white">
                                     Mentor
                                 </div>
                             </div>
@@ -130,7 +130,7 @@ export default function MentorProfilePage() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
                         { icon: FiBook, label: 'Courses Created', value: '0', color: 'from-[#FD9A00] to-[#e88a43]' },
-                        { icon: FiLayers, label: 'Total Modules', value: '0', color: 'from-[#ED1C3E] to-[#3aa8a1]' },
+                        { icon: FiLayers, label: 'Total Modules', value: '0', color: 'from-[#FD9A00] to-[#3aa8a1]' },
                         { icon: FiPlay, label: 'Total Lessons', value: '0', color: 'from-rose-500 to-pink-500' },
                         { icon: FiUsers, label: 'Students', value: '0', color: 'from-emerald-500 to-rose-600' },
                     ].map((stat, idx) => (
@@ -152,7 +152,7 @@ export default function MentorProfilePage() {
                     <div className="space-y-6">
                         {/* Mentor Status Card */}
                         <div className={`rounded-3xl overflow-hidden ${isDark ? 'bg-slate-800/50 border border-slate-700/50' : 'bg-white border border-slate-200 shadow-xl'}`}>
-                            <div className="p-6 bg-gradient-to-br from-[#FD9A00] to-[#ED1C3E]">
+                            <div className="p-6 bg-gradient-to-br from-[#FD9A00] to-[#FD9A00]">
                                 <div className="flex items-center gap-4">
                                     <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center">
                                         <FiAward className="text-white" size={28} />
@@ -195,7 +195,7 @@ export default function MentorProfilePage() {
                                     <span className="font-semibold text-sm">Change Password</span>
                                 </button>
                                 <button className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all ${isDark ? 'bg-slate-700/50 hover:bg-slate-700 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700'}`}>
-                                    <FiBook size={18} className="text-[#ED1C3E]" />
+                                    <FiBook size={18} className="text-[#FD9A00]" />
                                     <span className="font-semibold text-sm">My Courses</span>
                                 </button>
                                 <button className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all ${isDark ? 'bg-slate-700/50 hover:bg-slate-700 text-white' : 'bg-slate-50 hover:bg-slate-100 text-slate-700'}`}>
@@ -211,7 +211,7 @@ export default function MentorProfilePage() {
                         {/* Form Header */}
                         <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 border-b ${isDark ? 'border-slate-700/50' : 'border-slate-100'}`}>
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#ED1C3E] flex items-center justify-center text-white">
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white">
                                     <FiUser size={22} />
                                 </div>
                                 <div>
@@ -222,7 +222,7 @@ export default function MentorProfilePage() {
                             {!isEditing ? (
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#ED1C3E] hover:from-[#e88a43] hover:to-[#3aa8a1] text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-[#FD9A00]/25"
+                                    className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] hover:from-[#e88a43] hover:to-[#3aa8a1] text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-[#FD9A00]/25"
                                 >
                                     <FiEdit3 size={16} />
                                     Edit Profile
@@ -238,7 +238,7 @@ export default function MentorProfilePage() {
                                     <button
                                         onClick={handleSave}
                                         disabled={loading}
-                                        className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#ED1C3E] text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-[#FD9A00]/25 disabled:opacity-50"
+                                        className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl font-semibold text-sm transition-all shadow-lg shadow-[#FD9A00]/25 disabled:opacity-50"
                                     >
                                         <FiSave size={16} />
                                         {loading ? 'Saving...' : 'Save Changes'}

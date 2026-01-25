@@ -6,6 +6,7 @@ import {
   Work_Sans,
   Outfit,
   Hind_Siliguri,
+  Teko,
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/sheard/Navbar";
@@ -54,6 +55,11 @@ const hindSiliguri = Hind_Siliguri({
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-hind-siliguri",
 });
+const teko = Teko({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-teko",
+});
 
 export const metadata = {
   title: {
@@ -73,7 +79,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${roboto.variable} ${lobster.variable} ${caveat.variable} ${worksans.variable} ${outfit.variable} ${hindSiliguri.variable}`}
+      className={`${poppins.variable} ${roboto.variable} ${lobster.variable} ${caveat.variable} ${worksans.variable} ${outfit.variable} ${hindSiliguri.variable} ${teko.variable}`}
       suppressHydrationWarning
     >
       <body className="antialiased" suppressHydrationWarning>

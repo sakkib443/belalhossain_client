@@ -15,7 +15,7 @@ const RightWebsiteDetails = dynamic(
 // Loading fallback component
 const LoadingFallback = () => (
     <div className="flex items-center justify-center py-20">
-        <div className="w-8 h-8 border-4 border-[#ED1C3E] border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-8 h-8 border-4 border-[#FD9A00] border-t-transparent rounded-full animate-spin"></div>
     </div>
 );
 
@@ -38,56 +38,54 @@ const WebsiteContent = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-[#0F172A] transition-colors duration-300 relative">
-            {/* Hero Header Section (Synced with Course/Software Hero - Compact) */}
-            <section className="relative bg-gradient-to-br from-[#e8f9f9] via-white to-[#e8f9f9] dark:from-[#020202] dark:via-[#050505] dark:to-[#020202] overflow-hidden border-b border-gray-200 dark:border-white/5">
+            {/* Hero Header Section - Left Aligned */}
+            <section className="relative bg-white dark:bg-[#080808] overflow-hidden border-b border-gray-100 dark:border-white/5">
                 {/* Background Pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(65,191,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(65,191,184,0.03)_1px,transparent_1px)] bg-[size:40px_40px] dark:opacity-5"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(196,238,24,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(196,238,24,0.03)_1px,transparent_1px)] bg-[size:40px_40px] dark:opacity-5"></div>
 
-                {/* Gradient Orbs */}
-                <div className="absolute top-10 left-10 w-60 h-60 bg-[#ED1C3E]/10 dark:bg-[#ED1C3E]/5 rounded-full blur-3xl"></div>
-                <div className="absolute bottom-10 right-10 w-60 h-60 bg-[#FD9A00]/10 dark:bg-[#FD9A00]/5 rounded-full blur-3xl"></div>
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-bl from-[#C4EE18]/5 to-transparent rounded-full blur-[100px]" />
 
-                <div className="container mx-auto px-4 lg:px-16 py-10 lg:py-12 relative z-10">
-                    <div className="text-center max-w-3xl mx-auto">
-                        {/* Badge */}
-                        <div className="inline-flex items-center gap-2 mb-3 px-3 py-1.5 bg-[#ED1C3E]/10 dark:bg-white/5 border border-[#ED1C3E]/20 dark:border-white/10 rounded-full">
-                            <LuGlobe className="text-[#ED1C3E] text-base" />
-                            <span className={`text-xs font-medium text-gray-700 dark:text-gray-300 work ${bengaliClass}`}>
+                <div className="container mx-auto px-4 lg:px-16 py-16 lg:py-20 relative z-10">
+                    <div className="max-w-4xl">
+                        {/* Modern Left Header */}
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="w-10 h-[2px] bg-[#C4EE18]" />
+                            <span className={`text-[10px] font-black text-[#C4EE18] uppercase tracking-[0.4em] ${bengaliClass}`}>
                                 {language === 'bn' ? 'প্রিমিয়াম ওয়েবসাইট' : 'Premium Websites'}
                             </span>
                         </div>
 
-                        {/* Title */}
-                        <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold outfit text-gray-800 dark:text-white mb-2 ${bengaliClass}`}>
-                            {language === 'bn' ? 'আমাদের' : 'Our Website '}<span className="text-[#ED1C3E]">{language === 'bn' ? ' মার্কেটপ্লেস' : 'Marketplace'}</span>
+                        <h1 className={`text-5xl lg:text-7xl font-black text-gray-950 dark:text-white mb-6 uppercase leading-[0.85] tracking-tighter font-teko ${bengaliClass}`}>
+                            {language === 'bn' ? 'আমাদের' : 'Our Website '}<span className="text-[#C4EE18]">{language === 'bn' ? 'মার্কেটপ্লেস' : 'Marketplace'}</span>
                         </h1>
 
-                        {/* Description */}
-                        <p className={`text-gray-500 dark:text-gray-400 work text-sm leading-relaxed mb-6 max-w-xl mx-auto ${bengaliClass}`}>
+                        <p className={`text-gray-500 dark:text-gray-400 text-sm lg:text-base max-w-2xl leading-relaxed mb-10 ${bengaliClass}`}>
                             {language === 'bn'
                                 ? 'রেডি-মেড ওয়েবসাইট সমাধান যা আপনার ব্যবসাকে দ্রুত অনলাইনে নিয়ে আসবে।'
                                 : 'Fully functional, ready-to-deploy websites for startups and enterprises. Get online in minutes.'}
                         </p>
 
-                        {/* Stats */}
-                        <div className="flex flex-wrap justify-center gap-6">
-                            <div className="flex items-center gap-2">
-                                <div className="w-9 h-9 bg-[#ED1C3E]/10 dark:bg-white/5 rounded-md flex items-center justify-center">
-                                    <LuGlobe className="text-[#ED1C3E] text-base" />
+                        {/* Stats - Left Aligned & Modern */}
+                        <div className="flex flex-wrap items-center gap-12">
+                            <div className="flex items-center gap-4 group">
+                                <div className="w-12 h-12 bg-gray-50 dark:bg-white/5 rounded-md flex items-center justify-center border border-gray-100 dark:border-white/10 group-hover:border-[#C4EE18] transition-colors">
+                                    <LuGlobe className="text-gray-400 group-hover:text-[#C4EE18] transition-colors text-xl" />
                                 </div>
-                                <div className="text-left">
-                                    <p className="text-lg font-bold text-gray-800 dark:text-white outfit">{websiteList.length || '30'}+</p>
-                                    <p className={`text-xs text-gray-500 dark:text-gray-400 work ${bengaliClass}`}>{language === 'bn' ? 'ওয়েবসাইট' : 'Websites'}</p>
+                                <div>
+                                    <p className="text-2xl font-black text-gray-900 dark:text-white font-teko leading-none mb-1">{websiteList.length || '1'}+</p>
+                                    <p className={`text-[11px] font-bold text-gray-400 uppercase tracking-widest ${bengaliClass}`}>{language === 'bn' ? 'ওয়েবসাইট' : 'Websites'}</p>
                                 </div>
                             </div>
-                            <div className="w-px h-10 bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-9 h-9 bg-[#FD9A00]/10 dark:bg-white/5 rounded-md flex items-center justify-center">
-                                    <LuPlus className="text-[#FD9A00] text-base" />
+
+                            <div className="w-px h-12 bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
+
+                            <div className="flex items-center gap-4 group">
+                                <div className="w-12 h-12 bg-gray-50 dark:bg-white/5 rounded-md flex items-center justify-center border border-gray-100 dark:border-white/10 group-hover:border-[#C4EE18] transition-colors">
+                                    <LuPlus className="text-gray-400 group-hover:text-[#C4EE18] transition-colors text-xl" />
                                 </div>
-                                <div className="text-left">
-                                    <p className="text-lg font-bold text-gray-800 dark:text-white outfit">24/7</p>
-                                    <p className={`text-xs text-gray-500 dark:text-gray-400 work ${bengaliClass}`}>{language === 'bn' ? 'সাপোর্ট' : 'Support'}</p>
+                                <div>
+                                    <p className="text-2xl font-black text-gray-900 dark:text-white font-teko leading-none mb-1">24/7</p>
+                                    <p className={`text-[11px] font-bold text-gray-400 uppercase tracking-widest ${bengaliClass}`}>{language === 'bn' ? 'সাপোর্ট' : 'Support'}</p>
                                 </div>
                             </div>
                         </div>

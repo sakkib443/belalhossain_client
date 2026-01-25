@@ -67,7 +67,7 @@ export default function UserPurchasesPage() {
     const pendingOrders = orders.filter(o => o.paymentStatus === 'pending').length;
 
     const cardClass = `rounded-2xl border transition-all duration-300 ${isDark
-        ? 'bg-slate-800/50 border-white/5 hover:border-[#ED1C3E]/20'
+        ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
         : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md'
         }`;
 
@@ -124,7 +124,7 @@ export default function UserPurchasesPage() {
             {/* Professional Compact Header */}
             <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 ${cardClass}`}>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#ED1C3E] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#ED1C3E]/10">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
                         <FiShoppingBag size={24} />
                     </div>
                     <div>
@@ -149,7 +149,7 @@ export default function UserPurchasesPage() {
                     </button>
                     <Link
                         href="/courses"
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#ED1C3E]/10 hover:scale-105 transition-all"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                     >
                         <FiPackage size={16} />
                         Shop More
@@ -170,11 +170,11 @@ export default function UserPurchasesPage() {
                                 {orders.length.toString().padStart(2, '0')}
                             </h3>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiShoppingBag size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
 
                 {/* Completed */}
@@ -224,11 +224,11 @@ export default function UserPurchasesPage() {
                                 ৳{totalSpent.toLocaleString()}
                             </h3>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ED1C3E] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiCreditCard size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
             </div>
 
@@ -241,8 +241,8 @@ export default function UserPurchasesPage() {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm transition-all focus:outline-none focus:ring-2 ${isDark
-                            ? 'bg-slate-800/50 border-white/5 text-slate-200 focus:ring-[#ED1C3E]/30'
-                            : 'bg-slate-50 border-slate-200 text-slate-700 focus:ring-[#ED1C3E]/20'
+                            ? 'bg-slate-800/50 border-white/5 text-slate-200 focus:ring-[#FD9A00]/30'
+                            : 'bg-slate-50 border-slate-200 text-slate-700 focus:ring-[#FD9A00]/20'
                             }`}
                     />
                 </div>
@@ -256,7 +256,7 @@ export default function UserPurchasesPage() {
                                     ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20'
                                     : status === 'pending'
                                         ? 'bg-amber-500/10 text-amber-500 border border-amber-500/20'
-                                        : isDark ? 'bg-[#ED1C3E]/20 text-[#ED1C3E] border border-[#ED1C3E]/30' : 'bg-[#ED1C3E]/10 text-[#ED1C3E] border border-[#ED1C3E]/20'
+                                        : isDark ? 'bg-[#FD9A00]/20 text-[#FD9A00] border border-[#FD9A00]/30' : 'bg-[#FD9A00]/10 text-[#FD9A00] border border-[#FD9A00]/20'
                                 : isDark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                                 }`}>
                             {status}
@@ -281,7 +281,7 @@ export default function UserPurchasesPage() {
                     {!searchTerm && statusFilter === 'all' && (
                         <Link
                             href="/courses"
-                            className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md hover:scale-105 transition-all"
+                            className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md hover:scale-105 transition-all"
                         >
                             Browse Courses <FiArrowRight />
                         </Link>
@@ -295,7 +295,7 @@ export default function UserPurchasesPage() {
                         : 'bg-gradient-to-r from-slate-50 to-white text-slate-400 border-b border-slate-100'
                         }`}>
                         <div className="col-span-3 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#ED1C3E]"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#FD9A00]"></span>
                             Order ID
                         </div>
                         <div className="col-span-3">Products</div>
@@ -308,7 +308,7 @@ export default function UserPurchasesPage() {
                     {/* Order Rows */}
                     <div className="divide-y divide-slate-100 dark:divide-white/5">
                         {filteredOrders.map((order, idx) => (
-                            <div key={order._id} className={`${expandedOrder === order._id ? isDark ? 'bg-slate-800/20' : 'bg-[#ED1C3E]/5' : ''}`}>
+                            <div key={order._id} className={`${expandedOrder === order._id ? isDark ? 'bg-slate-800/20' : 'bg-[#FD9A00]/5' : ''}`}>
                                 {/* Main Row */}
                                 <div
                                     className={`grid grid-cols-12 gap-4 px-6 py-5 items-center cursor-pointer transition-all ${isDark
@@ -381,7 +381,7 @@ export default function UserPurchasesPage() {
                                     {/* Actions */}
                                     <div className="hidden md:flex col-span-1 justify-center items-center">
                                         <button className={`p-2.5 rounded-xl transition-all ${expandedOrder === order._id
-                                            ? isDark ? 'bg-[#ED1C3E]/10 text-[#ED1C3E]' : 'bg-[#ED1C3E]/10 text-[#ED1C3E]'
+                                            ? isDark ? 'bg-[#FD9A00]/10 text-[#FD9A00]' : 'bg-[#FD9A00]/10 text-[#FD9A00]'
                                             : isDark ? 'hover:bg-slate-700 text-slate-400 hover:text-white' : 'hover:bg-slate-100 text-slate-400 hover:text-slate-600'
                                             }`}>
                                             {expandedOrder === order._id ? <FiChevronUp size={18} /> : <FiChevronDown size={18} />}
@@ -414,7 +414,7 @@ export default function UserPurchasesPage() {
                                                         </div>
                                                         <div className="flex-1 min-w-0">
                                                             <span className={`inline-block px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider mb-1 ${item.productType === 'course'
-                                                                ? 'bg-[#ED1C3E]/10 text-[#ED1C3E]'
+                                                                ? 'bg-[#FD9A00]/10 text-[#FD9A00]'
                                                                 : item.productType === 'software'
                                                                     ? 'bg-[#FD9A00]/10 text-[#FD9A00]'
                                                                     : 'bg-purple-500/10 text-purple-500'
@@ -432,7 +432,7 @@ export default function UserPurchasesPage() {
                                                             {order.paymentStatus === 'completed' && (
                                                                 <Link
                                                                     href={`/dashboard/user/${item.productType === 'course' ? 'courses' : 'assets/' + (item.productType === 'software' ? 'softwares' : 'websites')}`}
-                                                                    className="text-[10px] font-bold text-[#ED1C3E] hover:underline"
+                                                                    className="text-[10px] font-bold text-[#FD9A00] hover:underline"
                                                                 >
                                                                     Access →
                                                                 </Link>
@@ -454,8 +454,8 @@ export default function UserPurchasesPage() {
                                                     )}
                                                 </div>
                                                 <button className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold transition-colors ${isDark
-                                                    ? 'bg-slate-700 text-slate-300 hover:text-[#ED1C3E]'
-                                                    : 'bg-white text-slate-500 hover:text-[#ED1C3E] border border-slate-200'
+                                                    ? 'bg-slate-700 text-slate-300 hover:text-[#FD9A00]'
+                                                    : 'bg-white text-slate-500 hover:text-[#FD9A00] border border-slate-200'
                                                     }`}>
                                                     <FiDownload size={10} /> Invoice
                                                 </button>
@@ -475,9 +475,9 @@ export default function UserPurchasesPage() {
                 : 'bg-slate-50 border-slate-100'
                 }`}>
                 <div className="flex items-center gap-3">
-                    <FiCreditCard size={18} className="text-[#ED1C3E] shrink-0" />
+                    <FiCreditCard size={18} className="text-[#FD9A00] shrink-0" />
                     <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                        Need help with a payment? <Link href="/dashboard/user/support" className="text-[#ED1C3E] font-bold hover:underline">Contact Support</Link>
+                        Need help with a payment? <Link href="/dashboard/user/support" className="text-[#FD9A00] font-bold hover:underline">Contact Support</Link>
                     </p>
                 </div>
             </div>

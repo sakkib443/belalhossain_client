@@ -127,8 +127,8 @@ const RightSoftwareDetails = ({ searchQuery, selectedType }) => {
                             setRatingFilter("all");
                         }}
                         className={`flex items-center gap-2 px-5 py-2 rounded-md text-[14px] !font-normal transition-all shadow-sm outfit ${selectedCategories.length === 0 && priceFilter === "all" && ratingFilter === "all"
-                                ? "bg-[#ED1C3E] text-white"
-                                : "bg-gray-100 text-slate-500 hover:bg-gray-200"
+                            ? "bg-[#FD9A00] text-white"
+                            : "bg-gray-100 text-slate-500 hover:bg-gray-200"
                             }`}
                     >
                         <LuLayoutGrid size={14} />
@@ -216,13 +216,13 @@ const RightSoftwareDetails = ({ searchQuery, selectedType }) => {
 
             {/* Grid display */}
             {loading ? (
-                <div className={`grid gap-8 ${isGridView ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'}`}>
+                <div className={`grid gap-8 ${isGridView ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                         <SoftwareCardSkeleton key={i} />
                     ))}
                 </div>
             ) : sortedSoftware.length > 0 ? (
-                <div className={`grid gap-8 ${isGridView ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' : 'grid-cols-1'}`}>
+                <div className={`grid gap-8 ${isGridView ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
                     {sortedSoftware.map((item) => (
                         <ProductCard key={item._id} product={item} type="software" view={isGridView ? 'grid' : 'list'} />
                     ))}

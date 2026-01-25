@@ -16,7 +16,7 @@ const MentorCategoryPage = () => {
     const [parentCategories, setParentCategories] = useState([]);
 
     const fetchCategories = async () => {
-        const BASE_URL = 'https://motionboss-backend.vercel.app/api';
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
         const token = localStorage.getItem('token');
         try {
             setLoading(true);
@@ -48,8 +48,16 @@ const MentorCategoryPage = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        const BASE_URL = 'https://motionboss-backend.vercel.app/api';
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
         const token = localStorage.getItem('token');
+
+        // Extract parent ID if it's an object
+        const parentId = editData.isParent ? null : (
+            typeof editData.parentCategory === 'object'
+                ? editData.parentCategory?._id
+                : editData.parentCategory
+        );
+
         try {
             const res = await fetch(`${BASE_URL}/categories/admin/${editData._id}`, {
                 method: 'PATCH',
@@ -65,7 +73,7 @@ const MentorCategoryPage = () => {
                     status: editData.status,
                     type: editData.type,
                     isParent: editData.isParent,
-                    parentCategory: editData.isParent ? null : editData.parentCategory
+                    parentCategory: parentId
                 }),
             });
             if (res.ok) {

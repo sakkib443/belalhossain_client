@@ -91,30 +91,33 @@ const PopularCourse = () => {
   ];
 
   const getColorClasses = (color) => color === 'teal'
-    ? { gradient: 'from-[#ED1C3E] to-[#2dd4bf]', light: 'bg-[#ED1C3E]/10', text: 'text-[#ED1C3E]' }
+    ? { gradient: 'from-[#FD9A00] to-[#2dd4bf]', light: 'bg-[#FD9A00]/10', text: 'text-[#FD9A00]' }
     : { gradient: 'from-[#FD9A00] to-[#fb923c]', light: 'bg-[#FD9A00]/10', text: 'text-[#FD9A00]' };
 
   return (
     <section className='relative py-24 overflow-hidden'>
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-[10%] w-72 h-72 bg-gradient-to-br from-[#ED1C3E]/10 to-transparent rounded-full blur-3xl" />
+        <div className="absolute top-20 left-[10%] w-72 h-72 bg-gradient-to-br from-[#FD9A00]/10 to-transparent rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-[10%] w-80 h-80 bg-gradient-to-br from-[#FD9A00]/10 to-transparent rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 lg:px-16 relative z-10">
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-3 mb-5 px-5 py-2.5 rounded-full bg-white dark:bg-black/50 border border-rose-600/30 shadow-sm">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-rose-600/20 to-cyan-500/20 flex items-center justify-center">
-              <LuPlay className="text-[#ED1C3E]" size={14} />
-            </div>
-            <span className={`text-xs font-black text-rose-700 dark:text-rose-500 uppercase tracking-[0.2em] ${bengaliClass}`}>
+        <div className="text-left mb-10 px-2">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-[2px] bg-[#C4EE18]" />
+            <span className={`text-[10px] font-black text-[#C4EE18] uppercase tracking-[0.4em] ${bengaliClass}`}>
               {getBadge()}
             </span>
           </div>
-          <h2 className={`text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-5 ${bengaliClass}`}>
-            {heading.text1}<span className="text-primary">{heading.highlight}</span>{heading.text2}
+
+          <h2 className={`text-5xl lg:text-7xl font-black text-gray-950 dark:text-white mb-2 uppercase leading-[0.85] tracking-tighter max-w-3xl font-teko ${bengaliClass}`}>
+            {heading.text1} <br />
+            <span className="text-[#C4EE18]">{heading.highlight}</span>{heading.text2}
           </h2>
-          <p className={`text-gray-500 dark:text-gray-400 text-base lg:text-lg max-w-2xl mx-auto ${bengaliClass}`}>
+
+          <div className="w-20 h-1 bg-gray-100 dark:bg-white/10 mb-4" />
+
+          <p className={`text-gray-500 dark:text-gray-400 text-sm lg:text-base max-w-2xl leading-relaxed ${bengaliClass}`}>
             {getDescription()}
           </p>
         </div>
@@ -150,8 +153,8 @@ const PopularCourse = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-16">
           <Link href="/courses" className={`group relative bg-white dark:bg-[#0d0d0d] rounded-2xl px-8 py-4 border border-gray-200 dark:border-white/10 hover:shadow-lg flex items-center gap-4 transition-shadow ${bengaliClass}`}>
             <span className="font-bold text-gray-900 dark:text-white">{getButtonText()}</span>
-            <div className="w-10 h-10 rounded-xl bg-[#ED1C3E]/10 flex items-center justify-center group-hover:bg-[#ED1C3E] transition-colors">
-              <LuArrowRight size={18} className="text-[#ED1C3E] group-hover:text-white" />
+            <div className="w-10 h-10 rounded-xl bg-[#FD9A00]/10 flex items-center justify-center group-hover:bg-[#FD9A00] transition-colors">
+              <LuArrowRight size={18} className="text-[#FD9A00] group-hover:text-white" />
             </div>
           </Link>
           <div className="flex items-center gap-3">

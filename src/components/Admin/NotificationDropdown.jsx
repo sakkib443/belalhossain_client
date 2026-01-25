@@ -8,7 +8,7 @@ import {
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://motionboss-backend.vercel.app/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 const NotificationDropdown = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -185,7 +185,7 @@ const NotificationDropdown = () => {
                         {/* Header */}
                         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-800">
                             <div className="flex items-center gap-2">
-                                <FiBell className="text-[#ED1C3E]" />
+                                <FiBell className="text-[#FD9A00]" />
                                 <h3 className="font-bold text-slate-800 dark:text-white">Notifications</h3>
                                 {unreadCount > 0 && (
                                     <span className="px-2 py-0.5 bg-red-100 text-red-600 text-xs font-bold rounded-full">
@@ -196,7 +196,7 @@ const NotificationDropdown = () => {
                             {unreadCount > 0 && (
                                 <button
                                     onClick={markAllAsRead}
-                                    className="text-xs text-[#ED1C3E] hover:text-[#38a89d] font-semibold flex items-center gap-1"
+                                    className="text-xs text-[#FD9A00] hover:text-[#38a89d] font-semibold flex items-center gap-1"
                                 >
                                     <FiCheckCircle size={12} />
                                     Mark all read
@@ -208,7 +208,7 @@ const NotificationDropdown = () => {
                         <div className="max-h-[400px] overflow-y-auto">
                             {loading ? (
                                 <div className="flex items-center justify-center py-10">
-                                    <div className="w-6 h-6 border-2 border-[#ED1C3E] border-t-transparent rounded-full animate-spin"></div>
+                                    <div className="w-6 h-6 border-2 border-[#FD9A00] border-t-transparent rounded-full animate-spin"></div>
                                 </div>
                             ) : notifications.length === 0 ? (
                                 <div className="py-12 text-center">
@@ -229,7 +229,7 @@ const NotificationDropdown = () => {
                                                 }
                                                 setIsOpen(false);
                                             }}
-                                            className={`block px-5 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${!notification.isRead ? 'bg-[#ED1C3E]/5' : ''
+                                            className={`block px-5 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors ${!notification.isRead ? 'bg-[#FD9A00]/5' : ''
                                                 }`}
                                         >
                                             <div className="flex gap-3">
@@ -245,7 +245,7 @@ const NotificationDropdown = () => {
                                                             {notification.title}
                                                         </p>
                                                         {!notification.isRead && (
-                                                            <span className="w-2 h-2 bg-[#ED1C3E] rounded-full flex-shrink-0 mt-1.5"></span>
+                                                            <span className="w-2 h-2 bg-[#FD9A00] rounded-full flex-shrink-0 mt-1.5"></span>
                                                         )}
                                                     </div>
                                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-2">
@@ -278,7 +278,7 @@ const NotificationDropdown = () => {
                                 <Link
                                     href="/dashboard/admin/notifications"
                                     onClick={() => setIsOpen(false)}
-                                    className="text-sm text-[#ED1C3E] hover:text-[#38a89d] font-semibold flex items-center justify-center gap-1"
+                                    className="text-sm text-[#FD9A00] hover:text-[#38a89d] font-semibold flex items-center justify-center gap-1"
                                 >
                                     View all notifications
                                     <FiExternalLink size={12} />

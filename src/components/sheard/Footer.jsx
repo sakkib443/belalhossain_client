@@ -2,34 +2,52 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaFacebook, FaLinkedin, FaYoutube, FaInstagram } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline, IoMailOutline } from "react-icons/io5";
-import { LuSend, LuArrowUpRight, LuHeart } from "react-icons/lu";
+import { LuSend, LuArrowUpRight, LuHeart, LuArrowUp } from "react-icons/lu";
 import { useLanguage } from "@/context/LanguageContext";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const [showScroll, setShowScroll] = useState(false);
   const { t, language } = useLanguage();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScroll(true);
+      } else {
+        setShowScroll(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // Apply Bengali font class when language is Bengali
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
   const quickLinks = [
-    { to: "/", label: t("navbar.home") },
-    { to: "/about", label: t("navbar.about") },
-    { to: "/courses", label: t("navbar.courses") },
-    { to: "/success-story", label: t("navbar.successHistory") },
-    { to: "/contact", label: t("navbar.contact") },
+    { to: "/", label: language === "bn" ? "হোম" : "Home" },
+    { to: "/website", label: language === "bn" ? "টেমপ্লেট" : "Templates" },
+    { to: "/software", label: language === "bn" ? "সফটওয়্যার" : "Software" },
+    { to: "/blog", label: language === "bn" ? "ব্লগ" : "Blog" },
+    { to: "/about", label: language === "bn" ? "আমাদের সম্পর্কে" : "About Us" },
+    { to: "/contact", label: language === "bn" ? "যোগাযোগ" : "Contact" },
   ];
 
   const categories = [
-    { key: "Programming", label: t("footer.programming") },
-    { key: "Digital Marketing", label: t("footer.digitalMarketing") },
-    { key: "Art & Design", label: t("footer.artDesign") },
-    { key: "Networking", label: t("footer.networking") },
-    { key: "Database", label: t("footer.database") },
-    { key: "Language Skills", label: t("footer.languageSkills") },
+    { label: language === "bn" ? "ওয়েবসাইট টেমপ্লেট" : "Website Templates", path: "/website" },
+    { label: language === "bn" ? "সফটওয়্যার সল্যুশন" : "Software Solutions", path: "/software" },
+    { label: language === "bn" ? "ওয়ার্ডপ্রেস থিম" : "WordPress Themes", path: "/website?category=wordpress" },
+    { label: language === "bn" ? "ই-কমার্স সল্যুশন" : "eCommerce", path: "/software?category=ecommerce" },
+    { label: language === "bn" ? "মোবাইল অ্যাপ" : "Mobile Apps", path: "/software?category=app" },
+    { label: language === "bn" ? "ইউআই/ইউএক্স ডিজাইন" : "UI/UX Design", path: "/website?category=uiux" },
   ];
 
   const socialLinks = [
@@ -45,13 +63,13 @@ const Footer = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(65,191,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(65,191,184,0.03)_1px,transparent_1px)] bg-[size:40px_40px] dark:opacity-30"></div>
 
       {/* Gradient Orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-[#ED1C3E]/5 dark:bg-[#ED1C3E]/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#FD9A00]/5 dark:bg-[#FD9A00]/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-[#C4EE18]/5 dark:bg-[#C4EE18]/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#C4EE18]/5 dark:bg-[#C4EE18]/10 rounded-full blur-3xl"></div>
 
-      {/* Top CTA Section */}
+      {/* Top CTA Section (Kept Original) */}
       <div className="relative border-b border-gray-200 dark:border-gray-700/50">
         <div className="container mx-auto px-4 lg:px-16 py-12">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 bg-gradient-to-r from-[#ED1C3E]/10 to-[#FD9A00]/10 dark:from-[#ED1C3E]/20 dark:to-[#FD9A00]/20 rounded-md p-6 lg:p-8 border border-gray-200 dark:border-gray-700/50">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 bg-[#C4EE18]/5 dark:bg-[#C4EE18]/5 rounded-md p-6 lg:p-8 border border-gray-200 dark:border-gray-700/50">
             <div className="text-center lg:text-left">
               <h3 className={`text-xl lg:text-2xl font-bold text-gray-800 dark:text-white outfit mb-2 ${bengaliClass}`}>
                 {t("footer.ctaHeading")}
@@ -62,7 +80,7 @@ const Footer = () => {
             </div>
             <Link
               href="/courses"
-              className={`group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ED1C3E] to-[#38a89d] text-white rounded-md font-semibold work hover:shadow-lg hover:shadow-[#ED1C3E]/30 transition-all duration-300 ${bengaliClass}`}
+              className={`group inline-flex items-center gap-2 px-8 py-4 bg-[#C4EE18] text-black rounded-md font-bold uppercase tracking-widest hover:bg-black hover:text-[#C4EE18] hover:shadow-lg hover:shadow-[#C4EE18]/20 transition-all duration-300 font-teko text-xl ${bengaliClass}`}
             >
               <span>{t("footer.exploreCourses")}</span>
               <LuArrowUpRight className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -77,67 +95,65 @@ const Footer = () => {
 
           {/* Brand Section */}
           <div className="lg:col-span-2 space-y-5">
-            <Link href="/" className="inline-block">
-              <img src="/images/logo.png" alt="Extrain Web" className="h-12 lg:h-14" />
+            <Link href="/" className="inline-block relative group">
+              <h2 className="text-4xl font-black font-teko uppercase text-gray-900 dark:text-white leading-none tracking-tight">
+                EXTRAIN <span className="text-[#FD9A00]">WEB</span>
+                <span className="text-cyan-500">.</span>
+              </h2>
             </Link>
-            <p className={`text-gray-600 dark:text-gray-400 work text-sm leading-relaxed max-w-sm ${bengaliClass}`}>
-              {t("footer.brandDescription")}
+            <p className={`text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-sm font-medium ${bengaliClass}`}>
+              {t("footer.brandDescription") || "Extrain Web is a leading IT training and digital platform in Bangladesh, offering career-oriented courses to help you master modern skills and build a standout professional career."}
             </p>
 
+            {/* Newsletter */}
+            <div className="pt-4">
+              <h4 className={`text-gray-800 dark:text-white font-black font-teko uppercase text-xl mb-3 ${bengaliClass}`}>
+                {t("footer.subscribeNewsletter") || "Subscribe to Newsletter"}
+              </h4>
+              <div className="flex gap-0">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={t("footer.enterEmail") || "Enter your email"}
+                  className={`flex-1 px-4 py-3 bg-white dark:bg-[#1E293B] border border-gray-200 dark:border-gray-600/50 rounded-l-md text-gray-800 dark:text-gray-200 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#FD9A00] transition-colors ${bengaliClass}`}
+                />
+                <button className="px-6 py-3 bg-[#FD9A00] hover:bg-[#e68a00] text-white font-bold font-teko uppercase tracking-wide rounded-r-md transition-colors shadow-lg shadow-[#FD9A00]/20">
+                  <LuSend className="text-xl" />
+                </button>
+              </div>
+            </div>
+
             {/* Social Links */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 mt-4">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative w-10 h-10 rounded-md bg-white dark:bg-[#1E293B] border border-gray-200 dark:border-gray-600/50 flex items-center justify-center hover:border-transparent hover:shadow-lg transition-all duration-300 overflow-hidden"
+                  className="w-10 h-10 rounded-md bg-white dark:bg-[#1E293B] border border-gray-200 dark:border-gray-600/50 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-[#FD9A00] hover:text-white hover:border-[#FD9A00] transition-all duration-300 shadow-sm"
                   title={social.label}
                 >
-                  <social.icon
-                    className="text-gray-500 dark:text-gray-400 group-hover:text-white transition-colors relative z-10"
-                  />
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ backgroundColor: social.color }}
-                  ></div>
+                  <social.icon size={18} />
                 </a>
               ))}
-            </div>
-
-            {/* Newsletter */}
-            <div className="pt-4">
-              <h4 className={`text-gray-800 dark:text-white font-semibold outfit mb-3 ${bengaliClass}`}>{t("footer.subscribeNewsletter")}</h4>
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t("footer.enterEmail")}
-                  className={`flex-1 px-4 py-2.5 bg-white dark:bg-[#1E293B] border border-gray-200 dark:border-gray-600/50 rounded-md text-gray-800 dark:text-gray-200 text-sm work placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:border-[#ED1C3E] transition-colors ${bengaliClass}`}
-                />
-                <button className="px-4 py-2.5 bg-[#ED1C3E] hover:bg-[#38a89d] text-white rounded-md transition-colors">
-                  <LuSend className="text-lg" />
-                </button>
-              </div>
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className={`text-gray-800 dark:text-white font-semibold outfit mb-5 flex items-center gap-2 ${bengaliClass}`}>
-              <span className="w-2 h-2 bg-[#ED1C3E] rounded-full"></span>
-              {t("footer.quickLinks")}
+            <h4 className={`text-gray-800 dark:text-white font-black font-teko uppercase text-xl mb-6 flex items-center gap-2 ${bengaliClass}`}>
+              <span className="w-1.5 h-6 bg-[#FD9A00] rounded-full"></span>
+              {t("footer.quickLinks") || "Quick Links"}
             </h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.to}
-                    className={`text-gray-600 dark:text-gray-400 hover:text-[#ED1C3E] text-sm work transition-colors inline-flex items-center gap-2 group ${bengaliClass}`}
+                    className={`text-gray-600 dark:text-gray-400 hover:text-[#FD9A00] text-sm font-normal transition-colors block group ${bengaliClass}`}
                   >
-                    <span className="w-0 group-hover:w-2 h-px bg-[#ED1C3E] transition-all duration-300"></span>
                     {link.label}
                   </Link>
                 </li>
@@ -147,18 +163,17 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h4 className={`text-gray-800 dark:text-white font-semibold outfit mb-5 flex items-center gap-2 ${bengaliClass}`}>
-              <span className="w-2 h-2 bg-[#FD9A00] rounded-full"></span>
-              {t("footer.categories")}
+            <h4 className={`text-gray-800 dark:text-white font-black font-teko uppercase text-xl mb-6 flex items-center gap-2 ${bengaliClass}`}>
+              <span className="w-1.5 h-6 bg-[#FD9A00] rounded-full"></span>
+              {t("footer.categories") || "Categories"}
             </h4>
             <ul className="space-y-3">
-              {categories.map((cat) => (
-                <li key={cat.key}>
+              {categories.map((cat, index) => (
+                <li key={index}>
                   <Link
-                    href={`/courses?category=${encodeURIComponent(cat.key)}`}
-                    className={`text-gray-600 dark:text-gray-400 hover:text-[#FD9A00] text-sm work transition-colors inline-flex items-center gap-2 group ${bengaliClass}`}
+                    href={cat.path}
+                    className={`text-gray-600 dark:text-gray-400 hover:text-[#FD9A00] text-sm font-normal transition-colors block group ${bengaliClass}`}
                   >
-                    <span className="w-0 group-hover:w-2 h-px bg-[#FD9A00] transition-all duration-300"></span>
                     {cat.label}
                   </Link>
                 </li>
@@ -168,41 +183,43 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className={`text-gray-800 dark:text-white font-semibold outfit mb-5 flex items-center gap-2 ${bengaliClass}`}>
-              <span className="w-2 h-2 bg-[#ED1C3E] rounded-full"></span>
-              {t("footer.contactUs")}
+            <h4 className={`text-gray-800 dark:text-white font-black font-teko uppercase text-xl mb-6 flex items-center gap-2 ${bengaliClass}`}>
+              <span className="w-1.5 h-6 bg-[#FD9A00] rounded-full"></span>
+              {t("footer.contactUs") || "Contact Us"}
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-6">
               <li>
-                <a href="tel:+8801730481212" className="group flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-md bg-[#ED1C3E]/10 dark:bg-[#ED1C3E]/20 flex items-center justify-center shrink-0 group-hover:bg-[#ED1C3E]/20 dark:group-hover:bg-[#ED1C3E]/30 transition-colors">
-                    <IoCallOutline className="text-[#ED1C3E]" />
+                <div className="group flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#FD9A00]/10 flex items-center justify-center shrink-0 group-hover:bg-[#FD9A00] transition-colors duration-300">
+                    <IoCallOutline className="text-[#FD9A00] text-lg group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <p className={`text-xs text-gray-400 dark:text-gray-500 work ${bengaliClass}`}>{t("footer.phone")}</p>
-                    <p className="text-gray-700 dark:text-gray-300 text-sm work group-hover:text-[#ED1C3E] transition-colors">+880 1730-481212</p>
+                    <p className={`text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ${bengaliClass}`}>{t("footer.phone") || "Phone"}</p>
+                    <a href="tel:+8801730481212" className="text-gray-800 dark:text-white font-teko font-bold text-lg hover:text-[#FD9A00] transition-colors">+880 1730-481212</a>
                   </div>
-                </a>
+                </div>
               </li>
               <li>
-                <a href="mailto:info@Extrain Web.com" className="group flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-md bg-[#FD9A00]/10 dark:bg-[#FD9A00]/20 flex items-center justify-center shrink-0 group-hover:bg-[#FD9A00]/20 dark:group-hover:bg-[#FD9A00]/30 transition-colors">
-                    <IoMailOutline className="text-[#FD9A00]" />
+                <div className="group flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#FD9A00]/10 flex items-center justify-center shrink-0 group-hover:bg-[#FD9A00] transition-colors duration-300">
+                    <IoMailOutline className="text-[#FD9A00] text-lg group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <p className={`text-xs text-gray-400 dark:text-gray-500 work ${bengaliClass}`}>{t("footer.email")}</p>
-                    <p className="text-gray-700 dark:text-gray-300 text-sm work group-hover:text-[#FD9A00] transition-colors break-all">info@Extrain Web.com</p>
+                    <p className={`text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ${bengaliClass}`}>{t("footer.email") || "Email"}</p>
+                    <a href="mailto:info@Extrain Web.com" className="text-gray-700 dark:text-gray-300 text-sm font-medium hover:text-[#FD9A00] transition-colors">info@Extrain Web.com</a>
                   </div>
-                </a>
+                </div>
               </li>
               <li>
-                <div className="group flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-md bg-[#ED1C3E]/10 dark:bg-[#ED1C3E]/20 flex items-center justify-center shrink-0">
-                    <IoLocationOutline className="text-[#ED1C3E]" />
+                <div className="group flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-[#FD9A00]/10 flex items-center justify-center shrink-0 group-hover:bg-[#FD9A00] transition-colors duration-300">
+                    <IoLocationOutline className="text-[#FD9A00] text-lg group-hover:text-white transition-colors" />
                   </div>
                   <div>
-                    <p className={`text-xs text-gray-400 dark:text-gray-500 work ${bengaliClass}`}>{t("footer.address")}</p>
-                    <p className={`text-gray-700 dark:text-gray-300 text-sm work ${bengaliClass}`}>{t("footer.addressValue")}</p>
+                    <p className={`text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ${bengaliClass}`}>{t("footer.address") || "Address"}</p>
+                    <p className={`text-gray-700 dark:text-gray-300 text-sm leading-relaxed ${bengaliClass}`}>
+                      {t("footer.addressValue") || "Daisy Garden, House 14, Block A, Banasree, Dhaka-1"}
+                    </p>
                   </div>
                 </div>
               </li>
@@ -215,20 +232,28 @@ const Footer = () => {
       <div className="relative border-t border-gray-200 dark:border-gray-700/50 bg-white/50 dark:bg-[#0F172A]/80">
         <div className="container mx-auto px-4 lg:px-16 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className={`text-gray-500 dark:text-gray-400 text-sm work text-center md:text-left ${bengaliClass}`}>
+            <p className={`text-gray-500 dark:text-gray-400 text-sm font-medium text-center md:text-left ${bengaliClass}`}>
               {t("footer.copyright")}
             </p>
             <div className="flex items-center gap-6">
-              <span className="text-gray-400 dark:text-gray-500 text-xs work">
+              <span className="text-gray-400 dark:text-gray-500 text-xs font-bold uppercase tracking-widest">
                 {t("footer.tradeLicense")}
               </span>
-              <span className={`text-gray-500 dark:text-gray-400 text-sm work flex items-center gap-1 ${bengaliClass}`}>
+              <span className={`text-gray-500 dark:text-gray-400 text-sm font-medium flex items-center gap-1 ${bengaliClass}`}>
                 {t("footer.madeWith")} <LuHeart className="text-red-500 text-xs" /> {t("footer.inBangladesh")}
               </span>
             </div>
           </div>
         </div>
       </div>
+      {/* Scroll To Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full bg-[#FD9A00] hover:bg-[#e68a00] text-white flex items-center justify-center shadow-lg shadow-[#FD9A00]/30 hover:shadow-[#FD9A00]/50 transition-all duration-300 hover:scale-110 ${showScroll ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"}`}
+        aria-label="Scroll to top"
+      >
+        <LuArrowUp size={24} />
+      </button>
     </footer>
   );
 };

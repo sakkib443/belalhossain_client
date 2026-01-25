@@ -17,7 +17,7 @@ const CartPage = () => {
         return (
             <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
                 <div className="w-16 h-16 bg-white rounded-xl shadow-lg flex items-center justify-center mb-6">
-                    <LuShoppingBag className="text-[#ED1C3E] text-2xl" />
+                    <LuShoppingBag className="text-[#FD9A00] text-2xl" />
                 </div>
                 <h2 className={`text-xl font-bold text-gray-900 mb-3 ${bengaliClass}`}>
                     {language === 'bn' ? 'আপনার কার্ট খালি' : 'Your cart is empty'}
@@ -27,7 +27,7 @@ const CartPage = () => {
                 </p>
                 <Link
                     href="/software"
-                    className="px-6 py-3 bg-[#ED1C3E] text-white rounded-md font-semibold text-sm shadow-lg hover:shadow-xl transition-all"
+                    className="px-6 py-3 bg-[#FD9A00] text-white rounded-md font-semibold text-sm shadow-lg hover:shadow-xl transition-all"
                 >
                     Start Shopping
                 </Link>
@@ -40,11 +40,11 @@ const CartPage = () => {
             <div className="container mx-auto px-4 lg:px-16">
                 {/* Header */}
                 <div className="flex items-center gap-3 mb-8">
-                    <Link href="/" className="p-2.5 bg-white rounded-md border border-gray-200 text-gray-400 hover:text-[#ED1C3E] transition-all">
+                    <Link href="/" className="p-2.5 bg-white rounded-md border border-gray-200 text-gray-400 hover:text-[#FD9A00] transition-all">
                         <LuArrowLeft size={18} />
                     </Link>
                     <h1 className={`text-xl font-bold text-gray-900 ${bengaliClass}`}>
-                        Shopping <span className="text-[#ED1C3E]">Cart</span>
+                        Shopping <span className="text-[#FD9A00]">Cart</span>
                     </h1>
                 </div>
 
@@ -60,13 +60,13 @@ const CartPage = () => {
                                     <span className="px-2 py-0.5 bg-gray-100 text-[10px] font-semibold uppercase text-gray-500 rounded">
                                         {item.type}
                                     </span>
-                                    <h3 className="text-base font-semibold text-gray-900 group-hover:text-[#ED1C3E] transition-colors line-clamp-1">
+                                    <h3 className="text-base font-semibold text-gray-900 group-hover:text-[#FD9A00] transition-colors line-clamp-1">
                                         {item.title}
                                     </h3>
                                     <p className="text-xs text-gray-400">Verified digital asset</p>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <span className="text-lg font-bold text-[#ED1C3E]">৳{item.price?.toLocaleString()}</span>
+                                    <span className="text-lg font-bold text-[#FD9A00]">৳{item.price?.toLocaleString()}</span>
                                     <button
                                         onClick={() => dispatch(removeFromCart(item.id))}
                                         className="p-2 bg-red-50 text-red-400 hover:bg-red-500 hover:text-white rounded-md transition-all"
@@ -104,13 +104,13 @@ const CartPage = () => {
                                 </div>
                                 <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
                                     <span className="text-gray-900 font-bold">Total</span>
-                                    <span className="text-xl font-bold text-[#ED1C3E]">৳{totalAmount.toLocaleString()}</span>
+                                    <span className="text-xl font-bold text-[#FD9A00]">৳{totalAmount.toLocaleString()}</span>
                                 </div>
                             </div>
 
                             <Link
                                 href="/checkout"
-                                className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#ED1C3E] hover:bg-teal-500 text-white rounded-md font-semibold text-sm shadow-lg transition-all group"
+                                className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#FD9A00] hover:bg-teal-500 text-white rounded-md font-semibold text-sm shadow-lg transition-all group"
                             >
                                 Checkout Now
                                 <LuChevronRight className="group-hover:translate-x-1 transition-transform" size={16} />

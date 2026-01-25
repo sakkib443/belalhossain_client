@@ -2,7 +2,7 @@
 
 /* =====================================================
    EXTRAIN WEB - GLOBAL DESIGN SYSTEM
-   Colors: Red (#ED1C3E) & Golden (#FD9A00)
+   Colors: Red (#FD9A00) & Golden (#FD9A00)
    Fonts: Outfit (headings) & Poppins (body)
    ===================================================== */
 
@@ -11,7 +11,7 @@
    ===================================================== */
 :root {
   /* Primary Colors - Red */
-  --color-primary: #ED1C3E;
+  --color-primary: #FD9A00;
   --color-primary-dark: #C91633;
   --color-primary-light: #F24B66;
   --color-primary-10: rgba(237, 28, 62, 0.1);
@@ -39,9 +39,13 @@
   --color-white: #ffffff;
 
   /* Font Families */
-  --font-heading: "Outfit", sans-serif;
-  --font-body: "Poppins", sans-serif;
+  --font-heading: var(--font-teko), sans-serif;
+  --font-body: var(--font-poppins), sans-serif;
   --font-bengali: "Hind Siliguri", sans-serif;
+}
+
+.font-teko {
+  font-family: var(--font-teko), sans-serif !important;
 }
 
 /* =====================================================
@@ -56,31 +60,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* All Headings - Outfit */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading);
+  font-family: var(--font-heading) !important;
   font-weight: 700;
   color: var(--color-gray-900);
 }
 
-/* Paragraphs & Body Text - Poppins */
+/* Paragraphs, Buttons & UI Text - Poppins */
 p,
-span,
 label,
 input,
 textarea,
 select,
 button,
 a,
-li,
-td,
-th,
-div {
+li {
   font-family: var(--font-body);
 }
 
@@ -113,11 +112,11 @@ body.font-bengali .font-icon {
    ===================================================== */
 
 .font-outfit {
-  font-family: var(--font-heading) !important;
+  font-family: var(--font-teko) !important;
 }
 
 .font-poppins {
-  font-family: var(--font-body) !important;
+  font-family: var(--font-poppins) !important;
 }
 
 /* Outfit Weights */
@@ -143,22 +142,22 @@ body.font-bengali .font-icon {
 
 /* Poppins Weights */
 .poppins {
-  font-family: var(--font-body);
+  font-family: var(--font-poppins);
   font-weight: 400;
 }
 
 .poppins-medium {
-  font-family: var(--font-body);
+  font-family: var(--font-poppins);
   font-weight: 500;
 }
 
 .poppins-semibold {
-  font-family: var(--font-body);
+  font-family: var(--font-poppins);
   font-weight: 600;
 }
 
 .poppins-bold {
-  font-family: var(--font-body);
+  font-family: var(--font-poppins);
   font-weight: 700;
 }
 

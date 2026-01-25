@@ -84,20 +84,6 @@ const AdminSidebar = () => {
       isProtected: true
     },
     {
-      title: 'LMS',
-      icon: FiBook,
-      gradient: 'from-amber-500 to-orange-500',
-      submenu: [
-        { title: 'All Courses', href: '/dashboard/admin/course', icon: FiBook },
-        { title: 'Create Course', href: '/dashboard/admin/course/create', icon: FiFileText },
-        { title: 'All Modules', href: '/dashboard/admin/module', icon: FiLayers },
-        { title: 'Create Module', href: '/dashboard/admin/module/create', icon: FiFileText },
-        { title: 'All Lessons', href: '/dashboard/admin/lesson', icon: FiPlay },
-        { title: 'Create Lesson', href: '/dashboard/admin/lesson/create', icon: FiFileText },
-        { title: 'Enrollments', href: '/dashboard/admin/enrollment', icon: FiUserCheck },
-      ],
-    },
-    {
       title: 'Marketplace',
       icon: FiGlobe,
       gradient: 'from-emerald-500 to-rose-600',
@@ -183,7 +169,7 @@ const AdminSidebar = () => {
       {/* Mobile Toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white shadow-lg shadow-[#ED1C3E]/30 hover:shadow-xl hover:shadow-[#ED1C3E]/40 transition-all"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white shadow-lg shadow-[#FD9A00]/30 hover:shadow-xl hover:shadow-[#FD9A00]/40 transition-all"
       >
         {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
       </button>
@@ -198,7 +184,7 @@ const AdminSidebar = () => {
           }`}
       >
         {/* Decorative Elements */}
-        <div className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl pointer-events-none ${isDark ? 'bg-gradient-to-br from-[#ED1C3E]/10 to-transparent' : 'bg-gradient-to-br from-[#ED1C3E]/5 to-transparent'
+        <div className={`absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl pointer-events-none ${isDark ? 'bg-gradient-to-br from-[#FD9A00]/10 to-transparent' : 'bg-gradient-to-br from-[#FD9A00]/5 to-transparent'
           }`} />
         <div className={`absolute bottom-0 left-0 w-64 h-64 rounded-full blur-3xl pointer-events-none ${isDark ? 'bg-gradient-to-tr from-[#FD9A00]/10 to-transparent' : 'bg-gradient-to-tr from-[#FD9A00]/5 to-transparent'
           }`} />
@@ -243,8 +229,8 @@ const AdminSidebar = () => {
                     className={`group w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all
                     ${activeSub
                         ? isDark
-                          ? 'bg-gradient-to-r from-[#ED1C3E]/20 to-[#FD9A00]/20 text-white'
-                          : 'bg-gradient-to-r from-[#ED1C3E]/10 to-[#FD9A00]/10 text-slate-800'
+                          ? 'bg-gradient-to-r from-[#FD9A00]/20 to-[#FD9A00]/20 text-white'
+                          : 'bg-gradient-to-r from-[#FD9A00]/10 to-[#FD9A00]/10 text-slate-800'
                         : isDark
                           ? 'text-slate-400 hover:text-white hover:bg-white/5'
                           : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'
@@ -279,7 +265,7 @@ const AdminSidebar = () => {
                             href={sub.href}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-all
                             ${isSubActive
-                                ? 'bg-gradient-to-r from-[#ED1C3E] to-[#FD9A00] text-white font-semibold shadow-lg shadow-[#ED1C3E]/30'
+                                ? 'bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white font-semibold shadow-lg shadow-[#FD9A00]/30'
                                 : isDark
                                   ? 'text-slate-400 hover:text-white hover:bg-white/5'
                                   : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'
@@ -307,8 +293,8 @@ const AdminSidebar = () => {
                     className={`group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all
                     ${isActive('/dashboard/admin/analytics')
                         ? isDark
-                          ? 'bg-gradient-to-r from-[#ED1C3E]/20 to-[#FD9A00]/20 text-white'
-                          : 'bg-gradient-to-r from-[#ED1C3E]/10 to-[#FD9A00]/10 text-slate-800'
+                          ? 'bg-gradient-to-r from-[#FD9A00]/20 to-[#FD9A00]/20 text-white'
+                          : 'bg-gradient-to-r from-[#FD9A00]/10 to-[#FD9A00]/10 text-slate-800'
                         : isDark
                           ? 'text-slate-400 hover:text-white hover:bg-white/5'
                           : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'
@@ -330,8 +316,8 @@ const AdminSidebar = () => {
                     className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all
                     ${isActive(item.href)
                         ? isDark
-                          ? 'bg-gradient-to-r from-[#ED1C3E]/20 to-[#FD9A00]/20 text-white'
-                          : 'bg-gradient-to-r from-[#ED1C3E]/10 to-[#FD9A00]/10 text-slate-800'
+                          ? 'bg-gradient-to-r from-[#FD9A00]/20 to-[#FD9A00]/20 text-white'
+                          : 'bg-gradient-to-r from-[#FD9A00]/10 to-[#FD9A00]/10 text-slate-800'
                         : isDark
                           ? 'text-slate-400 hover:text-white hover:bg-white/5'
                           : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'

@@ -54,7 +54,7 @@ const SuccessHistoryPage = () => {
       <section className="relative overflow-hidden border-b border-gray-100">
         {/* Background Decorations */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#e8f9f9] via-white to-[#fff8f0]"></div>
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-[#ED1C3E]/10 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-[#FD9A00]/10 to-transparent rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-tl from-[#FD9A00]/10 to-transparent rounded-full blur-3xl"></div>
 
         {/* Grid Pattern */}
@@ -73,7 +73,7 @@ const SuccessHistoryPage = () => {
             {/* Title */}
             <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold outfit text-gray-800 mb-4 ${bengaliClass}`}>
               {language === "bn" ? "শিক্ষার্থীদের " : "Student "}
-              <span className="bg-gradient-to-r from-[#ED1C3E] to-[#38a89d] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#FD9A00] to-[#38a89d] bg-clip-text text-transparent">
                 {language === "bn" ? "সাফল্যের গল্প" : "Success Stories"}
               </span>
             </h1>
@@ -91,8 +91,8 @@ const SuccessHistoryPage = () => {
                 const Icon = stat.icon;
                 return (
                   <div key={index} className="flex items-center gap-3 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-100">
-                    <div className="w-10 h-10 bg-gradient-to-br from-[#ED1C3E]/10 to-[#ED1C3E]/5 rounded-lg flex items-center justify-center">
-                      <Icon className="text-[#ED1C3E] text-lg" />
+                    <div className="w-10 h-10 bg-gradient-to-br from-[#FD9A00]/10 to-[#FD9A00]/5 rounded-lg flex items-center justify-center">
+                      <Icon className="text-[#FD9A00] text-lg" />
                     </div>
                     <div className="text-left">
                       <p className="text-lg font-bold text-gray-800 outfit">{stat.value}</p>
@@ -127,8 +127,8 @@ const SuccessHistoryPage = () => {
               key={filter.key}
               onClick={() => setActiveFilter(filter.key)}
               className={`relative px-6 py-3 rounded-xl font-medium work transition-all duration-300 ${bengaliClass} ${activeFilter === filter.key
-                ? "bg-gradient-to-r from-[#ED1C3E] to-[#38a89d] text-white shadow-lg shadow-[#ED1C3E]/30"
-                : "bg-white text-gray-600 border border-gray-200 hover:border-[#ED1C3E]/50 hover:text-[#ED1C3E]"
+                ? "bg-gradient-to-r from-[#FD9A00] to-[#38a89d] text-white shadow-lg shadow-[#FD9A00]/30"
+                : "bg-white text-gray-600 border border-gray-200 hover:border-[#FD9A00]/50 hover:text-[#FD9A00]"
                 }`}
             >
               {filter.label}
@@ -159,8 +159,8 @@ const SuccessHistoryPage = () => {
 
                   {/* Play Button */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-all duration-300 group-hover:bg-[#ED1C3E]">
-                      <LuPlay className="w-6 h-6 text-[#ED1C3E] group-hover:text-white ml-1" />
+                    <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-all duration-300 group-hover:bg-[#FD9A00]">
+                      <LuPlay className="w-6 h-6 text-[#FD9A00] group-hover:text-white ml-1" />
                     </div>
                   </div>
 
@@ -184,7 +184,7 @@ const SuccessHistoryPage = () => {
 
         {/* CTA Section */}
         <div className={`text-center mt-12 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}>
-          <div className="bg-gradient-to-r from-[#ED1C3E]/10 via-white to-[#FD9A00]/10 rounded-2xl p-8 border border-gray-100">
+          <div className="bg-gradient-to-r from-[#FD9A00]/10 via-white to-[#FD9A00]/10 rounded-2xl p-8 border border-gray-100">
             <h3 className={`text-2xl font-bold text-gray-800 outfit mb-3 ${bengaliClass}`}>
               {language === "bn" ? "পরবর্তী সাফল্যের গল্প আপনার হতে পারে!" : "Your Success Story Could Be Next!"}
             </h3>
@@ -195,7 +195,7 @@ const SuccessHistoryPage = () => {
             </p>
             <Link
               href="/courses"
-              className={`inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#ED1C3E] to-[#38a89d] text-white rounded-xl font-semibold work hover:shadow-xl hover:shadow-[#ED1C3E]/30 transition-all duration-300 group ${bengaliClass}`}
+              className={`inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#FD9A00] to-[#38a89d] text-white rounded-xl font-semibold work hover:shadow-xl hover:shadow-[#FD9A00]/30 transition-all duration-300 group ${bengaliClass}`}
             >
               <span>{language === "bn" ? "কোর্স দেখুন" : "Explore Courses"}</span>
               <LuArrowRight className="transform group-hover:translate-x-1 transition-transform" />

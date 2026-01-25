@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fi';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
+import toast from 'react-hot-toast';
 
 const websiteSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -23,7 +24,7 @@ const websiteSchema = z.object({
     description: z.string().min(1, "Description is required").max(1000),
     longDescription: z.string().optional(),
     images: z.array(z.string()).min(1, "At least one image URL required"),
-    previewUrl: z.string().optional().or(z.literal('')),
+    previewUrl: z.string().url("Must be a valid URL (include http:// or https://)").optional().or(z.literal('')),
     downloadFile: z.string().min(1, "Download file URL/Path is required"),
     features: z.array(z.string()).optional(),
     technologies: z.array(z.string()).optional(),
@@ -44,7 +45,7 @@ export default function CreateWebsitePage() {
     const fileInputRef = useRef(null);
     const router = useRouter();
 
-    const { register, control, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+    const { register, control, handleSubmit, setValue, setError, watch, formState: { errors } } = useForm({
         resolver: zodResolver(websiteSchema),
         defaultValues: {
             status: 'approved',
@@ -110,13 +111,13 @@ export default function CreateWebsitePage() {
                     imageFields.append(url);
                 });
 
-                alert(`✅ ${uploadedUrls.length} image(s) uploaded successfully!`);
+                toast.success(`✅ ${uploadedUrls.length} image(s) uploaded successfully!`);
             } else {
-                alert(`❌ Upload failed: ${data.message}`);
+                toast.error(`❌ Upload failed: ${data.message}`);
             }
         } catch (error) {
             console.error(error);
-            alert('❌ Network error during upload');
+            toast.error('❌ Network error during upload');
         } finally {
             setUploadingImages(false);
             if (imageInputRef.current) imageInputRef.current.value = '';
@@ -145,13 +146,13 @@ export default function CreateWebsitePage() {
 
             if (data.success && data.data) {
                 setValue('downloadFile', data.data.url);
-                alert(`✅ File uploaded: ${data.data.originalName}`);
+                toast.success(`✅ File uploaded: ${data.data.originalName}`);
             } else {
-                alert(`❌ Upload failed: ${data.message}`);
+                toast.error(`❌ Upload failed: ${data.message}`);
             }
         } catch (error) {
             console.error(error);
-            alert('❌ Network error during file upload');
+            toast.error('❌ Network error during file upload');
         } finally {
             setUploadingFile(false);
             if (fileInputRef.current) fileInputRef.current.value = '';
@@ -181,13 +182,25 @@ export default function CreateWebsitePage() {
             });
 
             if (response.ok) {
-                alert('Website asset added to marketplace! ✅');
+                toast.success('Website asset added to marketplace! ✅');
                 router.push('/dashboard/admin/website');
             } else {
                 const err = await response.json();
-                alert(`Error: ${err.message}`);
+                toast.error(err.message || 'Submission failed');
+
+                if (err.errorMessages && Array.isArray(err.errorMessages)) {
+                    err.errorMessages.forEach((error) => {
+                        const fieldName = error.path.replace('body.', '');
+                        setError(fieldName, {
+                            type: 'server',
+                            message: error.message
+                        });
+                    });
+                }
             }
-        } catch (error) { alert('Network error'); }
+        } catch (error) {
+            toast.error('Network error');
+        }
         finally { setLoading(false); }
     };
 
