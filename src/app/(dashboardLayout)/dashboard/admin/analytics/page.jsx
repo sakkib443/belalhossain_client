@@ -18,6 +18,7 @@ import {
     ResponsiveContainer,
 } from 'recharts';
 import { useTheme } from '@/providers/ThemeProvider';
+import { API_BASE_URL } from "@/config/api";
 
 // Animated counter component
 const AnimatedCounter = ({ value, prefix = '', suffix = '' }) => {
@@ -95,7 +96,8 @@ export default function AnalyticsPage() {
     });
 
     // Use the base URL from config or local default
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    // Use the base URL from config or local default
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
 
     const fetchAnalytics = async () => {
         try {

@@ -6,6 +6,7 @@ import {
     FiUserCheck, FiSearch, FiFilter, FiRefreshCw,
     FiChevronLeft, FiChevronRight, FiEye, FiBook, FiUser, FiCalendar
 } from 'react-icons/fi';
+import { API_BASE_URL } from "@/config/api";
 
 export default function EnrollmentsPage() {
     const [enrollments, setEnrollments] = useState([]);
@@ -13,7 +14,7 @@ export default function EnrollmentsPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
 
     const fetchEnrollments = async () => {
         try {

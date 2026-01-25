@@ -9,7 +9,8 @@ import {
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import { API_BASE_URL } from "@/config/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
 
 export default function NotificationsPage() {
     const [notifications, setNotifications] = useState([]);

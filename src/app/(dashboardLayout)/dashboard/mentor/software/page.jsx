@@ -7,6 +7,7 @@ import {
     FiExternalLink, FiTerminal, FiPackage, FiFilter, FiGrid, FiList, FiAlertCircle
 } from 'react-icons/fi';
 import Link from 'next/link';
+import { API_BASE_URL } from "@/config/api";
 import { useRouter } from 'next/navigation';
 
 const PLATFORM_OPTIONS = [
@@ -25,7 +26,7 @@ const MentorSoftwarePage = () => {
     const router = useRouter();
 
     const fetchSoftware = async () => {
-        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
         const token = localStorage.getItem('token');
         try {
             setLoading(true);

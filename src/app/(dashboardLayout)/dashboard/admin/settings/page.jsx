@@ -7,6 +7,7 @@ import {
     FiMail, FiDollarSign, FiDatabase, FiChevronRight, FiCheck
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
+import { API_BASE_URL } from "@/config/api";
 
 export default function SettingsPage() {
     const { isDark } = useTheme();
@@ -40,7 +41,7 @@ export default function SettingsPage() {
     const [updatingPassword, setUpdatingPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
     const [passwordSuccess, setPasswordSuccess] = useState('');
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
 
     const handleChange = (key, value) => {
         setSettings(prev => ({ ...prev, [key]: value }));

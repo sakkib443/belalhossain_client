@@ -6,6 +6,8 @@ import {
   FiSearch, FiUsers, FiUserCheck, FiTrash2, FiPlus, FiMail, FiCalendar, FiLoader, FiCheck, FiX
 } from 'react-icons/fi';
 
+import { API_BASE_URL } from "@/config/api";
+
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,7 +15,7 @@ const UserManagement = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [editData, setEditData] = useState({});
 
-  const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
 
   const fetchUsers = async () => {
     const token = localStorage.getItem('token');

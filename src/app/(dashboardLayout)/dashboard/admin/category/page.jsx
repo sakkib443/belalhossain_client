@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiPlus, FiEdit3, FiTrash2, FiLoader, FiCheck, FiX, FiGrid, FiSearch, FiImage, FiRefreshCw, FiBook, FiCode, FiLayout, FiFolder, FiChevronRight, FiChevronDown } from 'react-icons/fi';
 import Link from 'next/link';
+import { API_BASE_URL } from "@/config/api";
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -16,7 +17,7 @@ const CategoryPage = () => {
   const [parentCategories, setParentCategories] = useState([]);
 
   const fetchCategories = async () => {
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
     const token = localStorage.getItem('token');
     try {
       setLoading(true);
@@ -51,7 +52,7 @@ const CategoryPage = () => {
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to remove this category?")) return;
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
     const token = localStorage.getItem('token');
     try {
       const res = await fetch(`${BASE_URL}/categories/admin/${id}`, {
@@ -69,7 +70,7 @@ const CategoryPage = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
     const token = localStorage.getItem('token');
 
     // Extract parent ID if it's an object

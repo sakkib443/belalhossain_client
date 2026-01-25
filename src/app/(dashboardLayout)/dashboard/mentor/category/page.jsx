@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiPlus, FiEdit3, FiLoader, FiCheck, FiX, FiGrid, FiSearch, FiImage, FiRefreshCw, FiBook, FiCode, FiLayout, FiFolder, FiChevronRight, FiChevronDown, FiAlertCircle } from 'react-icons/fi';
 import Link from 'next/link';
+import { API_BASE_URL } from "@/config/api";
 
 const MentorCategoryPage = () => {
     const [categories, setCategories] = useState([]);
@@ -16,7 +17,7 @@ const MentorCategoryPage = () => {
     const [parentCategories, setParentCategories] = useState([]);
 
     const fetchCategories = async () => {
-        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
         const token = localStorage.getItem('token');
         try {
             setLoading(true);
@@ -48,7 +49,7 @@ const MentorCategoryPage = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
         const token = localStorage.getItem('token');
 
         // Extract parent ID if it's an object

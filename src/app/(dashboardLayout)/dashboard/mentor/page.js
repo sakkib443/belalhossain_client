@@ -14,6 +14,7 @@ import {
     FiLayers, FiCreditCard
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
+import { API_BASE_URL } from "@/config/api";
 
 // ==================== ANIMATED COUNTER ====================
 const AnimatedCounter = ({ value, duration = 2000, prefix = '', suffix = '' }) => {
@@ -112,7 +113,7 @@ export default function MentorDashboard() {
     });
 
     const fetchDashboardData = async () => {
-        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '${API_BASE_URL}';
         const token = localStorage.getItem('token');
 
         try {

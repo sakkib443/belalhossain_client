@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { API_BASE_URL } from "@/config/api";
 import Image from 'next/image';
 import {
     FiEdit2,
@@ -28,7 +29,7 @@ export default function MentorCoursesPage() {
     const [viewMode, setViewMode] = useState('grid');
 
     const loadCourses = async () => {
-        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+        const BASE_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
         const token = localStorage.getItem('token');
         setLoading(true);
         try {

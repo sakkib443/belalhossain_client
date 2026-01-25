@@ -8,7 +8,9 @@ import {
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import { API_BASE_URL } from "@/config/api";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || API_BASE_URL;
 
 const NotificationDropdown = () => {
     const [isOpen, setIsOpen] = useState(false);
