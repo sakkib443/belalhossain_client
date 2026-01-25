@@ -57,7 +57,7 @@ const AboutPage = () => {
         style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
 
       {/* ==================== HERO SECTION (REDESIGNED) ==================== */}
-      <section className="relative min-h-screen flex items-center pt-24 pb-20 overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center pt-12 pb-20 overflow-hidden">
         {/* Blob Element */}
         <motion.div className="absolute top-[30%] right-[-10%] w-[40vw] h-[40vw] bg-[#FD9A00]/10 rounded-full blur-[100px] pointer-events-none"
           animate={{ x: [0, 50, 0], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 15, repeat: Infinity }} />
@@ -78,7 +78,7 @@ const AboutPage = () => {
               <div className="relative mb-6">
                 <motion.h1
                   variants={fadeInUp}
-                  className="text-[12vw] lg:text-[7rem] leading-[0.85] font-black uppercase font-teko text-gray-950 dark:text-white"
+                  className="text-[10vw] lg:text-[5rem] leading-[0.85] font-black uppercase font-teko text-gray-950 dark:text-white"
                 >
                   WE ARE <br />
                   <span className="text-[#FD9A00]">EXTRAIN.</span>
