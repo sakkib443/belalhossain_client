@@ -4,7 +4,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearCart } from '@/redux/cartSlice';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { LuShieldCheck, LuPackage, LuCreditCard, LuChevronLeft, LuBadgeCheck, LuSmartphone, LuLoader, LuArrowRight, LuTag, LuCheck, LuX, LuCreditCard as LuCreditCardIcon } from 'react-icons/lu';
+import { LuShieldCheck, LuPackage, LuCreditCard, LuChevronLeft, LuBadgeCheck, LuSmartphone, LuLoader, LuArrowRight, LuTag, LuCheck, LuX, LuZap, LuCreditCard as LuCreditCardIcon } from 'react-icons/lu';
 import { useLanguage } from '@/context/LanguageContext';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
@@ -24,6 +24,8 @@ const CheckoutContent = () => {
     const [paymentMethod, setPaymentMethod] = useState('bkash');
     const [checkoutItems, setCheckoutItems] = useState([]);
     const [totalValue, setTotalValue] = useState(0);
+    const [isBooking, setIsBooking] = useState(false);
+    const [bookingAmount, setBookingAmount] = useState(0);
 
     // Coupon states
     const [couponCode, setCouponCode] = useState('');
@@ -85,9 +87,59 @@ const CheckoutContent = () => {
         } else {
             setCheckoutItems(cartItems);
             setTotalValue(cartTotal);
+
+            // Check for bookable items
+            const bookableItem = cartItems.find(item => {
+                const isBookable = item.isBookingAllowed === true || item.isBookingAllowed === 'true';
+                const hasAmount = Number(item.bookingAmount) > 0;
+                return isBookable && hasAmount;
+            });
+
+            if (bookableItem) {
+                const amount = Number(bookableItem.bookingAmount);
+                setBookingAmount(amount);
+            } else {
+                setBookingAmount(0);
+                setIsBooking(false);
+            }
+
             setPageLoading(false);
         }
     }, [courseId, cartItems, cartTotal, router]);
+
+    const totalValueAfterDiscount = totalValue - discountAmount;
+
+    // Combined Booking + Installment logic
+    useEffect(() => {
+        if (isBooking && bookingAmount > 0) {
+            const count = (appliedCoupon?.installmentEnabled && appliedCoupon.installmentCount) ? appliedCoupon.installmentCount : 2;
+            const firstAmount = bookingAmount;
+            const remaining = totalValueAfterDiscount - firstAmount;
+
+            let list = [{
+                installmentNumber: 1,
+                amount: firstAmount,
+                dueDate: new Date().toISOString(),
+                status: 'pending'
+            }];
+
+            if (count > 1) {
+                const splitAmount = Math.floor(remaining / (count - 1));
+                for (let i = 2; i <= count; i++) {
+                    const currentAmount = (i === count) ? (remaining - splitAmount * (count - 2)) : splitAmount;
+                    list.push({
+                        installmentNumber: i,
+                        amount: currentAmount,
+                        dueDate: new Date(Date.now() + (i - 1) * 7 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'pending'
+                    });
+                }
+            }
+            setInstallments(list);
+        } else if (!isBooking && appliedCoupon?.installmentEnabled && appliedCoupon?.originalInstallments) {
+            setInstallments(appliedCoupon.originalInstallments);
+        }
+    }, [isBooking, bookingAmount, totalValueAfterDiscount, appliedCoupon]);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -134,7 +186,8 @@ const CheckoutContent = () => {
                     discountType: data.data.discountType,
                     discountValue: data.data.discountValue,
                     installmentEnabled: data.data.installmentEnabled,
-                    installmentCount: data.data.installmentCount
+                    installmentCount: data.data.installmentCount,
+                    originalInstallments: data.data.installments
                 });
                 setDiscountAmount(data.data.discount);
 
@@ -144,7 +197,10 @@ const CheckoutContent = () => {
                     toast.success(`Coupon applied! Pay in ${data.data.installmentCount} installments.`);
                 } else {
                     setInstallments([]);
-                    toast.success(`Coupon applied! You save ৳${data.data.discount}`);
+                    const message = data.data.discountType === 'fixed_price'
+                        ? `Coupon applied! Final price set to ৳${data.data.discountValue}`
+                        : `Coupon applied! You save ৳${data.data.discount}`;
+                    toast.success(message);
                 }
             } else {
                 toast.error(data.message || 'Invalid coupon');
@@ -183,10 +239,11 @@ const CheckoutContent = () => {
         setInstallments(newInstallments);
     };
 
-    const totalValueAfterDiscount = totalValue - discountAmount;
     const isInstallmentActive = installments && installments.length > 0;
+
+    // Calculate final amount to pay now
     const finalAmount = isInstallmentActive ? installments[0].amount : totalValueAfterDiscount;
-    const remainingAmount = isInstallmentActive ? totalValueAfterDiscount - finalAmount : 0;
+    const remainingAmount = totalValueAfterDiscount - finalAmount;
 
     const handlePlaceOrder = async (e) => {
         e.preventDefault();
@@ -206,7 +263,8 @@ const CheckoutContent = () => {
                 paymentStatus: 'pending',
                 couponCode: appliedCoupon?.code,
                 discountAmount: discountAmount,
-                isInstallment: !!(installments && installments.length > 0),
+                isInstallment: installments?.length > 0,
+                isBooking: isBooking,
                 installmentCount: installments?.length || 1,
                 installments: installments?.map(inst => ({
                     installmentNumber: inst.installmentNumber,
@@ -415,7 +473,7 @@ const CheckoutContent = () => {
                                                         <LuBadgeCheck size={16} />
                                                     </div>
                                                     <div>
-                                                        <p className="text-xs font-black text-[#FD9A00] uppercase tracking-tighter">Initial Payment Required</p>
+                                                        <p className="text-xs font-black text-[#FD9A00] uppercase tracking-tighter">{isBooking ? 'Booking Amount Required' : 'Initial Payment Required'}</p>
                                                         <p className="text-[10px] text-[#FD9A00]/60 font-medium">Pay exactly ৳{finalAmount.toLocaleString()} to activate your access</p>
                                                     </div>
                                                 </div>
@@ -514,6 +572,13 @@ const CheckoutContent = () => {
                                         <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
                                             <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                                         </div>
+
+                                        {/* Debug Info (Only visible if something is wrong) */}
+                                        {false && (
+                                            <div className="text-[8px] text-gray-300">
+                                                Debug: amount={bookingAmount}, items={checkoutItems.length}, bookable={checkoutItems.some(i => i.isBookingAllowed)}
+                                            </div>
+                                        )}
                                         <div className="flex-1 min-w-0">
                                             <h4 className="text-sm font-semibold text-gray-800 line-clamp-1">{item.title}</h4>
                                             <span className="text-xs text-gray-400 uppercase">{item.type}</span>
@@ -522,6 +587,45 @@ const CheckoutContent = () => {
                                     </div>
                                 ))}
                             </div>
+
+                            {/* Booking Choice */}
+                            {bookingAmount > 0 && (
+                                <div className="p-4 bg-rose-50 border border-rose-100 rounded-md space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 bg-rose-500 rounded flex items-center justify-center text-white shrink-0">
+                                            <LuZap size={14} />
+                                        </div>
+                                        <h4 className="text-xs font-bold text-rose-700 uppercase">Booking Option Available</h4>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsBooking(false)}
+                                            className={`py-2 px-3 rounded text-[10px] font-bold uppercase transition-all ${!isBooking
+                                                ? 'bg-rose-600 text-white shadow-sm'
+                                                : 'bg-white text-rose-600 border border-rose-200'
+                                                }`}
+                                        >
+                                            Full Payment
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsBooking(true)}
+                                            className={`py-2 px-3 rounded text-[10px] font-bold uppercase transition-all ${isBooking
+                                                ? 'bg-rose-600 text-white shadow-sm'
+                                                : 'bg-white text-rose-600 border border-rose-200'
+                                                }`}
+                                        >
+                                            Book Now (৳{bookingAmount})
+                                        </button>
+                                    </div>
+                                    {isBooking && (
+                                        <p className="text-[10px] text-rose-600/70 italic leading-tight">
+                                            * Pay ৳{bookingAmount} today and the remaining ৳{remainingAmount.toLocaleString()} after completion.
+                                        </p>
+                                    )}
+                                </div>
+                            )}
 
                             <div className="pt-4 space-y-4 border-t border-gray-100">
                                 <div className="flex justify-between items-center">
@@ -581,6 +685,9 @@ const CheckoutContent = () => {
                                             {appliedCoupon?.discountType === 'percentage' && (
                                                 <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase">-{appliedCoupon.discountValue}%</span>
                                             )}
+                                            {appliedCoupon?.discountType === 'fixed_price' && (
+                                                <span className="px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 text-[10px] font-black uppercase">FIXED PRICE</span>
+                                            )}
                                         </div>
                                         <span className="text-sm font-bold text-emerald-600">-৳{discountAmount.toLocaleString()}</span>
                                     </div>
@@ -598,12 +705,14 @@ const CheckoutContent = () => {
                                             <div className="w-6 h-6 bg-slate-800 rounded-md flex items-center justify-center text-white">
                                                 <LuCreditCardIcon size={14} />
                                             </div>
-                                            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Installment Plan</span>
+                                            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+                                                {isBooking ? 'Booking Payment Schedule' : 'Installment Plan'}
+                                            </span>
                                         </div>
 
                                         <div className="space-y-2.5">
                                             {installments.map((inst, idx) => {
-                                                const isEditable = idx < installments.length - 1 && installments.length >= 3;
+                                                const isEditable = !isBooking && idx < installments.length - 1 && installments.length >= 3;
                                                 return (
                                                     <div key={idx} className={`flex justify-between items-center p-3 rounded-md border transition-all ${idx === 0 ? 'bg-white border-[#FD9A00] shadow-sm' : 'bg-white border-slate-100 opacity-90'}`}>
                                                         <div className="flex items-center gap-3">
@@ -630,7 +739,7 @@ const CheckoutContent = () => {
                                                                 />
                                                             ) : (
                                                                 <span className={`text-sm font-medium ${idx === 0 ? 'text-[#FD9A00]' : 'text-slate-700'}`}>
-                                                                    {inst.amount.toLocaleString()}
+                                                                    {Number(inst.amount).toLocaleString()}
                                                                 </span>
                                                             )}
                                                         </div>
@@ -675,7 +784,7 @@ const CheckoutContent = () => {
 
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

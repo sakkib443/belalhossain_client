@@ -136,7 +136,11 @@ const MentorCouponsPage = () => {
 
                             {/* Discount Value */}
                             <div className={`text-2xl font-bold mb-3 ${isDark ? 'text-rose-500' : 'text-rose-700'}`}>
-                                {coupon.discountType === 'percentage' ? `${coupon.discountValue}% OFF` : `৳${coupon.discountValue} OFF`}
+                                {coupon.discountType === 'percentage'
+                                    ? `${coupon.discountValue}% OFF`
+                                    : coupon.discountType === 'fixed'
+                                        ? `৳${coupon.discountValue} OFF`
+                                        : `৳${coupon.discountValue} (Final Price)`}
                             </div>
 
                             {/* Details */}

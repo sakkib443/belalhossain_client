@@ -326,8 +326,13 @@ export default function UserPurchasesPage() {
                                             {String(idx + 1).padStart(2, '0')}
                                         </div>
                                         <div className="min-w-0">
-                                            <p className={`text-sm ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                            <p className={`text-sm ${isDark ? 'text-white' : 'text-slate-800'} flex items-center gap-2`}>
                                                 ORD-{order.orderNumber || order._id?.slice(-6).toUpperCase()}
+                                                {order.isBooking && (
+                                                    <span className="px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-500 text-[8px] font-bold uppercase tracking-wider">
+                                                        Booking
+                                                    </span>
+                                                )}
                                             </p>
                                             <p className={`text-[10px] md:hidden ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
                                                 {new Date(order.orderDate).toLocaleDateString()}
@@ -424,6 +429,11 @@ export default function UserPurchasesPage() {
                                                             <p className={`text-sm font-bold truncate ${isDark ? 'text-white' : 'text-slate-800'}`}>
                                                                 {item.title}
                                                             </p>
+                                                            {order.isBooking && id === 0 && (
+                                                                <p className="text-[10px] text-rose-500 font-bold mt-1 italic">
+                                                                    * Booking Payment 1 of 2
+                                                                </p>
+                                                            )}
                                                         </div>
                                                         <div className="text-right shrink-0">
                                                             <p className={`font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>

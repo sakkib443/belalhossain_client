@@ -141,7 +141,11 @@ export default function OrdersPage() {
             order.orderNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             order.user?.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             order.user?.email?.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchStatus = statusFilter === 'all' || order.paymentStatus === statusFilter;
+
+        let matchStatus = statusFilter === 'all' || order.paymentStatus === statusFilter;
+        if (statusFilter === 'installment') matchStatus = order.isInstallment === true && !order.isBooking;
+        if (statusFilter === 'booking') matchStatus = order.isBooking === true;
+
         return matchSearch && matchStatus;
     });
 
@@ -267,7 +271,7 @@ export default function OrdersPage() {
                         />
                     </div>
                     <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar">
-                        {['all', 'completed', 'pending', 'failed', 'installment'].map(status => (
+                        {['all', 'completed', 'pending', 'failed', 'installment', 'booking'].map(status => (
                             <button
                                 key={status}
                                 onClick={() => setStatusFilter(status)}
@@ -339,10 +343,17 @@ export default function OrdersPage() {
                                             <span className="font-bold text-emerald-600 text-lg">৳{order.totalAmount?.toLocaleString()}</span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold capitalize ${getPaymentStyle(order.paymentStatus)}`}>
-                                                {getStatusIcon(order.paymentStatus)}
-                                                <span className="ml-1">{order.paymentStatus}</span>
-                                            </span>
+                                            <div className="flex flex-col gap-1">
+                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold capitalize ${getPaymentStyle(order.paymentStatus)}`}>
+                                                    {getStatusIcon(order.paymentStatus)}
+                                                    <span className="ml-1">{order.paymentStatus}</span>
+                                                </span>
+                                                {order.isBooking && (
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-600 border border-rose-200 uppercase w-fit">
+                                                        Booking
+                                                    </span>
+                                                )}
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className="text-sm text-slate-600">
@@ -592,10 +603,12 @@ export default function OrdersPage() {
                                 </div>
                             )}
 
-                            {/* Installment Timeline */}
-                            {selectedOrder.isInstallment && selectedOrder.installments?.length > 0 && (
+                            {/* Installment/Booking Timeline */}
+                            {(selectedOrder.isInstallment || selectedOrder.isBooking) && selectedOrder.installments?.length > 0 && (
                                 <div className="space-y-4">
-                                    <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Installment Schedule Tracking</h4>
+                                    <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                        {selectedOrder.isBooking ? 'Booking Payment Schedule' : 'Installment Schedule Tracking'}
+                                    </h4>
                                     <div className="space-y-3">
                                         {selectedOrder.installments.map((inst, idx) => (
                                             <div key={idx} className={`p-4 rounded-xl border ${inst.status === 'completed' ? 'bg-emerald-50 border-emerald-100' : inst.status === 'pending' && inst.paymentDetails ? 'bg-amber-50 border-amber-100' : 'bg-slate-50 border-slate-100'}`}>

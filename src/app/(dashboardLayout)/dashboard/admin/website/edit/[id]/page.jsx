@@ -12,6 +12,7 @@ import {
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
 import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 const websiteSchema = z.object({
     title: z.string().min(1, "Title is required"),
@@ -30,6 +31,8 @@ const websiteSchema = z.object({
     technologies: z.array(z.string()).optional(),
     status: z.enum(['pending', 'approved', 'rejected', 'draft']),
     isFeatured: z.boolean(),
+    isBookingAllowed: z.boolean().optional(),
+    bookingAmount: z.coerce.number().min(0).optional(),
 });
 
 const PLATFORM_OPTIONS = [
@@ -57,7 +60,9 @@ export default function EditWebsitePage() {
             images: [''],
             features: [''],
             technologies: [''],
-            platform: 'WordPress'
+            platform: 'WordPress',
+            isBookingAllowed: false,
+            bookingAmount: 0
         }
     });
 
@@ -103,6 +108,8 @@ export default function EditWebsitePage() {
                     technologies: asset.technologies?.length ? asset.technologies : [''],
                     status: asset.status || 'approved',
                     isFeatured: asset.isFeatured || false,
+                    isBookingAllowed: asset.isBookingAllowed || false,
+                    bookingAmount: asset.bookingAmount || 0,
                 });
             }
         } catch (err) { console.error(err); }
@@ -492,6 +499,28 @@ export default function EditWebsitePage() {
                                 <input type="checkbox" {...register('isFeatured')} className="w-5 h-5 rounded accent-emerald-500" />
                                 <span className="text-sm text-slate-300">Mark as Featured</span>
                             </label>
+
+                            <div className="pt-4 border-t border-slate-700 space-y-4">
+                                <label className="flex items-center gap-3 p-4 bg-slate-700/50 rounded-xl cursor-pointer hover:bg-slate-700 transition-colors">
+                                    <input type="checkbox" {...register('isBookingAllowed')} className="w-5 h-5 rounded accent-rose-500" />
+                                    <span className="text-sm text-slate-300">Allow Booking</span>
+                                </label>
+
+                                {watch('isBookingAllowed') && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        className="space-y-2"
+                                    >
+                                        <label className="text-xs font-medium text-slate-400 block mb-2">Booking Amount (৳)</label>
+                                        <div className="relative">
+                                            <span className="absolute left-4 top-3 font-semibold text-slate-500">৳</span>
+                                            <input type="number" {...register('bookingAmount')} placeholder="0" className="w-full bg-slate-700/50 border border-slate-600 rounded-xl py-3 pl-10 px-4 text-white text-lg font-bold focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition-all" />
+                                        </div>
+                                        <p className="text-[10px] text-slate-500 italic">This amount will be paid during booking.</p>
+                                    </motion.div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

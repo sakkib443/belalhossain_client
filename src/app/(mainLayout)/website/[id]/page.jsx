@@ -75,7 +75,10 @@ const WebsiteDetailsPage = () => {
             title: website.title,
             price: website.offerPrice || website.price,
             image: website.images?.[0] || website.image || "/images/placeholder.png",
-            type: 'website'
+            type: 'website',
+            productType: 'website',
+            isBookingAllowed: website.isBookingAllowed,
+            bookingAmount: website.bookingAmount
         }));
     };
 
@@ -192,6 +195,11 @@ const WebsiteDetailsPage = () => {
                             {website.isFeatured && (
                                 <span className="px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded text-white text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
                                     <LuSparkles size={10} /> Featured
+                                </span>
+                            )}
+                            {website.isBookingAllowed && (
+                                <span className="px-3 py-1 bg-gradient-to-r from-rose-500 to-rose-600 rounded text-white text-[11px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                    <LuZap size={10} /> Booking Available
                                 </span>
                             )}
                         </motion.div>
@@ -567,6 +575,20 @@ const WebsiteDetailsPage = () => {
                                             </div>
                                             <p className="text-teal-600 text-xs font-semibold uppercase tracking-wide mt-1 poppins">Complete Package</p>
                                         </div>
+
+                                        {website.isBookingAllowed && (
+                                            <div className="p-3 bg-rose-50 border border-rose-100 rounded-md">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <div className="w-5 h-5 bg-rose-500 rounded flex items-center justify-center text-white">
+                                                        <LuZap size={10} />
+                                                    </div>
+                                                    <span className="text-[10px] font-bold text-rose-700 uppercase">Booking System</span>
+                                                </div>
+                                                <p className="text-[11px] text-rose-600/80 leading-relaxed font-medium">
+                                                    You can book this website by paying only <span className="font-bold text-rose-700">৳{website.bookingAmount}</span> today.
+                                                </p>
+                                            </div>
+                                        )}
 
                                         {/* Buttons */}
                                         <div className="space-y-2.5">

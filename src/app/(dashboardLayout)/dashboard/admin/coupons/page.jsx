@@ -261,7 +261,11 @@ const CouponsPage = () => {
 
                             {/* Discount Value */}
                             <div className={`text-2xl font-bold mb-3 ${isDark ? 'text-rose-500' : 'text-rose-700'}`}>
-                                {coupon.discountType === 'percentage' ? `${coupon.discountValue}% OFF` : `৳${coupon.discountValue} OFF`}
+                                {coupon.discountType === 'percentage'
+                                    ? `${coupon.discountValue}% OFF`
+                                    : coupon.discountType === 'fixed'
+                                        ? `৳${coupon.discountValue} OFF`
+                                        : `৳${coupon.discountValue} (Final Price)`}
                             </div>
 
                             {/* Details */}
@@ -369,7 +373,8 @@ const CouponsPage = () => {
                                         className={`w-full px-4 py-3 rounded-xl border ${isDark ? 'bg-slate-800 border-slate-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                     >
                                         <option value="percentage">Percentage (%)</option>
-                                        <option value="fixed">Fixed Amount (৳)</option>
+                                        <option value="fixed">Fixed Discount (৳)</option>
+                                        <option value="fixed_price">Fixed Price (Final Price ৳)</option>
                                     </select>
                                 </div>
                                 <div>
