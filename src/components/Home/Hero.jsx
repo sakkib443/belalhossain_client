@@ -163,7 +163,7 @@ const Hero = () => {
                                     </p>
                                 </div>
 
-                                <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-4 -ml-2.5">
                                     <div className="w-12 h-12 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-black cursor-pointer hover:scale-110 transition-transform shadow-lg">
                                         <FiPlay className="ml-1" size={18} />
                                     </div>
@@ -224,7 +224,7 @@ const Hero = () => {
             </div>
 
             {/* Infinite Text Marquee (Ticker) - As requested */}
-            <div className="absolute bottom-0 left-0 w-full bg-[#C4EE18] py-3 lg:py-5 overflow-hidden border-t-2 border-black/5">
+            <div className="absolute bottom-4 lg:bottom-8 left-0 w-full bg-[#C4EE18] py-3 lg:py-5 overflow-hidden border-t-2 border-black/5">
                 <motion.div
                     className="flex whitespace-nowrap items-center"
                     animate={{ x: [0, "-50%"] }}
