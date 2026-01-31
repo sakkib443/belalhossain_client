@@ -2,50 +2,145 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMyDownloads } from '@/redux/downloadSlice';
+import { fetchMyOrders } from '@/redux/orderSlice';
 import Link from 'next/link';
 import {
-    FiCode, FiDownload, FiExternalLink, FiClock, FiShield,
-    FiCpu, FiMonitor, FiRefreshCw, FiSearch, FiGrid, FiList,
-    FiArrowRight, FiPackage, FiCheck
+    FiCode, FiClock, FiShield, FiRefreshCw, FiSearch,
+    FiPackage, FiCheckCircle, FiAlertCircle, FiChevronDown, FiChevronUp,
+    FiCpu, FiLayers, FiInfo, FiSettings, FiExternalLink, FiMessageSquare,
+    FiMonitor, FiSmartphone
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
+import { API_BASE_URL } from '@/config/api';
 
 export default function MySoftwaresPage() {
     const { isDark } = useTheme();
     const dispatch = useDispatch();
-    const { downloads, loading } = useSelector((state) => state.download);
+    const { orders, loading } = useSelector((state) => state.order);
     const [searchTerm, setSearchTerm] = useState('');
-    const [viewMode, setViewMode] = useState('grid');
+    const [expandedCard, setExpandedCard] = useState(null);
+    const [softwareProducts, setSoftwareProducts] = useState([]);
+    const [productsLoading, setProductsLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(fetchMyDownloads());
+        dispatch(fetchMyOrders());
     }, [dispatch]);
 
+    // Extract software items from orders and fetch full product details
+    useEffect(() => {
+        const fetchProductDetails = async () => {
+            if (!orders || orders.length === 0) {
+                setProductsLoading(false);
+                return;
+            }
+
+            const softwareItems = [];
+            orders.forEach(order => {
+                order.items?.forEach(item => {
+                    if (item.productType === 'software') {
+                        softwareItems.push({
+                            ...item,
+                            orderId: order._id,
+                            orderNumber: order.orderNumber,
+                            orderDate: order.orderDate,
+                            paymentStatus: order.paymentStatus,
+                            paymentMethod: order.paymentMethod,
+                            totalAmount: order.totalAmount,
+                            isInstallment: order.isInstallment,
+                            installments: order.installments
+                        });
+                    }
+                });
+            });
+
+            // Fetch full product details for each software
+            const productsWithDetails = await Promise.all(
+                softwareItems.map(async (item) => {
+                    try {
+                        const res = await fetch(`${API_BASE_URL}/softwares/${item.product}`);
+                        const data = await res.json();
+                        if (data.success && data.data) {
+                            return { ...item, productDetails: data.data };
+                        }
+                    } catch (error) {
+                        console.error('Failed to fetch product details:', error);
+                    }
+                    return item;
+                })
+            );
+
+            setSoftwareProducts(productsWithDetails);
+            setProductsLoading(false);
+        };
+
+        fetchProductDetails();
+    }, [orders]);
+
     const handleRefresh = () => {
-        dispatch(fetchMyDownloads());
+        dispatch(fetchMyOrders());
     };
 
-    const softwares = downloads.filter(d => d.productType === 'software');
-
     // Filter by search
-    const filteredSoftwares = softwares.filter(s =>
-        s.productTitle?.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredSoftwares = softwareProducts.filter(s =>
+        s.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.productDetails?.title?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     // Stats
     const stats = {
-        total: softwares.length,
-        active: softwares.filter(s => s.isActive).length,
-        downloads: softwares.reduce((acc, s) => acc + (s.downloadCount || 0), 0),
+        total: softwareProducts.length,
+        completed: softwareProducts.filter(s => s.paymentStatus === 'completed').length,
+        pending: softwareProducts.filter(s => s.paymentStatus === 'pending').length,
     };
 
     const cardClass = `rounded-2xl border transition-all duration-300 ${isDark
-        ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
-        : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md'
+        ? 'bg-slate-800/50 border-white/5'
+        : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)]'
         }`;
 
-    if (loading) {
+    const getStatusBadge = (status) => {
+        switch (status) {
+            case 'completed':
+                return (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                        <FiCheckCircle size={10} /> Payment Complete
+                    </span>
+                );
+            case 'pending':
+                return (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400">
+                        <FiAlertCircle size={10} /> Payment Pending
+                    </span>
+                );
+            default:
+                return (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                        {status}
+                    </span>
+                );
+        }
+    };
+
+    const getDeliveryStatus = (paymentStatus) => {
+        switch (paymentStatus) {
+            case 'completed':
+                return (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400">
+                        <FiSettings size={10} className="animate-spin" /> Processing
+                    </span>
+                );
+            case 'pending':
+                return (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                        Awaiting Payment
+                    </span>
+                );
+            default:
+                return null;
+        }
+    };
+
+    if (loading || productsLoading) {
         return (
             <div className="space-y-6">
                 <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 ${cardClass}`}>
@@ -57,14 +152,10 @@ export default function MySoftwaresPage() {
                         </div>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {[1, 2, 3].map((i) => (
+                <div className="grid grid-cols-1 gap-4">
+                    {[1, 2].map((i) => (
                         <div key={i} className={cardClass}>
-                            <div className={`h-40 ${isDark ? 'bg-slate-700' : 'bg-slate-100'} animate-pulse`}></div>
-                            <div className="p-5 space-y-3">
-                                <div className={`h-4 rounded w-3/4 ${isDark ? 'bg-slate-700' : 'bg-slate-100'} animate-pulse`}></div>
-                                <div className={`h-3 rounded w-1/2 ${isDark ? 'bg-slate-700' : 'bg-slate-100'} animate-pulse`}></div>
-                            </div>
+                            <div className={`h-48 ${isDark ? 'bg-slate-700' : 'bg-slate-100'} animate-pulse`}></div>
                         </div>
                     ))}
                 </div>
@@ -74,7 +165,7 @@ export default function MySoftwaresPage() {
 
     return (
         <div className="space-y-6">
-            {/* Professional Compact Header */}
+            {/* Header */}
             <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 ${cardClass}`}>
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#fb923c] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
@@ -85,7 +176,7 @@ export default function MySoftwaresPage() {
                             My Softwares
                         </h1>
                         <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                            Download and manage your purchased software
+                            View all your purchased software and their details
                         </p>
                     </div>
                 </div>
@@ -98,7 +189,7 @@ export default function MySoftwaresPage() {
                             }`}
                     >
                         <FiRefreshCw size={16} />
-                        Sync
+                        Refresh
                     </button>
                     <Link
                         href="/software"
@@ -126,41 +217,38 @@ export default function MySoftwaresPage() {
                             <FiCode size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#fb923c] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
 
                 <div className={`${cardClass} p-5 relative group overflow-hidden`}>
                     <div className="relative z-10 flex items-start justify-between">
                         <div>
                             <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                Active Licenses
+                                Payment Complete
                             </p>
-                            <h3 className={`text-3xl font-bold mt-1 ${isDark ? 'text-white' : 'text-slate-800'}`}>
-                                {stats.active.toString().padStart(2, '0')}
+                            <h3 className={`text-3xl font-bold mt-1 text-emerald-500`}>
+                                {stats.completed.toString().padStart(2, '0')}
                             </h3>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-rose-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
-                            <FiCheck size={20} />
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                            <FiCheckCircle size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-emerald-500 to-rose-600 transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
 
                 <div className={`${cardClass} p-5 relative group overflow-hidden`}>
                     <div className="relative z-10 flex items-start justify-between">
                         <div>
                             <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                Total Downloads
+                                Pending
                             </p>
-                            <h3 className={`text-3xl font-bold mt-1 ${isDark ? 'text-white' : 'text-slate-800'}`}>
-                                {stats.downloads.toString().padStart(2, '0')}
+                            <h3 className={`text-3xl font-bold mt-1 text-amber-500`}>
+                                {stats.pending.toString().padStart(2, '0')}
                             </h3>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
-                            <FiDownload size={20} />
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform">
+                            <FiAlertCircle size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
                 </div>
             </div>
 
@@ -177,26 +265,6 @@ export default function MySoftwaresPage() {
                             : 'bg-slate-50 border-slate-200 text-slate-700 focus:ring-[#FD9A00]/20'
                             }`}
                     />
-                </div>
-                <div className={`flex items-center gap-1 p-1 rounded-lg ${isDark ? 'bg-slate-800' : 'bg-slate-100'}`}>
-                    <button
-                        onClick={() => setViewMode('grid')}
-                        className={`p-2 rounded-md transition-all ${viewMode === 'grid'
-                            ? isDark ? 'bg-slate-700 text-white shadow-sm' : 'bg-white shadow-sm text-slate-800'
-                            : isDark ? 'text-slate-400' : 'text-slate-500'
-                            }`}
-                    >
-                        <FiGrid size={18} />
-                    </button>
-                    <button
-                        onClick={() => setViewMode('list')}
-                        className={`p-2 rounded-md transition-all ${viewMode === 'list'
-                            ? isDark ? 'bg-slate-700 text-white shadow-sm' : 'bg-white shadow-sm text-slate-800'
-                            : isDark ? 'text-slate-400' : 'text-slate-500'
-                            }`}
-                    >
-                        <FiList size={18} />
-                    </button>
                 </div>
             </div>
 
@@ -216,7 +284,7 @@ export default function MySoftwaresPage() {
                     <p className={`text-sm mt-3 max-w-sm mx-auto ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
                         {searchTerm
                             ? `No software matching "${searchTerm}".`
-                            : 'Browse our software marketplace to find useful tools and applications.'
+                            : 'Browse our marketplace to find your perfect software.'
                         }
                     </p>
                     {!searchTerm && (
@@ -224,142 +292,238 @@ export default function MySoftwaresPage() {
                             href="/software"
                             className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#FD9A00] to-[#fb923c] text-white rounded-xl font-bold text-sm shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                         >
-                            Browse Software <FiArrowRight />
+                            Browse Software <FiExternalLink />
                         </Link>
                     )}
                 </div>
-            ) : viewMode === 'grid' ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {filteredSoftwares.map((item) => (
-                        <div
-                            key={item._id}
-                            className={`group relative rounded-2xl border overflow-hidden transition-all duration-300 ${isDark
-                                ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
-                                : 'bg-white border-slate-200 hover:shadow-lg'
-                                }`}
-                        >
-                            {/* Thumbnail */}
-                            <div className="relative h-40 overflow-hidden">
-                                <img
-                                    src={item.product?.images?.[0] || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400'}
-                                    alt={item.productTitle}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                                {/* Version Badge */}
-                                <div className="absolute top-3 right-3">
-                                    <span className="px-2 py-1 rounded-lg bg-white/20 backdrop-blur-sm text-white text-[10px] font-bold">
-                                        {item.product?.version || 'v1.0.0'}
-                                    </span>
-                                </div>
-
-                                <div className="absolute bottom-3 left-3 right-3">
-                                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest text-white bg-gradient-to-r from-[#FD9A00] to-[#fb923c] mb-2">
-                                        <FiCode size={10} /> Software
-                                    </span>
-                                    <h3 className="text-white font-bold text-sm line-clamp-2 leading-snug">
-                                        {item.productTitle}
-                                    </h3>
-                                </div>
-                            </div>
-
-                            {/* Info */}
-                            <div className="p-4 space-y-4">
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-[10px] font-bold">
-                                        <span className={`uppercase tracking-widest flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                            <FiClock size={10} /> Purchased
-                                        </span>
-                                        <span className={isDark ? 'text-slate-300' : 'text-slate-600'}>
-                                            {new Date(item.createdAt).toLocaleDateString()}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-[10px] font-bold">
-                                        <span className={`uppercase tracking-widest flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                            <FiMonitor size={10} /> Status
-                                        </span>
-                                        <span className={item.isActive ? 'text-emerald-500' : 'text-slate-400'}>
-                                            {item.isActive ? 'Active' : 'Inactive'}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-[10px] font-bold">
-                                        <span className={`uppercase tracking-widest flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                            <FiShield size={10} /> License
-                                        </span>
-                                        <span className="text-[#FD9A00]">Universal</span>
-                                    </div>
-                                </div>
-
-                                {/* Actions */}
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => window.open(item.product?.downloadFile, '_blank')}
-                                        disabled={!item.product?.downloadFile}
-                                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#fb923c] text-white rounded-xl font-bold text-xs shadow-md shadow-[#FD9A00]/10 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50"
-                                    >
-                                        <FiDownload size={14} /> Download
-                                    </button>
-                                    <button className={`p-2.5 rounded-xl transition-all ${isDark
-                                        ? 'bg-slate-700 text-slate-300 hover:text-[#FD9A00]'
-                                        : 'bg-slate-100 text-slate-500 hover:text-[#FD9A00]'
-                                        }`}>
-                                        <FiExternalLink size={16} />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
             ) : (
-                <div className={`rounded-2xl border overflow-hidden divide-y ${isDark ? 'bg-slate-800/50 border-white/5 divide-white/5' : 'bg-white border-slate-200 divide-slate-100'}`}>
-                    {filteredSoftwares.map((item) => (
-                        <div key={item._id} className={`flex items-center gap-4 p-4 transition-colors ${isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-50'}`}>
-                            <div className="w-16 h-12 rounded-xl overflow-hidden shrink-0 border border-slate-100 dark:border-white/5">
-                                <img src={item.product?.images?.[0]} className="w-full h-full object-cover" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <h3 className={`text-sm font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>{item.productTitle}</h3>
-                                <div className="flex items-center gap-3 mt-1">
-                                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded tracking-wider bg-orange-100 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400">
-                                        {item.product?.version || 'v1.0.0'}
-                                    </span>
-                                    <span className={`text-[10px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                        {new Date(item.createdAt).toLocaleDateString()}
-                                    </span>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => window.open(item.product?.downloadFile, '_blank')}
-                                disabled={!item.product?.downloadFile}
-                                className={`p-2.5 rounded-xl transition-all ${isDark
-                                    ? 'bg-slate-700 text-slate-300 hover:bg-[#FD9A00] hover:text-white'
-                                    : 'bg-slate-100 text-slate-500 hover:bg-[#FD9A00] hover:text-white'
-                                    } disabled:opacity-50`}
+                <div className="space-y-4">
+                    {filteredSoftwares.map((item) => {
+                        const isExpanded = expandedCard === item.orderId + item.product;
+                        const product = item.productDetails;
+
+                        return (
+                            <div
+                                key={item.orderId + item.product}
+                                className={`${cardClass} overflow-hidden`}
                             >
-                                <FiDownload size={16} />
-                            </button>
-                        </div>
-                    ))}
+                                {/* Main Card Header */}
+                                <div className="p-5">
+                                    <div className="flex flex-col lg:flex-row gap-5">
+                                        {/* Thumbnail */}
+                                        <div className="lg:w-48 h-32 lg:h-auto rounded-xl overflow-hidden shrink-0">
+                                            <img
+                                                src={item.image || product?.images?.[0] || 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400'}
+                                                alt={item.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+
+                                        {/* Info */}
+                                        <div className="flex-1 space-y-4">
+                                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                                                <div>
+                                                    <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                                        {product?.title || item.title}
+                                                    </h3>
+                                                    <p className={`text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                                        Order: #{item.orderNumber} • {new Date(item.orderDate).toLocaleDateString('en-US')}
+                                                    </p>
+                                                </div>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {getStatusBadge(item.paymentStatus)}
+                                                    {getDeliveryStatus(item.paymentStatus)}
+                                                </div>
+                                            </div>
+
+                                            {/* Quick Info Grid */}
+                                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                                <div className={`p-3 rounded-xl ${isDark ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                                                    <p className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Price</p>
+                                                    <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>৳{item.price?.toLocaleString()}</p>
+                                                </div>
+                                                <div className={`p-3 rounded-xl ${isDark ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                                                    <p className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Payment</p>
+                                                    <p className={`text-sm font-bold capitalize ${isDark ? 'text-white' : 'text-slate-800'}`}>{item.paymentMethod}</p>
+                                                </div>
+                                                <div className={`p-3 rounded-xl ${isDark ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                                                    <p className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Platform</p>
+                                                    <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>{product?.platform || 'N/A'}</p>
+                                                </div>
+                                                <div className={`p-3 rounded-xl ${isDark ? 'bg-slate-700/50' : 'bg-slate-50'}`}>
+                                                    <p className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>Installment</p>
+                                                    <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>{item.isInstallment ? 'Yes' : 'No'}</p>
+                                                </div>
+                                            </div>
+
+                                            {/* Expand Button */}
+                                            <button
+                                                onClick={() => setExpandedCard(isExpanded ? null : item.orderId + item.product)}
+                                                className={`flex items-center gap-2 text-sm font-bold transition-all ${isDark ? 'text-[#FD9A00] hover:text-[#fb923c]' : 'text-[#FD9A00] hover:text-[#e68a00]'
+                                                    }`}
+                                            >
+                                                {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
+                                                {isExpanded ? 'Show Less' : 'View Details'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Expanded Details */}
+                                {isExpanded && product && (
+                                    <div className={`border-t ${isDark ? 'border-slate-700' : 'border-slate-100'}`}>
+                                        <div className="p-5 space-y-6">
+                                            {/* Features Section */}
+                                            <div>
+                                                <h4 className={`flex items-center gap-2 text-sm font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                                    <FiLayers size={16} className="text-[#FD9A00]" />
+                                                    Features
+                                                </h4>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                                    {product.features?.map((feature, idx) => (
+                                                        <div key={idx} className={`flex items-center gap-2 p-2 rounded-lg ${isDark ? 'bg-slate-700/30' : 'bg-slate-50'}`}>
+                                                            <FiCheckCircle className="text-emerald-500 shrink-0" size={14} />
+                                                            <span className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{feature}</span>
+                                                        </div>
+                                                    )) || (
+                                                            <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No features listed</p>
+                                                        )}
+                                                </div>
+                                            </div>
+
+                                            {/* Supported Platforms */}
+                                            {product.supportedPlatforms && (
+                                                <div>
+                                                    <h4 className={`flex items-center gap-2 text-sm font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                                        <FiMonitor size={16} className="text-[#FD9A00]" />
+                                                        Supported Platforms
+                                                    </h4>
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {product.supportedPlatforms.map((plat, idx) => (
+                                                            <span key={idx} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${isDark ? 'bg-slate-700 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
+                                                                {plat.toLowerCase().includes('win') && <FiMonitor size={12} />}
+                                                                {plat.toLowerCase().includes('mac') && <FiMonitor size={12} />}
+                                                                {plat.toLowerCase().includes('android') && <FiSmartphone size={12} />}
+                                                                {plat.toLowerCase().includes('ios') && <FiSmartphone size={12} />}
+                                                                {plat}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Technologies Section */}
+                                            <div>
+                                                <h4 className={`flex items-center gap-2 text-sm font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                                    <FiCpu size={16} className="text-[#FD9A00]" />
+                                                    Technology Stack
+                                                </h4>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {product.technologies?.map((tech, idx) => (
+                                                        <span key={idx} className={`px-3 py-1.5 rounded-lg text-xs font-bold ${isDark ? 'bg-slate-700 text-slate-300' : 'bg-slate-100 text-slate-600'}`}>
+                                                            {tech}
+                                                        </span>
+                                                    )) || (
+                                                            <p className={`text-xs ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>No technologies listed</p>
+                                                        )}
+                                                </div>
+                                            </div>
+
+                                            {/* Description Section */}
+                                            {product.description && (
+                                                <div>
+                                                    <h4 className={`flex items-center gap-2 text-sm font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                                        <FiInfo size={16} className="text-[#FD9A00]" />
+                                                        Description
+                                                    </h4>
+                                                    <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                                                        {product.description}
+                                                    </p>
+                                                </div>
+                                            )}
+
+                                            {/* Installment Details */}
+                                            {item.isInstallment && item.installments && (
+                                                <div>
+                                                    <h4 className={`flex items-center gap-2 text-sm font-bold mb-3 ${isDark ? 'text-white' : 'text-slate-800'}`}>
+                                                        <FiClock size={16} className="text-[#FD9A00]" />
+                                                        Installment Schedule
+                                                    </h4>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                                        {item.installments.map((inst, idx) => (
+                                                            <div key={idx} className={`p-3 rounded-xl border ${inst.status === 'completed'
+                                                                ? isDark ? 'border-emerald-500/30 bg-emerald-500/10' : 'border-emerald-200 bg-emerald-50'
+                                                                : isDark ? 'border-slate-700 bg-slate-800/50' : 'border-slate-200 bg-slate-50'
+                                                                }`}>
+                                                                <div className="flex justify-between items-center mb-2">
+                                                                    <span className={`text-xs font-bold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                                                        Installment #{inst.installmentNumber}
+                                                                    </span>
+                                                                    {inst.status === 'completed' ? (
+                                                                        <FiCheckCircle className="text-emerald-500" size={14} />
+                                                                    ) : (
+                                                                        <FiClock className="text-amber-500" size={14} />
+                                                                    )}
+                                                                </div>
+                                                                <p className={`text-lg font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>৳{inst.amount?.toLocaleString()}</p>
+                                                                <p className={`text-[10px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+                                                                    {new Date(inst.dueDate).toLocaleDateString('en-US')}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Action Buttons */}
+                                            <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-100 dark:border-slate-700">
+                                                {product.previewUrl && (
+                                                    <a
+                                                        href={product.previewUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${isDark
+                                                            ? 'bg-slate-700 text-slate-200 hover:bg-slate-600'
+                                                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                                            }`}
+                                                    >
+                                                        <FiExternalLink size={16} />
+                                                        View Live Demo
+                                                    </a>
+                                                )}
+                                                <Link
+                                                    href="/dashboard/user/support"
+                                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#fb923c] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
+                                                >
+                                                    <FiMessageSquare size={16} />
+                                                    Contact Support
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
             )}
 
             {/* Info Notice */}
             <div className={`p-6 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-4 transition-all ${isDark
-                ? 'bg-slate-800/50 border-white/5'
-                : 'bg-gradient-to-br from-slate-50 to-white border-slate-100'
+                ? 'bg-gradient-to-r from-slate-800 to-slate-800/50 border-white/5'
+                : 'bg-gradient-to-r from-[#FD9A00]/5 to-white border-slate-100'
                 }`}>
                 <div className="flex items-center gap-4 text-center md:text-left">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${isDark
-                        ? 'bg-slate-700 text-[#FD9A00]'
-                        : 'bg-white text-[#FD9A00] shadow-md border border-slate-100'
+                        ? 'bg-[#FD9A00]/10 text-[#FD9A00]'
+                        : 'bg-white text-[#FD9A00] shadow-md border border-[#FD9A00]/10'
                         }`}>
-                        <FiCpu size={22} />
+                        <FiShield size={22} />
                     </div>
                     <div>
-                        <h4 className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>Lifetime Updates Included</h4>
+                        <h4 className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>About Delivery</h4>
                         <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                            All software purchases include free lifetime updates. Check back for new versions!
+                            After payment confirmation, our team will contact you for software setup.
                         </p>
                     </div>
                 </div>
@@ -370,7 +534,7 @@ export default function MySoftwaresPage() {
                         : 'bg-slate-900 text-white hover:bg-slate-800'
                         }`}
                 >
-                    Get Support
+                    Need Help?
                 </Link>
             </div>
         </div>

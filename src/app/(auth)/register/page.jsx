@@ -74,7 +74,9 @@ const Register = () => {
         throw new Error(data.message || "Registration failed");
       }
 
-      router.push("/login");
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirect = searchParams.get('redirect');
+      router.push(`/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`);
     } catch (err) {
       setError(err.message);
     } finally {

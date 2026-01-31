@@ -13,7 +13,8 @@ const ProtectedRoute = ({ children, role, allowedRoles = [] }) => {
     const user = localStorage.getItem("user");
 
     if (!token || !user) {
-      router.replace("/login");
+      const currentPath = window.location.pathname + window.location.search;
+      router.replace(`/login?redirect=${encodeURIComponent(currentPath)}`);
       return;
     }
 

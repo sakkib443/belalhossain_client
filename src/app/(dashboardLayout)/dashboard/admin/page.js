@@ -367,14 +367,25 @@ export default function AdminDashboard() {
 
       setTopCourses(topProducts || []);
 
-      setRecentOrders((recentPurchases || []).map(p => ({
-        id: p.orderNumber || p._id?.slice(-6).toUpperCase(),
-        customer: `${p.user?.firstName || 'User'} ${p.user?.lastName || ''}`,
-        product: p.items?.[0]?.title || 'Product',
-        amount: p.totalAmount,
-        status: p.paymentStatus,
-        time: new Date(p.orderDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      })));
+      setRecentOrders((recentPurchases || []).map(p => {
+        let paidAmount = p.totalAmount;
+        if (p.isInstallment && p.installments) {
+          paidAmount = p.installments
+            .filter(i => i.status === 'completed')
+            .reduce((sum, i) => sum + (i.amount || 0), 0);
+        }
+
+        return {
+          id: p.orderNumber || p._id?.slice(-6).toUpperCase(),
+          customer: `${p.user?.firstName || 'User'} ${p.user?.lastName || ''}`,
+          product: p.items?.[0]?.title || 'Product',
+          amount: paidAmount, // Display actual money received
+          totalAmount: p.totalAmount, // Keep total for reference if needed
+          status: p.paymentStatus,
+          isInstallment: p.isInstallment,
+          time: new Date(p.orderDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+      }));
 
       // Fetch notifications for recent activities
       try {
@@ -765,7 +776,16 @@ export default function AdminDashboard() {
                         </div>
                       </td>
                       <td className="p-4 text-sm text-slate-600 max-w-[200px] truncate">{order.product}</td>
-                      <td className="p-4 text-sm font-bold text-emerald-600">৳{order.amount?.toLocaleString()}</td>
+                      <td className="p-4">
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-emerald-600">৳{order.amount?.toLocaleString()}</span>
+                          {order.isInstallment && (
+                            <span className="text-[10px] text-slate-400 font-medium whitespace-nowrap">
+                              of ৳{order.totalAmount?.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                      </td>
                       <td className="p-4">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${getStatusStyle(order.status)}`}>
                           {order.status}

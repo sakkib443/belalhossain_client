@@ -50,17 +50,30 @@ const Login = () => {
         const userRole = user.role || "student";
         console.log("Logged in user role:", userRole);
 
-        switch (userRole) {
-          case "admin":
-            router.push("/dashboard/admin");
-            break;
-          case "mentor":
-            router.push("/dashboard/mentor");
-            break;
-          case "student":
-          case "user":
-          default:
-            router.push("/dashboard/user");
+        // Check for redirect path
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirectParam = searchParams.get('redirect');
+        const storedRedirect = sessionStorage.getItem('redirectPath');
+        const finalRedirect = redirectParam || storedRedirect;
+
+        // Clear the stored redirect after use
+        sessionStorage.removeItem('redirectPath');
+
+        if (finalRedirect && !finalRedirect.includes('/login') && !finalRedirect.includes('/register')) {
+          router.push(finalRedirect);
+        } else {
+          switch (userRole) {
+            case "admin":
+              router.push("/dashboard/admin");
+              break;
+            case "mentor":
+              router.push("/dashboard/mentor");
+              break;
+            case "student":
+            case "user":
+            default:
+              router.push("/dashboard/user");
+          }
         }
       } else {
         throw new Error("Invalid response from server");

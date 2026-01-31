@@ -17,6 +17,7 @@ import ReduxProviderWrapper from "@/components/ReduxProvaiderWrapper";
 import { LanguageProvider } from "@/context/LanguageContext";
 
 import { Toaster } from "react-hot-toast";
+import ScrollToTopOnNavigate from "@/components/sheard/ScrollToTopOnNavigate";
 
 // Google Fonts
 const poppins = Poppins({
@@ -86,7 +87,7 @@ export default function RootLayout({ children }) {
         <ReduxProviderWrapper>
           <LanguageProvider>
             <Toaster position="top-center" reverseOrder={false} />
-
+            <ScrollToTopOnNavigate />
             {children}
           </LanguageProvider>
         </ReduxProviderWrapper>

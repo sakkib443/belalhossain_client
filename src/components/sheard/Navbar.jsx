@@ -458,10 +458,18 @@ const Navbar = () => {
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <Link href="/login" onClick={closeMobileMenu} className="block w-full text-center py-4 rounded-2xl bg-[#FD9A00] text-white font-bold shadow-lg shadow-[#FD9A00]/30 hover:bg-[#e68a00] transition-all">
+                      <Link
+                        href={`/login?redirect=${encodeURIComponent(pathname + (typeof window !== 'undefined' ? window.location.search : ''))}`}
+                        onClick={closeMobileMenu}
+                        className="block w-full text-center py-4 rounded-2xl bg-[#FD9A00] text-white font-bold shadow-lg shadow-[#FD9A00]/30 hover:bg-[#e68a00] transition-all"
+                      >
                         Sign In
                       </Link>
-                      <Link href="/register" onClick={closeMobileMenu} className="block w-full text-center py-4 rounded-2xl bg-[#C4EE18] text-black font-bold uppercase font-teko text-xl shadow-lg border border-[#C4EE18] hover:bg-black hover:text-[#C4EE18] transition-all">
+                      <Link
+                        href={`/register?redirect=${encodeURIComponent(pathname + (typeof window !== 'undefined' ? window.location.search : ''))}`}
+                        onClick={closeMobileMenu}
+                        className="block w-full text-center py-4 rounded-2xl bg-[#C4EE18] text-black font-bold uppercase font-teko text-xl shadow-lg border border-[#C4EE18] hover:bg-black hover:text-[#C4EE18] transition-all"
+                      >
                         Join Platform
                       </Link>
                     </div>
@@ -644,7 +652,10 @@ const Navbar = () => {
                   </AnimatePresence>
                 </div>
               ) : mounted ? (
-                <Link href="/login" className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#FD9A00] hover:bg-[#e68a00] text-white font-bold text-sm transition-all shadow-lg shadow-[#FD9A00]/30 hover:shadow-[#FD9A00]/50 transform hover:-translate-y-0.5">
+                <Link
+                  href={`/login?redirect=${encodeURIComponent(pathname + (typeof window !== 'undefined' ? window.location.search : ''))}`}
+                  className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#FD9A00] hover:bg-[#e68a00] text-white font-bold text-sm transition-all shadow-lg shadow-[#FD9A00]/30 hover:shadow-[#FD9A00]/50 transform hover:-translate-y-0.5"
+                >
                   <LuUser size={18} />
                   <span>Login</span>
                 </Link>

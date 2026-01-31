@@ -2,43 +2,54 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMyDownloads } from '@/redux/downloadSlice';
+import { fetchMyOrders } from '@/redux/orderSlice';
 import Link from 'next/link';
 import {
-    FiDownload, FiCode, FiGlobe, FiSearch, FiRefreshCw,
-    FiGrid, FiList, FiClock, FiShield, FiExternalLink,
-    FiPackage, FiArrowRight
+    FiCode, FiGlobe, FiSearch, FiRefreshCw,
+    FiGrid, FiList, FiPackage, FiArrowRight,
+    FiCheckCircle, FiAlertCircle, FiClock, FiMessageSquare, FiLayers
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
 
 export default function AllAssetsPage() {
     const { isDark } = useTheme();
     const dispatch = useDispatch();
-    const { downloads, loading } = useSelector((state) => state.download);
+    const { orders, loading } = useSelector((state) => state.order);
     const [searchTerm, setSearchTerm] = useState('');
     const [viewMode, setViewMode] = useState('grid');
     const [filterType, setFilterType] = useState('all');
 
     useEffect(() => {
-        dispatch(fetchMyDownloads());
+        dispatch(fetchMyOrders());
     }, [dispatch]);
 
     const handleRefresh = () => {
-        dispatch(fetchMyDownloads());
+        dispatch(fetchMyOrders());
     };
 
+    // Extract all products from orders
+    const allProducts = orders?.flatMap(order =>
+        order.items?.map(item => ({
+            ...item,
+            orderId: order._id,
+            orderNumber: order.orderNumber,
+            orderDate: order.orderDate,
+            paymentStatus: order.paymentStatus
+        })) || []
+    ) || [];
+
     // Filter downloads
-    const filteredDownloads = downloads.filter(d => {
-        const matchesSearch = d.productTitle?.toLowerCase().includes(searchTerm.toLowerCase());
+    const filteredProducts = allProducts.filter(d => {
+        const matchesSearch = d.title?.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesType = filterType === 'all' || d.productType === filterType;
         return matchesSearch && matchesType;
     });
 
     // Stats
     const stats = {
-        total: downloads.length,
-        softwares: downloads.filter(d => d.productType === 'software').length,
-        websites: downloads.filter(d => d.productType === 'website').length,
+        total: allProducts.length,
+        softwares: allProducts.filter(d => d.productType === 'software').length,
+        websites: allProducts.filter(d => d.productType === 'website').length,
     };
 
     // Card class based on theme
@@ -46,6 +57,25 @@ export default function AllAssetsPage() {
         ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
         : 'bg-white border-slate-200/60 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:shadow-md'
         }`;
+
+    const getStatusBadge = (status) => {
+        switch (status) {
+            case 'completed':
+                return (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">
+                        <FiCheckCircle size={8} /> Complete
+                    </span>
+                );
+            case 'pending':
+                return (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400">
+                        <FiAlertCircle size={8} /> Pending
+                    </span>
+                );
+            default:
+                return null;
+        }
+    };
 
     if (loading) {
         return (
@@ -76,18 +106,18 @@ export default function AllAssetsPage() {
 
     return (
         <div className="space-y-6">
-            {/* Professional Compact Header */}
+            {/* Header */}
             <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-5 ${cardClass}`}>
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
-                        <FiDownload size={24} />
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md shadow-[#FD9A00]/10">
+                        <FiLayers size={24} />
                     </div>
                     <div>
                         <h1 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>
                             Digital Assets
                         </h1>
                         <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                            All your purchased softwares and website templates
+                            All your purchased websites and software
                         </p>
                     </div>
                 </div>
@@ -100,11 +130,11 @@ export default function AllAssetsPage() {
                             }`}
                     >
                         <FiRefreshCw size={16} />
-                        Sync
+                        Refresh
                     </button>
                     <Link
-                        href="/software"
-                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
+                        href="/website"
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                     >
                         <FiPackage size={16} />
                         Browse More
@@ -119,17 +149,17 @@ export default function AllAssetsPage() {
                     <div className="relative z-10 flex items-start justify-between">
                         <div>
                             <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                Total Assets
+                                Total Products
                             </p>
                             <h3 className={`text-3xl font-bold mt-1 ${isDark ? 'text-white' : 'text-slate-800'}`}>
                                 {stats.total.toString().padStart(2, '0')}
                             </h3>
                             <p className={`text-[10px] mt-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                All downloads
+                                All Products
                             </p>
                         </div>
                         <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#2dd4bf] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
-                            <FiDownload size={20} />
+                            <FiLayers size={20} />
                         </div>
                     </div>
                     <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] transition-all duration-300 group-hover:w-full w-0`} />
@@ -140,13 +170,13 @@ export default function AllAssetsPage() {
                     <div className="relative z-10 flex items-start justify-between">
                         <div>
                             <p className={`text-[10px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                Softwares
+                                Software
                             </p>
                             <h3 className={`text-3xl font-bold mt-1 ${isDark ? 'text-white' : 'text-slate-800'}`}>
                                 {stats.softwares.toString().padStart(2, '0')}
                             </h3>
                             <p className={`text-[10px] mt-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                Applications & tools
+                                Applications & Tools
                             </p>
                         </div>
                         <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#fb923c] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
@@ -167,14 +197,14 @@ export default function AllAssetsPage() {
                                 {stats.websites.toString().padStart(2, '0')}
                             </h3>
                             <p className={`text-[10px] mt-1 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                Templates & themes
+                                Templates & Themes
                             </p>
                         </div>
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FD9A00] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#2dd4bf] to-[#FD9A00] flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300">
                             <FiGlobe size={20} />
                         </div>
                     </div>
-                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
+                    <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#2dd4bf] to-[#FD9A00] transition-all duration-300 group-hover:w-full w-0`} />
                 </Link>
             </div>
 
@@ -183,7 +213,7 @@ export default function AllAssetsPage() {
                 <div className="relative flex-1">
                     <FiSearch className={`absolute left-4 top-1/2 -translate-y-1/2 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
                     <input
-                        placeholder="Search your assets..."
+                        placeholder="Search products..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className={`w-full pl-11 pr-4 py-2.5 rounded-xl text-sm transition-all focus:outline-none focus:ring-2 ${isDark
@@ -215,7 +245,7 @@ export default function AllAssetsPage() {
                             ? isDark ? 'bg-[#FD9A00]/20 text-[#FD9A00] border border-[#FD9A00]/30' : 'bg-[#FD9A00]/10 text-[#FD9A00] border border-[#FD9A00]/20'
                             : isDark ? 'bg-slate-700 text-slate-300 hover:bg-slate-600' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                             }`}>
-                        Website
+                        Websites
                     </button>
                 </div>
                 <div className={`flex items-center gap-1 p-1 rounded-lg ${isDark ? 'bg-slate-800' : 'bg-slate-100'}`}>
@@ -241,27 +271,27 @@ export default function AllAssetsPage() {
             </div>
 
             {/* Content */}
-            {filteredDownloads.length === 0 ? (
+            {filteredProducts.length === 0 ? (
                 <div className={`py-20 text-center rounded-2xl border-2 border-dashed ${isDark
                     ? 'border-slate-700 bg-slate-900/20'
                     : 'border-slate-200 bg-slate-50/50'
                     }`}>
                     <div className={`w-20 h-20 mx-auto rounded-2xl flex items-center justify-center mb-4 ${isDark ? 'bg-slate-800' : 'bg-slate-100'
                         }`}>
-                        <FiDownload size={36} className={isDark ? 'text-slate-600' : 'text-slate-300'} />
+                        <FiLayers size={36} className={isDark ? 'text-slate-600' : 'text-slate-300'} />
                     </div>
                     <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>
-                        No Assets Found
+                        No Products Found
                     </h2>
                     <p className={`text-sm mt-3 max-w-sm mx-auto ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
                         {searchTerm
-                            ? `No assets matching "${searchTerm}".`
-                            : "You haven't purchased any digital assets yet. Browse our marketplace to get started!"}
+                            ? `No products matching "${searchTerm}".`
+                            : "You haven't purchased any products yet. Browse our marketplace!"}
                     </p>
                     {!searchTerm && (
                         <Link
-                            href="/software"
-                            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
+                            href="/website"
+                            className="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white rounded-xl font-bold text-sm shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                         >
                             Browse Marketplace <FiArrowRight />
                         </Link>
@@ -269,9 +299,10 @@ export default function AllAssetsPage() {
                 </div>
             ) : viewMode === 'grid' ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {filteredDownloads.map((item) => (
-                        <div
-                            key={item._id}
+                    {filteredProducts.map((item, idx) => (
+                        <Link
+                            href={item.productType === 'website' ? '/dashboard/user/assets/websites' : '/dashboard/user/assets/softwares'}
+                            key={idx}
                             className={`group relative rounded-2xl border overflow-hidden transition-all duration-300 ${isDark
                                 ? 'bg-slate-800/50 border-white/5 hover:border-[#FD9A00]/20'
                                 : 'bg-white border-slate-200 hover:shadow-lg'
@@ -280,10 +311,10 @@ export default function AllAssetsPage() {
                             {/* Thumbnail */}
                             <div className="relative h-40 overflow-hidden">
                                 <img
-                                    src={item.product?.images?.[0] || (item.productType === 'software'
+                                    src={item.image || (item.productType === 'software'
                                         ? 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400'
                                         : 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400')}
-                                    alt={item.productTitle}
+                                    alt={item.title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
@@ -292,91 +323,76 @@ export default function AllAssetsPage() {
                                 <div className="absolute top-3 left-3">
                                     <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest text-white ${item.productType === 'software'
                                         ? 'bg-gradient-to-r from-[#FD9A00] to-[#fb923c]'
-                                        : 'bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf]'
+                                        : 'bg-gradient-to-r from-[#2dd4bf] to-[#FD9A00]'
                                         }`}>
                                         {item.productType === 'software' ? <FiCode size={10} /> : <FiGlobe size={10} />}
-                                        {item.productType}
+                                        {item.productType === 'software' ? 'Software' : 'Website'}
                                     </span>
                                 </div>
 
                                 <div className="absolute bottom-3 left-3 right-3">
                                     <h3 className="text-white font-bold text-sm line-clamp-2 leading-snug">
-                                        {item.productTitle}
+                                        {item.title}
                                     </h3>
                                 </div>
                             </div>
 
                             {/* Info */}
-                            <div className="p-4 space-y-4">
-                                <div className="space-y-2">
-                                    <div className="flex items-center justify-between text-[10px] font-bold">
-                                        <span className={`uppercase tracking-widest flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                            <FiClock size={10} /> Purchased
-                                        </span>
-                                        <span className={isDark ? 'text-slate-300' : 'text-slate-600'}>
-                                            {new Date(item.createdAt).toLocaleDateString()}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center justify-between text-[10px] font-bold">
-                                        <span className={`uppercase tracking-widest flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                            <FiShield size={10} /> License
-                                        </span>
-                                        <span className="text-emerald-500">Commercial</span>
-                                    </div>
+                            <div className="p-4 space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <span className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                                        #{item.orderNumber}
+                                    </span>
+                                    {getStatusBadge(item.paymentStatus)}
                                 </div>
 
-                                {/* Actions */}
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => window.open(item.product?.downloadFile, '_blank')}
-                                        disabled={!item.product?.downloadFile}
-                                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white rounded-xl font-bold text-xs shadow-md shadow-[#FD9A00]/10 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all disabled:opacity-50"
-                                    >
-                                        <FiDownload size={14} /> Download
-                                    </button>
-                                    <button className={`p-2.5 rounded-xl transition-all ${isDark
-                                        ? 'bg-slate-700 text-slate-300 hover:text-[#FD9A00]'
-                                        : 'bg-slate-100 text-slate-500 hover:text-[#FD9A00]'
-                                        }`}>
-                                        <FiExternalLink size={16} />
-                                    </button>
+                                <div className="flex items-center justify-between text-[10px] font-bold">
+                                    <span className={`uppercase tracking-widest flex items-center gap-1.5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
+                                        <FiClock size={10} /> Order Date
+                                    </span>
+                                    <span className={isDark ? 'text-slate-300' : 'text-slate-600'}>
+                                        {new Date(item.orderDate).toLocaleDateString('en-US')}
+                                    </span>
+                                </div>
+
+                                {/* View Details */}
+                                <div className="flex items-center gap-2 pt-2">
+                                    <span className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white rounded-xl font-bold text-xs shadow-md shadow-[#FD9A00]/10 group-hover:shadow-lg group-hover:-translate-y-0.5 transition-all">
+                                        View Details <FiArrowRight size={14} />
+                                    </span>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             ) : (
                 <div className={`rounded-2xl border overflow-hidden divide-y ${isDark ? 'bg-slate-800/50 border-white/5 divide-white/5' : 'bg-white border-slate-200 divide-slate-100'}`}>
-                    {filteredDownloads.map((item) => (
-                        <div key={item._id} className={`flex items-center gap-4 p-4 transition-colors ${isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-50'}`}>
+                    {filteredProducts.map((item, idx) => (
+                        <Link
+                            href={item.productType === 'website' ? '/dashboard/user/assets/websites' : '/dashboard/user/assets/softwares'}
+                            key={idx}
+                            className={`flex items-center gap-4 p-4 transition-colors ${isDark ? 'hover:bg-slate-800' : 'hover:bg-slate-50'}`}
+                        >
                             <div className="w-16 h-12 rounded-xl overflow-hidden shrink-0 border border-slate-100 dark:border-white/5">
-                                <img src={item.product?.images?.[0]} className="w-full h-full object-cover" />
+                                <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <h3 className={`text-sm font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>{item.productTitle}</h3>
+                                <h3 className={`text-sm font-bold truncate ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>{item.title}</h3>
                                 <div className="flex items-center gap-3 mt-1">
                                     <span className={`text-[9px] font-bold uppercase px-1.5 py-0.5 rounded tracking-wider ${item.productType === 'software'
                                         ? 'bg-orange-100 text-orange-600 dark:bg-orange-500/10 dark:text-orange-400'
-                                        : 'bg-rose-100 text-rose-700 dark:bg-rose-600/10 dark:text-rose-500'
+                                        : 'bg-teal-100 text-teal-700 dark:bg-teal-600/10 dark:text-teal-500'
                                         }`}>
-                                        {item.productType}
+                                        {item.productType === 'software' ? 'Software' : 'Website'}
                                     </span>
                                     <span className={`text-[10px] ${isDark ? 'text-slate-500' : 'text-slate-400'}`}>
-                                        {new Date(item.createdAt).toLocaleDateString()}
+                                        {new Date(item.orderDate).toLocaleDateString('en-US')}
                                     </span>
+                                    {getStatusBadge(item.paymentStatus)}
                                 </div>
                             </div>
-                            <button
-                                onClick={() => window.open(item.product?.downloadFile, '_blank')}
-                                disabled={!item.product?.downloadFile}
-                                className={`p-2.5 rounded-xl transition-all ${isDark
-                                    ? 'bg-slate-700 text-slate-300 hover:bg-[#FD9A00] hover:text-white'
-                                    : 'bg-slate-100 text-slate-500 hover:bg-[#FD9A00] hover:text-white'
-                                    } disabled:opacity-50`}
-                            >
-                                <FiDownload size={16} />
-                            </button>
-                        </div>
+                            <FiArrowRight className={`${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
+                        </Link>
                     ))}
                 </div>
             )}
@@ -391,12 +407,12 @@ export default function AllAssetsPage() {
                         ? 'bg-slate-700 text-[#FD9A00]'
                         : 'bg-white text-[#FD9A00] shadow-md border border-slate-100'
                         }`}>
-                        <FiShield size={22} />
+                        <FiMessageSquare size={22} />
                     </div>
                     <div>
-                        <h4 className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>License Information</h4>
+                        <h4 className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-800'}`}>Need Help?</h4>
                         <p className={`text-xs mt-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                            All assets include commercial license. Use for unlimited personal and client projects.
+                            If you have any questions about your purchased products, contact our support team.
                         </p>
                     </div>
                 </div>
@@ -407,7 +423,7 @@ export default function AllAssetsPage() {
                         : 'bg-slate-900 text-white hover:bg-slate-800'
                         }`}
                 >
-                    Need Help?
+                    Contact Support
                 </Link>
             </div>
         </div>
