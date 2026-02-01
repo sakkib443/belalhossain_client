@@ -9,7 +9,7 @@ import { addToCart } from "@/redux/cartSlice";
 import {
     LuDownload, LuExternalLink, LuClock, LuTrophy,
     LuLayoutGrid, LuEye, LuPackage, LuShieldCheck,
-    LuSettings, LuFileCode, LuGlobe, LuCheck, LuSparkles, LuCode, LuZap
+    LuSettings, LuFileCode, LuGlobe, LuCheck, LuSparkles, LuCode, LuZap, LuX
 } from "react-icons/lu";
 import { FaHeart, FaRegHeart, FaStar, FaArrowRight } from "react-icons/fa";
 import { MdVerified, MdOutlineMenuBook, MdPlayCircleOutline } from "react-icons/md";
@@ -53,6 +53,7 @@ const SoftwareDetailsPage = () => {
     const { language } = useLanguage();
     const [activeTab, setActiveTab] = useState("overview");
     const [popularSoftware, setPopularSoftware] = useState([]);
+    const [showVideoModal, setShowVideoModal] = useState(false);
     const [isLiking, setIsLiking] = useState(false);
     const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
@@ -498,16 +499,31 @@ const SoftwareDetailsPage = () => {
                             <div className="sticky top-24 -mt-[28rem] space-y-5">
                                 {/* Pricing Card */}
                                 <div className="bg-white rounded-md border border-gray-200 shadow-sm overflow-hidden">
-                                    {/* Image */}
-                                    <div className="relative aspect-video group cursor-pointer overflow-hidden bg-gray-100">
+                                    {/* Image / Video Preview */}
+                                    <div
+                                        className="relative aspect-video group cursor-pointer overflow-hidden bg-gray-100"
+                                        onClick={() => software.videoUrl ? setShowVideoModal(true) : null}
+                                    >
                                         <img
                                             src={software.images?.[0] || "/images/placeholder.png"}
                                             alt={software.title}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
-                                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <MdPlayCircleOutline className="text-white text-5xl" />
-                                        </div>
+                                        {software.videoUrl ? (
+                                            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <MdPlayCircleOutline className="text-white text-6xl mb-2" />
+                                                <span className="text-white text-sm font-semibold poppins">Watch Video</span>
+                                            </div>
+                                        ) : (
+                                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <LuEye className="text-white text-3xl" />
+                                            </div>
+                                        )}
+                                        {software.videoUrl && (
+                                            <div className="absolute bottom-3 right-3 px-2.5 py-1 bg-red-600 rounded text-white text-[10px] font-bold flex items-center gap-1.5">
+                                                <MdPlayCircleOutline size={12} /> VIDEO
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* Content */}
@@ -604,6 +620,46 @@ const SoftwareDetailsPage = () => {
                     </div>
                 </div>
             </section>
+
+            {/* YouTube Video Modal */}
+            <AnimatePresence>
+                {showVideoModal && software.videoUrl && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setShowVideoModal(false)}
+                        className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 cursor-pointer"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="relative w-full max-w-4xl aspect-video cursor-default"
+                        >
+                            <iframe
+                                src={`https://www.youtube.com/embed/${software.videoUrl.includes('watch?v=')
+                                    ? software.videoUrl.split('watch?v=')[1].split('&')[0]
+                                    : software.videoUrl.includes('youtu.be/')
+                                        ? software.videoUrl.split('youtu.be/')[1].split('?')[0]
+                                        : software.videoUrl}?autoplay=1`}
+                                title="Video Preview"
+                                className="w-full h-full rounded-lg"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
+                            <button
+                                onClick={() => setShowVideoModal(false)}
+                                className="absolute -top-12 right-0 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+                            >
+                                <LuX size={20} />
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

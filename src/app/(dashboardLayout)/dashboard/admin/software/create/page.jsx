@@ -8,7 +8,7 @@ import { z } from 'zod';
 import {
     FiArrowLeft, FiSave, FiLoader, FiTerminal, FiZap, FiGlobe, FiStar,
     FiPackage, FiSettings, FiTag, FiPlus, FiTrash2, FiFileText, FiCpu,
-    FiDollarSign, FiImage, FiLink, FiCheck, FiLayers, FiCode, FiMonitor, FiEdit3
+    FiDollarSign, FiImage, FiLink, FiCheck, FiLayers, FiCode, FiMonitor, FiEdit3, FiVideo
 } from 'react-icons/fi';
 import Link from 'next/link';
 
@@ -48,6 +48,7 @@ const softwareSchema = z.object({
     softwareCompatibility: z.array(z.string()).optional(),
     images: z.array(z.string()).min(1),
     previewUrl: z.string().optional(),
+    videoUrl: z.string().url("Must be a valid YouTube URL").optional().or(z.literal('')),
     downloadFile: z.string().min(1, "Download file is required"),
     documentationUrl: z.string().optional(),
     status: z.enum(['pending', 'approved', 'rejected', 'draft']),
@@ -142,6 +143,7 @@ export default function CreateSoftwarePage() {
                             softwareCompatibility: sw.softwareCompatibility?.length ? sw.softwareCompatibility : [''],
                             images: sw.images?.length ? sw.images : [''],
                             previewUrl: sw.previewUrl || '',
+                            videoUrl: sw.videoUrl || '',
                             downloadFile: sw.downloadFile || '',
                             documentationUrl: sw.documentationUrl || '',
                             status: sw.status || 'approved',
@@ -533,6 +535,14 @@ export default function CreateSoftwarePage() {
                             <div>
                                 <label className={labelClass}>Preview URL</label>
                                 <input {...register('previewUrl')} className={inputClass} placeholder="https://demo.example.com" />
+                            </div>
+                            <div>
+                                <label className={labelClass}>YouTube Video URL</label>
+                                <div className="relative">
+                                    <FiVideo className="absolute left-3 top-3 text-slate-400" size={16} />
+                                    <input {...register('videoUrl')} className={`${inputClass} pl-10`} placeholder="https://youtube.com/watch?v=..." />
+                                </div>
+                                <p className="text-xs text-slate-400 mt-1">Video preview for details page</p>
                             </div>
                             <div>
                                 <label className={labelClass}>Download File URL *</label>

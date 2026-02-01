@@ -31,7 +31,9 @@ const CouponsPage = () => {
         usageLimit: '',
         usagePerUser: 1,
         applicableTo: 'all',
-        isActive: true
+        isActive: true,
+        showInTopHeader: false,
+        topHeaderMessage: ''
     });
 
     useEffect(() => {
@@ -71,7 +73,9 @@ const CouponsPage = () => {
                     installmentCount: formData.installmentEnabled ? Number(formData.installmentCount) : 1,
                     installmentIntervalDays: formData.installmentEnabled ? Number(formData.installmentIntervalDays) : 30,
                     usageLimit: formData.usageLimit ? Number(formData.usageLimit) : null,
-                    usagePerUser: Number(formData.usagePerUser) || 1
+                    usagePerUser: Number(formData.usagePerUser) || 1,
+                    showInTopHeader: Boolean(formData.showInTopHeader),
+                    topHeaderMessage: String(formData.topHeaderMessage || '')
                 })
             });
 
@@ -122,7 +126,9 @@ const CouponsPage = () => {
             usageLimit: coupon.usageLimit || '',
             usagePerUser: coupon.usagePerUser || 1,
             applicableTo: coupon.applicableTo || 'all',
-            isActive: coupon.isActive
+            isActive: coupon.isActive,
+            showInTopHeader: coupon.showInTopHeader || false,
+            topHeaderMessage: coupon.topHeaderMessage || ''
         });
         setShowModal(true);
     };
@@ -146,7 +152,9 @@ const CouponsPage = () => {
             usageLimit: '',
             usagePerUser: 1,
             applicableTo: 'all',
-            isActive: true
+            isActive: true,
+            showInTopHeader: false,
+            topHeaderMessage: ''
         });
     };
 
@@ -240,6 +248,13 @@ const CouponsPage = () => {
                                 }`}>
                                 {!coupon.isActive ? 'Inactive' : isExpired(coupon.endDate) ? 'Expired' : 'Active'}
                             </div>
+
+                            {/* Top Header Badge */}
+                            {coupon.showInTopHeader && (
+                                <div className="absolute top-12 right-4 px-2.5 py-1 bg-rose-500 text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">
+                                    Top Banner
+                                </div>
+                            )}
 
                             {/* Code */}
                             <div className="flex items-center gap-3 mb-4">
@@ -545,6 +560,39 @@ const CouponsPage = () => {
                                                 <option value="60">60 Days</option>
                                             </select>
                                         </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Top Header Settings */}
+                            <div className={`p-4 rounded-xl border ${isDark ? 'bg-slate-800/50 border-slate-700' : 'bg-rose-50 border-rose-200'}`}>
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <span className={`text-sm font-semibold ${isDark ? 'text-white' : 'text-rose-800'}`}>
+                                            📢 Show in Top Header Banner
+                                        </span>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData(prev => ({ ...prev, showInTopHeader: !prev.showInTopHeader }))}
+                                        className={`w-12 h-6 rounded-full transition-all ${formData.showInTopHeader ? 'bg-rose-600' : isDark ? 'bg-slate-700' : 'bg-gray-300'}`}
+                                    >
+                                        <div className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${formData.showInTopHeader ? 'translate-x-6' : 'translate-x-0.5'}`}></div>
+                                    </button>
+                                </div>
+
+                                {formData.showInTopHeader && (
+                                    <div className="mt-3">
+                                        <label className={`block text-xs font-medium mb-1 ${isDark ? 'text-gray-400' : 'text-rose-700'}`}>
+                                            Top Header Message (Leave empty for default)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={formData.topHeaderMessage}
+                                            onChange={(e) => setFormData(prev => ({ ...prev, topHeaderMessage: e.target.value }))}
+                                            placeholder="e.g. Get 20% OFF — Code: SAVE20"
+                                            className={`w-full px-3 py-2 rounded-lg border ${isDark ? 'bg-slate-700 border-slate-600 text-white' : 'bg-white border-rose-200'} text-xs`}
+                                        />
                                     </div>
                                 )}
                             </div>

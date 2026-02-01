@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
     FiArrowLeft, FiSave, FiLoader, FiTerminal, FiZap,
-    FiPackage, FiSettings, FiTrash2, FiFileText, FiCpu
+    FiPackage, FiSettings, FiTrash2, FiFileText, FiCpu, FiVideo
 } from 'react-icons/fi';
 import Link from 'next/link';
 
@@ -23,6 +23,8 @@ const softwareSchema = z.object({
     offerPrice: z.coerce.number().min(0).optional(),
     description: z.string().min(1, "Description is required"),
     images: z.array(z.string().url()).min(1),
+    previewUrl: z.string().optional().or(z.literal('')),
+    videoUrl: z.string().url("Must be a valid YouTube URL").optional().or(z.literal('')),
     downloadFile: z.string().min(1, "Binary download path required"),
     documentationUrl: z.string().url().optional().or(z.literal('')),
     features: z.array(z.string()).optional(),
@@ -74,6 +76,8 @@ export default function EditSoftwarePage() {
                     category: asset.category?._id || asset.category,
                     platform: asset.platform?._id || asset.platform,
                     images: asset.images?.length ? asset.images : [''],
+                    previewUrl: asset.previewUrl || '',
+                    videoUrl: asset.videoUrl || '',
                     features: asset.features?.length ? asset.features : [''],
                     requirements: asset.requirements?.length ? asset.requirements : [''],
                     technologies: asset.technologies?.length ? asset.technologies : [''],
@@ -279,6 +283,14 @@ export default function EditSoftwarePage() {
                                 <div>
                                     <label className={labelClass}>Documentation URI</label>
                                     <input {...register('documentationUrl')} className={inputClass} />
+                                </div>
+                                <div>
+                                    <label className={labelClass}>YouTube Video URL</label>
+                                    <div className="relative">
+                                        <FiVideo className="absolute left-3 top-3 text-slate-400" size={14} />
+                                        <input {...register('videoUrl')} className={`${inputClass} pl-9`} placeholder="https://youtube.com/watch?v=..." />
+                                    </div>
+                                    <p className="text-[9px] text-slate-400 mt-1">Product video preview</p>
                                 </div>
                             </div>
                         </div>

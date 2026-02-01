@@ -139,16 +139,19 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                         <button
                             onClick={handleAddToCart}
                             disabled={isAdded}
-                            className={`p-2.5 border rounded-md transition-colors shadow-sm ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#FD9A00] hover:border-[#FD9A00]'}`}
+                            className={`p-2.5 border rounded-md transition-colors ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#FD9A00] hover:border-[#FD9A00]'}`}
                         >
                             {isAdded ? <LuCheck size={20} /> : <LuShoppingCart size={20} />}
                         </button>
-                        <Link
-                            href={detailUrl}
-                            className="flex-1 py-2.5 bg-white border border-[#FD9A00] text-[#FD9A00] rounded-md text-sm font-normal hover:bg-[#FD9A00] hover:text-white transition-all shadow-sm flex items-center justify-center gap-2"
+                        <a
+                            href={product.previewUrl || detailUrl}
+                            target={product.previewUrl ? "_blank" : "_self"}
+                            rel="noopener noreferrer"
+                            className="flex-1 py-2.5 bg-white border border-[#FD9A00] text-[#FD9A00] rounded-md text-[14px] font-bold hover:bg-[#FD9A00] hover:text-white transition-all flex items-center justify-center gap-2 uppercase tracking-wide font-teko"
                         >
-                            Details
-                        </Link>
+                            <LuEye size={18} />
+                            {language === 'bn' ? 'লাইভ প্রিভিউ' : 'Live View'}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -237,13 +240,16 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                             >
                                 {isAdded ? <LuCheck size={18} /> : <LuShoppingCart size={18} />}
                             </button>
-                            <Link
-                                href={detailUrl}
-                                className="p-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg hover:bg-slate-700 dark:hover:bg-slate-200 transition-all"
-                                title="View Details"
+                            <a
+                                href={product.previewUrl || detailUrl}
+                                target={product.previewUrl ? "_blank" : "_self"}
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg hover:bg-slate-700 dark:hover:bg-slate-200 transition-all text-[14px] font-bold uppercase tracking-wider font-teko"
+                                title={product.previewUrl ? "Live Preview" : "View Details"}
                             >
                                 <LuEye size={18} />
-                            </Link>
+                                <span>{language === 'bn' ? 'লাইভ প্রিভিউ' : 'Live View'}</span>
+                            </a>
                         </div>
                     </div>
                 </div>

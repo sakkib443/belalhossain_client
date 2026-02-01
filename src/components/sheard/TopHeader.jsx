@@ -8,6 +8,7 @@ import { FaFacebookF, FaLinkedinIn, FaYoutube, FaWhatsapp } from "react-icons/fa
 const TopHeader = () => {
   const [isDark, setIsDark] = useState(false);
   const { language } = useLanguage();
+  const [topCoupon, setTopCoupon] = useState(null);
 
   const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
@@ -27,6 +28,20 @@ const TopHeader = () => {
 
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    const fetchTopCoupon = async () => {
+      try {
+        const url = `${process.env.NEXT_PUBLIC_API_URL || 'https://motionboss-backend.vercel.app/api'}/coupons/top-header`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.success && data.data) {
+          setTopCoupon(data.data);
+        }
+      } catch (error) {
+        console.error("Error fetching top header coupon:", error);
+      }
+    };
+    fetchTopCoupon();
 
     return () => observer.disconnect();
   }, []);
@@ -52,21 +67,28 @@ const TopHeader = () => {
             <span className="text-gray-700">|</span>
 
             <a
-              href="tel:+8801730481212"
+              href="tel:+8801753924093"
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
             >
               <LuPhone className="w-3.5 h-3.5" />
-              <span>+880 1730-481212</span>
+              <span>+880 1753-924093</span>
             </a>
           </div>
 
           {/* Center - Announcement */}
           <div className="flex items-center justify-center flex-1 lg:flex-none">
             <span className={`text-[13px] text-gray-400 ${bengaliClass}`}>
-              {language === 'bn'
-                ? <>প্রিমিয়াম টেমপ্লেটে <span className="text-white font-medium">৩০% ছাড়</span> — কোড: <span className="text-[#FD9A00] font-semibold">EXTRA30</span></>
-                : <>Get <span className="text-white font-medium">30% OFF</span> on Premium Templates — Code: <span className="text-[#FD9A00] font-semibold">EXTRA30</span></>
-              }
+              {topCoupon ? (
+                topCoupon.topHeaderMessage || (
+                  language === 'bn'
+                    ? <>কোড ব্যবহার করুন: <span className="text-[#FD9A00] font-semibold">{topCoupon.code}</span></>
+                    : <>Use Code: <span className="text-[#FD9A00] font-semibold">{topCoupon.code}</span></>
+                )
+              ) : (
+                language === 'bn'
+                  ? <>প্রিমিয়াম টেমপ্লেটে <span className="text-white font-medium">৩০% ছাড়</span> — কোড: <span className="text-[#FD9A00] font-semibold">EXTRA30</span></>
+                  : <>Get <span className="text-white font-medium">30% OFF</span> on Premium Templates — Code: <span className="text-[#FD9A00] font-semibold">EXTRA30</span></>
+              )}
             </span>
           </div>
 
@@ -76,7 +98,7 @@ const TopHeader = () => {
               { Icon: FaFacebookF, href: "https://facebook.com/extrainweb" },
               { Icon: FaLinkedinIn, href: "https://linkedin.com/company/extrainweb" },
               { Icon: FaYoutube, href: "https://youtube.com/@extrainweb" },
-              { Icon: FaWhatsapp, href: "https://wa.me/8801730481212" },
+              { Icon: FaWhatsapp, href: "https://wa.me/8801753924093" },
             ].map(({ Icon, href }, i) => (
               <a
                 key={i}

@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import {
     FiArrowLeft, FiSave, FiLoader, FiImage, FiGlobe,
-    FiLayers, FiTag, FiDollarSign, FiPlus, FiTrash2, FiLink, FiUpload, FiFile
+    FiLayers, FiTag, FiDollarSign, FiPlus, FiTrash2, FiLink, FiUpload, FiFile, FiVideo
 } from 'react-icons/fi';
 import Link from 'next/link';
 import { API_BASE_URL } from '@/config/api';
@@ -25,6 +25,7 @@ const websiteSchema = z.object({
     longDescription: z.string().optional(),
     images: z.array(z.string()).min(1, "At least one image URL required"),
     previewUrl: z.string().url("Must be a valid URL (include http:// or https://)").optional().or(z.literal('')),
+    videoUrl: z.string().url("Must be a valid YouTube URL").optional().or(z.literal('')),
     downloadFile: z.string().min(1, "Download file URL/Path is required"),
     features: z.array(z.string()).optional(),
     technologies: z.array(z.string()).optional(),
@@ -389,6 +390,14 @@ export default function CreateWebsitePage() {
                                 <div>
                                     <label className={labelClass}>Preview URL</label>
                                     <input {...register('previewUrl')} className={inputClass} placeholder="https://demo.example.com" />
+                                </div>
+                                <div>
+                                    <label className={labelClass}>YouTube Video URL</label>
+                                    <div className="relative">
+                                        <FiVideo className="absolute left-3 top-3 text-slate-400" />
+                                        <input {...register('videoUrl')} className={`${inputClass} pl-10`} placeholder="https://youtube.com/watch?v=..." />
+                                    </div>
+                                    <p className="text-xs text-slate-400 mt-1">Video preview for product details page</p>
                                 </div>
                                 <div>
                                     <label className={labelClass}>Download File *</label>

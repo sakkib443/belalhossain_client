@@ -77,9 +77,9 @@ const AboutCTA = () => {
                                 },
                                 {
                                     icon: LuPhone,
-                                    text: '+880 1730-481212',
+                                    text: '+880 1753-924093',
                                     label: 'HELPLINE',
-                                    action: 'tel:+8801730481212'
+                                    action: 'tel:+8801753924093'
                                 },
                                 {
                                     icon: LuMapPin,

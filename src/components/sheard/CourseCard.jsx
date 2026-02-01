@@ -136,13 +136,13 @@ const CourseCard = ({ course, view = "grid" }) => {
             <button
               onClick={handleAddToCart}
               disabled={isAdded}
-              className={`p-2.5 border rounded-md transition-colors shadow-sm ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#FD9A00] hover:border-[#FD9A00]'}`}
+              className={`p-2.5 border rounded-md transition-colors ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-slate-200 text-slate-600 hover:text-[#FD9A00] hover:border-[#FD9A00]'}`}
             >
               {isAdded ? <LuCheck size={20} /> : <LuShoppingCart size={20} />}
             </button>
             <Link
               href={`/courses/${courseId}`}
-              className="flex-1 py-2.5 bg-white border border-[#FD9A00] text-[#FD9A00] rounded-md text-sm font-normal hover:bg-[#FD9A00] hover:text-white transition-all shadow-sm flex items-center justify-center gap-2"
+              className="flex-1 py-2.5 bg-white border border-[#FD9A00] text-[#FD9A00] rounded-md text-[14px] font-bold hover:bg-[#FD9A00] hover:text-white transition-all flex items-center justify-center gap-2 uppercase tracking-wide font-teko"
             >
               Details
             </Link>
@@ -244,7 +244,7 @@ const CourseCard = ({ course, view = "grid" }) => {
           <div className="grid grid-cols-2 gap-3 mt-auto">
             <Link
               href={`/courses/${courseId}`}
-              className="flex items-center justify-center gap-2 py-2.5 bg-[#FD9A00] text-white rounded-md text-sm font-normal hover:bg-[#3aa8a2] transition-colors"
+              className="flex items-center justify-center gap-2 py-2.5 bg-[#FD9A00] text-white rounded-md text-[14px] font-bold hover:bg-[#3aa8a2] transition-colors uppercase tracking-wider font-teko shadow-none"
             >
               <LuBookOpenCheck size={16} />
               Details
@@ -252,7 +252,7 @@ const CourseCard = ({ course, view = "grid" }) => {
             <button
               onClick={handleAddToCart}
               disabled={isAdded}
-              className={`flex items-center justify-center gap-2 py-2.5 border rounded-md text-sm font-normal transition-colors ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-[#FD9A00] text-[#FD9A00] hover:bg-rose-50'}`}
+              className={`flex items-center justify-center gap-2 py-2.5 border rounded-md text-[14px] font-bold transition-colors uppercase tracking-wider font-teko ${isAdded ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-white border-[#FD9A00] text-[#FD9A00] hover:bg-rose-50'}`}
             >
               {isAdded ? <LuCheck size={16} /> : <LuShoppingCart size={16} />}
               {isAdded ? 'Added' : 'Add To Cart'}

@@ -195,7 +195,7 @@ const Footer = () => {
                   </div>
                   <div>
                     <p className={`text-xs font-bold text-gray-400 uppercase tracking-widest mb-1 ${bengaliClass}`}>{t("footer.phone") || "Phone"}</p>
-                    <a href="tel:+8801730481212" className="text-gray-800 dark:text-white font-teko font-bold text-lg hover:text-[#FD9A00] transition-colors">+880 1730-481212</a>
+                    <a href="tel:+8801753924093" className="text-gray-800 dark:text-white font-teko font-bold text-lg hover:text-[#FD9A00] transition-colors">+880 1753-924093</a>
                   </div>
                 </div>
               </li>

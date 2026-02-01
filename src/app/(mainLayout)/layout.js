@@ -8,6 +8,7 @@ import Preloader from '@/components/sheard/Preloader';
 import AdminEditToggle from '@/components/shared/AdminEditToggle';
 import { AdminEditProvider } from '@/providers/AdminEditProvider';
 import React from 'react';
+import WhatsAppButton from '@/components/sheard/WhatsAppButton';
 
 const MainLayout = ({ children }) => {
     return (
@@ -19,6 +20,7 @@ const MainLayout = ({ children }) => {
                 {children}
                 <Footer />
 
+                <WhatsAppButton />
                 <AdminEditToggle />
             </div>
         </AdminEditProvider>
@@ -26,3 +28,4 @@ const MainLayout = ({ children }) => {
 };
 
 export default MainLayout;
+
