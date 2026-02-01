@@ -340,7 +340,17 @@ export default function OrdersPage() {
                                             <span className="text-sm text-slate-700">{order.items?.length || 0} item(s)</span>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="font-bold text-emerald-600 text-lg">৳{order.totalAmount?.toLocaleString()}</span>
+                                            <div className="flex flex-col">
+                                                <span className="font-bold text-emerald-600 text-lg">৳{order.totalAmount?.toLocaleString()}</span>
+                                                {(order.isInstallment || order.isBooking) && order.installments && (
+                                                    <span className="text-[10px] text-slate-500 font-medium">
+                                                        Paid: ৳{order.installments
+                                                            .filter(i => i.status === 'completed')
+                                                            .reduce((sum, i) => sum + (Number(i.amount) || 0), 0)
+                                                            .toLocaleString()}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col gap-1">
@@ -351,6 +361,11 @@ export default function OrdersPage() {
                                                 {order.isBooking && (
                                                     <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-600 border border-rose-200 uppercase w-fit">
                                                         Booking
+                                                    </span>
+                                                )}
+                                                {order.installments?.some(i => i.status === 'pending') && (
+                                                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700 border border-amber-200 uppercase w-fit animate-pulse">
+                                                        Action Required
                                                     </span>
                                                 )}
                                             </div>

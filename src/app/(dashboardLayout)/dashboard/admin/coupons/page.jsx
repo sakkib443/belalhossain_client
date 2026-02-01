@@ -85,11 +85,25 @@ const CouponsPage = () => {
                 closeModal();
                 alert(editingCoupon ? 'Coupon updated!' : 'Coupon created!');
             } else {
-                alert(data.message || 'Failed to save coupon');
+                // Show detailed error message from backend
+                let errorMessage = data.message || 'Failed to save coupon';
+
+                // If there are detailed error messages from Zod validation, show them
+                if (data.errorMessages && Array.isArray(data.errorMessages) && data.errorMessages.length > 0) {
+                    const errorDetails = data.errorMessages
+                        .map(err => {
+                            const field = err.path ? err.path.replace('body.', '') : '';
+                            return field ? `${field}: ${err.message}` : err.message;
+                        })
+                        .join('\n');
+                    errorMessage = `Validation Error:\n${errorDetails}`;
+                }
+
+                alert(errorMessage);
             }
         } catch (error) {
             console.error('Error saving coupon:', error);
-            alert('Error saving coupon');
+            alert('Error saving coupon: ' + (error.message || 'Network error'));
         }
     };
 
