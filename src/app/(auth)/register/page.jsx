@@ -4,9 +4,11 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { MdOutlineRemoveRedEye, MdOutlineVisibilityOff } from "react-icons/md";
 import { FiUser, FiMail, FiPhone, FiLock, FiCheck, FiAward, FiUsers, FiBookOpen } from "react-icons/fi";
+import { FaGoogle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
-
+import { auth, googleProvider } from "@/lib/firebase";
+import { signInWithPopup } from "firebase/auth";
 import { API_BASE_URL } from "@/config/api";
 
 const Register = () => {
@@ -79,6 +81,61 @@ const Register = () => {
       router.push(`/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''}`);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      // Send Google user data to our backend
+      const res = await fetch(`${API_BASE_URL}/auth/google-login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          firstName: user.displayName?.split(" ")[0] || "Google",
+          lastName: user.displayName?.split(" ").slice(1).join(" ") || "User",
+          avatar: user.photoURL,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Google login failed");
+      }
+
+      const token = data?.data?.token || data?.data?.tokens?.accessToken;
+      const userData = data?.data?.user;
+
+      if (token && userData) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Use same redirect logic as standard login
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirectParam = searchParams.get('redirect');
+        const storedRedirect = sessionStorage.getItem('redirectPath');
+        const finalRedirect = redirectParam || storedRedirect;
+        sessionStorage.removeItem('redirectPath');
+
+        if (finalRedirect && !finalRedirect.includes('/login') && !finalRedirect.includes('/register')) {
+          router.push(finalRedirect);
+        } else {
+          router.push(userData.role === "admin" ? "/dashboard/admin" : "/dashboard/user");
+        }
+      }
+    } catch (err) {
+      console.error("Google Login Error:", err);
+      setError(err.message === "Firebase: Error (auth/popup-closed-by-user)."
+        ? "Google login cancelled"
+        : "Failed to login with Google");
     } finally {
       setLoading(false);
     }
@@ -322,6 +379,31 @@ const Register = () => {
                     ) : (
                       language === "bn" ? "অ্যাকাউন্ট তৈরি করুন" : "Create Account"
                     )}
+                  </button>
+
+                  {/* Divider */}
+                  <div className="relative my-4">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-100"></div>
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-white px-4 text-gray-400 font-medium">
+                        {language === "bn" ? "অথবা" : "Or continue with"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Google Login Button */}
+                  <button
+                    type="button"
+                    onClick={handleGoogleLogin}
+                    disabled={loading}
+                    className="w-full flex items-center justify-center gap-3 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-all group disabled:opacity-50"
+                  >
+                    <FaGoogle className="text-red-500 group-hover:scale-110 transition-transform" size={18} />
+                    <span className={`text-sm font-semibold text-gray-700 ${bengaliClass}`}>
+                      {language === "bn" ? "গুগল দিয়ে সাইন আপ" : "Sign up with Google"}
+                    </span>
                   </button>
 
                   {/* Login Link */}
