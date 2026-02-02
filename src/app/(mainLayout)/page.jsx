@@ -12,7 +12,6 @@ import DigitalProducts from "@/components/Home/DigitalProducts";
 import MissionSection from "@/components/Home/MissionSection";
 import TestimonialSection from "@/components/Home/TestimonialSection";
 import CompanyLogos from "@/components/Home/CompanyLogos";
-import { fetchCoursesData } from "@/redux/CourseSlice";
 import Lenis from 'lenis';
 
 const HomePage = () => {
@@ -48,7 +47,6 @@ const HomePage = () => {
 
   useEffect(() => {
     if (mounted) {
-      dispatch(fetchCoursesData());
       dispatch(fetchCategories());
     }
   }, [dispatch, mounted]);

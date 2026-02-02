@@ -66,14 +66,41 @@ const teko = Teko({
 export const metadata = {
   title: {
     template: "Extrain Web | %s",
-    default: "Extrain Web | Home",
+    default: "Extrain Web - Best Website Development Company in Bangladesh",
   },
   description:
-    "Extrain Web — a leading IT training institute and digital solutions provider. We specialize in professional courses, ready-made software, and premium website templates to help you grow your skills and business.",
+    "Extrain Web (Extra in Web) — Best website development company in Bangladesh. Founded by Sheikh Sakibul Hasan. We specialize in custom web development, premium website templates, and business software solutions. Top-rated web development agency in Dhaka.",
+  keywords: "Extrain Web, Extra in Web, best website development company Bangladesh, Sheikh Sakibul Hasan, top web development agency Dhaka, custom website design Bangladesh, e-commerce development, professional web design, leading website developer Bangladesh, #1 web development company",
+  authors: [{ name: "Sheikh Sakibul Hasan" }, { name: "Extrain Web Team" }],
+  creator: "Sheikh Sakibul Hasan",
+  publisher: "Extrain Web",
   icons: {
     icon: "/images/logo.png",
     shortcut: "/images/logo.png",
     apple: "/images/logo.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    alternateLocale: ["bn_BD"],
+    url: process.env.NEXT_PUBLIC_BASE_URL || "https://extrainweb.com",
+    siteName: "Extrain Web",
+    title: "Extrain Web - Best Website Development Company in Bangladesh",
+    description: "Best website development company in Bangladesh. Founded by Sheikh Sakibul Hasan. Custom web development, templates & software solutions. Top-rated agency in Dhaka.",
+    images: [
+      {
+        url: "/images/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Extrain Web - Best Website Development Company",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Extrain Web - Best Website Development Company Bangladesh",
+    description: "Top-rated web development agency. Custom websites, templates & software. Founded by Sheikh Sakibul Hasan.",
+    images: ["/images/logo.png"],
   },
 };
 
