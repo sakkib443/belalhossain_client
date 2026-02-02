@@ -45,6 +45,68 @@ const AnimatedCounter = ({ value }) => {
     return <span className="tabular-nums">{formatNumber(count)}</span>;
 };
 
+// --- Professional Skeleton Loader ---
+const SoftwareDetailSkeleton = () => (
+    <div className="min-h-screen bg-[#FAFBFC] dark:bg-slate-950">
+        {/* Skeleton Hero */}
+        <div className="bg-gradient-to-br from-gray-100 to-gray-50 dark:from-slate-900 dark:to-slate-950 pt-16 pb-32 animate-pulse">
+            <div className="container mx-auto px-4 lg:px-24">
+                <div className="max-w-3xl space-y-6">
+                    <div className="w-48 h-4 bg-gray-200 dark:bg-slate-800 rounded"></div>
+                    <div className="flex gap-2">
+                        <div className="w-20 h-6 bg-gray-200 dark:bg-slate-800 rounded"></div>
+                        <div className="w-24 h-6 bg-gray-200 dark:bg-slate-800 rounded"></div>
+                    </div>
+                    <div className="w-full h-10 bg-gray-200 dark:bg-slate-800 rounded"></div>
+                    <div className="w-3/4 h-6 bg-gray-100 dark:bg-slate-900 rounded"></div>
+                    <div className="flex gap-4">
+                        <div className="w-32 h-12 bg-white dark:bg-slate-800 rounded border border-gray-100 dark:border-slate-700"></div>
+                        <div className="w-32 h-12 bg-white dark:bg-slate-800 rounded border border-gray-100 dark:border-slate-700"></div>
+                        <div className="w-32 h-12 bg-white dark:bg-slate-800 rounded border border-gray-100 dark:border-slate-700"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {/* Skeleton Content Grid */}
+        <div className="container mx-auto px-4 lg:px-24 -mt-16 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                {/* Left side */}
+                <div className="lg:col-span-8 bg-white dark:bg-slate-900 rounded-md border border-gray-200 dark:border-slate-800 h-[600px] p-8 space-y-8 animate-pulse">
+                    <div className="flex gap-8 border-b border-gray-100 pb-4">
+                        <div className="w-24 h-6 bg-gray-100 dark:bg-slate-800 rounded"></div>
+                        <div className="w-24 h-6 bg-gray-100 dark:bg-slate-800 rounded"></div>
+                        <div className="w-24 h-6 bg-gray-100 dark:bg-slate-800 rounded"></div>
+                    </div>
+                    <div className="space-y-4">
+                        <div className="w-1/3 h-8 bg-gray-100 dark:bg-slate-800 rounded"></div>
+                        <div className="w-full h-4 bg-gray-50 dark:bg-slate-800/50 rounded"></div>
+                        <div className="w-full h-4 bg-gray-50 dark:bg-slate-800/50 rounded"></div>
+                        <div className="w-full h-4 bg-gray-50 dark:bg-slate-800/50 rounded"></div>
+                        <div className="w-2/3 h-4 bg-gray-50 dark:bg-slate-800/50 rounded"></div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        {[1, 2, 3, 4].map(idx => (
+                            <div key={idx} className="h-20 bg-gray-50 dark:bg-slate-800/50 rounded border border-gray-100 dark:border-slate-800"></div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Right side */}
+                <div className="lg:col-span-4 space-y-6 animate-pulse">
+                    <div className="bg-white dark:bg-slate-900 rounded-md border border-gray-200 dark:border-slate-800 h-96 p-6 space-y-6">
+                        <div className="aspect-video bg-gray-100 dark:bg-slate-800 rounded"></div>
+                        <div className="w-1/2 h-8 bg-gray-100 dark:bg-slate-800 rounded"></div>
+                        <div className="w-full h-12 bg-gray-100 dark:bg-slate-800 rounded"></div>
+                        <div className="w-full h-12 bg-gray-100 dark:bg-slate-800 rounded"></div>
+                    </div>
+                    <div className="bg-white dark:bg-slate-900 rounded-md border border-gray-200 dark:border-slate-800 h-64"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
 const SoftwareDetailsPage = () => {
     const { id } = useParams();
     const router = useRouter();
@@ -58,8 +120,10 @@ const SoftwareDetailsPage = () => {
     const bengaliClass = language === "bn" ? "hind-siliguri" : "";
 
     useEffect(() => {
-        if (id) dispatch(fetchSoftwareById(id));
-        dispatch(fetchSoftware());
+        if (id) {
+            dispatch(fetchSoftwareById(id));
+            dispatch(fetchSoftware());
+        }
     }, [id, dispatch]);
 
     useEffect(() => {
@@ -103,16 +167,9 @@ const SoftwareDetailsPage = () => {
         }
     };
 
-    // Loading State - Professional skeleton
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-[60vh] bg-gradient-to-br from-gray-50 to-white dark:from-slate-950 dark:to-slate-900">
-                <div className="text-center">
-                    <div className="w-12 h-12 border-3 border-gray-200 dark:border-slate-700 border-t-teal-500 rounded-full animate-spin mx-auto"></div>
-                    <p className="mt-4 text-gray-400 dark:text-gray-500 text-sm font-medium tracking-wide">Loading software...</p>
-                </div>
-            </div>
-        );
+    // Loading State - Use Skeleton instead of simple spinner
+    if (loading || (!software && !error)) {
+        return <SoftwareDetailSkeleton />;
     }
 
     // Error State - Professional design
