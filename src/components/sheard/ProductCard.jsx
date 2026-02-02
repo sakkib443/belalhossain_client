@@ -58,7 +58,7 @@ const ProductCard = ({ product, type, view = "grid" }) => {
     const categoryName = product.category?.name || (type === 'website' ? 'Website' : 'Software');
     const version = product.version || 'v1.0';
     const sales = product.totalOrders || product.salesCount || 0;
-    const rating = product.rating || 5;
+    const rating = product.rating || 0;
     const reviewsCount = product.reviews?.length || 0;
     const lastUpdated = product.updatedAt ? new Date(product.updatedAt).toLocaleDateString() : "Recently Updated";
 

@@ -294,7 +294,7 @@ const WebsiteDetailsPage = () => {
                                 <div className="flex text-amber-400 gap-0.5">
                                     {[1, 2, 3, 4, 5].map((s) => <FaStar key={s} size={12} />)}
                                 </div>
-                                <span className="font-bold outfit text-gray-900">{website.rating || '5.0'}</span>
+                                <span className="font-bold outfit text-gray-900">{website.rating || '0.0'}</span>
                                 <span className="text-gray-400 text-xs poppins">({website.reviewCount || 0})</span>
                             </div>
 
