@@ -94,8 +94,17 @@ export default function AdminCustomizationPage() {
             const res = await axios.get(`${API_URL}/customization/admin/all?${params}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setRequests(res.data.data || []);
-            setStats(res.data.meta?.stats || { pending: 0, inProgress: 0, completed: 0, total: 0 });
+            // Handle both old and new response formats
+            const responseData = res.data.data;
+            if (responseData?.requests) {
+                // New format: data = { requests, stats }
+                setRequests(responseData.requests || []);
+                setStats(responseData.stats || { pending: 0, inProgress: 0, completed: 0, total: 0 });
+            } else {
+                // Old format: data = requests array
+                setRequests(responseData || []);
+                setStats(res.data.meta?.stats || { pending: 0, inProgress: 0, completed: 0, total: 0 });
+            }
         } catch (error) {
             console.error('Error fetching requests:', error);
             setMessage({ type: 'error', text: 'Failed to load data' });
@@ -441,10 +450,10 @@ export default function AdminCustomizationPage() {
                                                                                     <button
                                                                                         onClick={() => setOpenDevPrompt(isDevOpen ? null : itemKey)}
                                                                                         className={`px-3 py-2 rounded-lg text-sm font-bold flex items-center gap-2 shrink-0 transition-all ${isDevOpen
-                                                                                                ? 'bg-violet-600 text-white'
-                                                                                                : isDark
-                                                                                                    ? 'bg-violet-900/40 text-violet-300 hover:bg-violet-800/50 border border-violet-700'
-                                                                                                    : 'bg-violet-50 text-violet-600 hover:bg-violet-100 border border-violet-300'
+                                                                                            ? 'bg-violet-600 text-white'
+                                                                                            : isDark
+                                                                                                ? 'bg-violet-900/40 text-violet-300 hover:bg-violet-800/50 border border-violet-700'
+                                                                                                : 'bg-violet-50 text-violet-600 hover:bg-violet-100 border border-violet-300'
                                                                                             }`}
                                                                                     >
                                                                                         <FiCode size={16} />
