@@ -119,6 +119,12 @@ const AdminSidebar = () => {
       gradient: 'from-green-500 to-emerald-500'
     },
     {
+      title: 'Customization',
+      href: '/dashboard/admin/customization',
+      icon: FiClipboard,
+      gradient: 'from-cyan-500 to-teal-500'
+    },
+    {
       title: 'Coupons',
       href: '/dashboard/admin/coupons',
       icon: FiTag,

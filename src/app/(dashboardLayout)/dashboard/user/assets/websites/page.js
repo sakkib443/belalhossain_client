@@ -7,7 +7,7 @@ import Link from 'next/link';
 import {
     FiGlobe, FiClock, FiShield, FiLayout, FiRefreshCw, FiSearch,
     FiPackage, FiCheckCircle, FiAlertCircle, FiChevronDown, FiChevronUp,
-    FiCpu, FiLayers, FiInfo, FiSettings, FiExternalLink, FiMessageSquare
+    FiCpu, FiLayers, FiInfo, FiSettings, FiExternalLink, FiMessageSquare, FiEdit
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
 import { API_BASE_URL } from '@/config/api';
@@ -469,6 +469,13 @@ export default function MyWebsitesPage() {
                                                         View Live Demo
                                                     </a>
                                                 )}
+                                                <Link
+                                                    href={`/dashboard/user/customization?orderId=${item.orderId}&websiteId=${item.product}&websiteTitle=${encodeURIComponent(product?.title || item.title)}&websiteImage=${encodeURIComponent(item.image || product?.images?.[0] || '')}`}
+                                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-bold shadow-md shadow-cyan-500/10 hover:scale-105 transition-all"
+                                                >
+                                                    <FiEdit size={16} />
+                                                    Customize Request
+                                                </Link>
                                                 <Link
                                                     href="/dashboard/user/support"
                                                     className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#2dd4bf] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"

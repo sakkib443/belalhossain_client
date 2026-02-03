@@ -30,7 +30,7 @@ import {
     FiHeart
 } from 'react-icons/fi';
 import { useTheme } from '@/providers/ThemeProvider';
-import { fetchMyStats } from '@/redux/enrollmentSlice';
+
 import { fetchMyOrders } from '@/redux/orderSlice';
 import { fetchMyDownloads } from '@/redux/downloadSlice';
 
@@ -42,8 +42,7 @@ const UserSidebar = () => {
     const { isDark } = useTheme();
     const dispatch = useDispatch();
 
-    // Redux State
-    const { stats } = useSelector((state) => state.enrollment);
+    // Redux State (enrollment module removed)
     const { orders } = useSelector((state) => state.order);
     const { downloads } = useSelector((state) => state.download);
 
@@ -55,8 +54,7 @@ const UserSidebar = () => {
             } catch (e) { }
         }
 
-        // Fetch dynamic data
-        dispatch(fetchMyStats());
+        // Fetch dynamic data (enrollment module removed)
         dispatch(fetchMyOrders());
         dispatch(fetchMyDownloads());
     }, [dispatch]);
@@ -127,6 +125,12 @@ const UserSidebar = () => {
             href: '/dashboard/user/reviews',
             icon: FiStar,
             gradient: 'from-yellow-400 to-amber-500'
+        },
+        {
+            title: 'Website Changes',
+            href: '/dashboard/user/customization',
+            icon: FiSettings,
+            gradient: 'from-cyan-500 to-blue-500'
         },
         {
             title: 'Profile Settings',
