@@ -422,31 +422,11 @@ const WebsiteDetailsPage = () => {
                                                         {website.description}
                                                     </p>
                                                     {website.longDescription && (
-                                                        <div className="mt-4 p-4 bg-gray-50 rounded-md border border-gray-100 text-gray-600 poppins text-sm leading-6">
+                                                        <div className="mt-4 p-4 bg-gray-50 rounded-md border border-gray-100 text-gray-600 poppins text-sm leading-7 whitespace-pre-line">
                                                             {website.longDescription}
                                                         </div>
                                                     )}
                                                 </div>
-
-                                                {/* Tech Stack */}
-                                                {website.technologies?.length > 0 && (
-                                                    <div>
-                                                        <h3 className="text-base font-bold outfit text-gray-900 mb-4 flex items-center gap-2">
-                                                            <span className="w-1 h-5 bg-amber-500 rounded-full"></span>
-                                                            Technologies Used
-                                                        </h3>
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {website.technologies.map((tech, idx) => (
-                                                                <span
-                                                                    key={idx}
-                                                                    className="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-700 font-medium text-sm hover:border-teal-300 hover:bg-teal-50 transition-colors cursor-default poppins"
-                                                                >
-                                                                    {tech}
-                                                                </span>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                )}
                                             </motion.div>
                                         )}
 
@@ -545,10 +525,30 @@ const WebsiteDetailsPage = () => {
                                                 transition={{ duration: 0.2 }}
                                                 className="space-y-8"
                                             >
+                                                {/* Technologies Used - Moved here from Overview */}
+                                                {website.technologies?.length > 0 && (
+                                                    <div>
+                                                        <h3 className="text-lg font-bold outfit text-gray-900 mb-4 flex items-center gap-2">
+                                                            <span className="w-1 h-5 bg-teal-500 rounded-full"></span>
+                                                            Technologies Used
+                                                        </h3>
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {website.technologies.map((tech, idx) => (
+                                                                <span
+                                                                    key={idx}
+                                                                    className="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded text-gray-700 font-medium text-sm hover:border-teal-300 hover:bg-teal-50 transition-colors cursor-default poppins"
+                                                                >
+                                                                    {tech}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+
                                                 {/* Project Details */}
                                                 <div>
                                                     <h2 className="text-lg font-bold outfit text-gray-900 mb-5 flex items-center gap-2">
-                                                        <span className="w-1 h-5 bg-teal-500 rounded-full"></span>
+                                                        <span className="w-1 h-5 bg-amber-500 rounded-full"></span>
                                                         Project Details
                                                     </h2>
 
