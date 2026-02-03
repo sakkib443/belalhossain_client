@@ -104,7 +104,7 @@ export default function CustomizationRequestPage() {
         const formData = new FormData();
 
         for (let file of files) {
-            formData.append('files', file);
+            formData.append('images', file);
         }
 
         try {
@@ -118,9 +118,20 @@ export default function CustomizationRequestPage() {
             const updated = [...requestItems];
             updated[index].images = [...(updated[index].images || []), ...urls];
             setRequestItems(updated);
+            setMessage({ type: 'success', text: 'Image uploaded successfully!' });
         } catch (error) {
-            console.error('Upload failed:', error);
-            setMessage({ type: 'error', text: 'Failed to upload image' });
+            console.error('Upload failed:', error.response?.data || error);
+
+            let errorText = 'Failed to upload image';
+            if (error.response?.data?.message) {
+                errorText = error.response.data.message;
+            } else if (error.response?.data?.errorMessages?.length > 0) {
+                errorText = error.response.data.errorMessages.map(e => e.message).join(', ');
+            } else if (error.message) {
+                errorText = error.message;
+            }
+
+            setMessage({ type: 'error', text: errorText });
         }
     };
 
@@ -166,7 +177,29 @@ export default function CustomizationRequestPage() {
             fetchMyRequests();
             setActiveTab('history');
         } catch (error) {
-            setMessage({ type: 'error', text: error.response?.data?.message || 'Failed to submit request' });
+            console.error('Customization request error:', error.response?.data);
+
+            // Build detailed error message
+            let errorText = 'Failed to submit request';
+
+            if (error.response?.data) {
+                const { message, errorMessages } = error.response.data;
+
+                if (errorMessages && Array.isArray(errorMessages) && errorMessages.length > 0) {
+                    // Show detailed field errors
+                    const fieldErrors = errorMessages
+                        .map(e => e.message || e.path)
+                        .filter(Boolean)
+                        .join(', ');
+                    errorText = `Validation Error: ${fieldErrors}`;
+                } else if (message) {
+                    errorText = message;
+                }
+            } else if (error.message) {
+                errorText = error.message;
+            }
+
+            setMessage({ type: 'error', text: errorText });
         } finally {
             setSubmitting(false);
         }
@@ -201,8 +234,8 @@ export default function CustomizationRequestPage() {
             {/* Message */}
             {message.text && (
                 <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${message.type === 'success'
-                        ? 'bg-green-500/10 text-green-500 border border-green-500/20'
-                        : 'bg-red-500/10 text-red-500 border border-red-500/20'
+                    ? 'bg-green-500/10 text-green-500 border border-green-500/20'
+                    : 'bg-red-500/10 text-red-500 border border-red-500/20'
                     }`}>
                     {message.type === 'success' ? <FiCheckCircle size={20} /> : <FiAlertCircle size={20} />}
                     <span>{message.text}</span>
@@ -217,10 +250,10 @@ export default function CustomizationRequestPage() {
                 <button
                     onClick={() => setActiveTab('create')}
                     className={`px-5 py-2.5 rounded-xl font-medium transition-all ${activeTab === 'create'
-                            ? 'bg-gradient-to-r from-[#FD9A00] to-[#f97316] text-white shadow-lg shadow-orange-500/20'
-                            : isDark
-                                ? 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                                : 'bg-white text-slate-600 hover:bg-slate-100'
+                        ? 'bg-gradient-to-r from-[#FD9A00] to-[#f97316] text-white shadow-lg shadow-orange-500/20'
+                        : isDark
+                            ? 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                            : 'bg-white text-slate-600 hover:bg-slate-100'
                         }`}
                 >
                     <FiPlus className="inline mr-2" />
@@ -229,10 +262,10 @@ export default function CustomizationRequestPage() {
                 <button
                     onClick={() => setActiveTab('history')}
                     className={`px-5 py-2.5 rounded-xl font-medium transition-all ${activeTab === 'history'
-                            ? 'bg-gradient-to-r from-[#FD9A00] to-[#f97316] text-white shadow-lg shadow-orange-500/20'
-                            : isDark
-                                ? 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                                : 'bg-white text-slate-600 hover:bg-slate-100'
+                        ? 'bg-gradient-to-r from-[#FD9A00] to-[#f97316] text-white shadow-lg shadow-orange-500/20'
+                        : isDark
+                            ? 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                            : 'bg-white text-slate-600 hover:bg-slate-100'
                         }`}
                 >
                     <FiClock className="inline mr-2" />
@@ -297,10 +330,10 @@ export default function CustomizationRequestPage() {
                                             key={p.value}
                                             onClick={() => setPriority(p.value)}
                                             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${priority === p.value
-                                                    ? `${p.color} text-white`
-                                                    : isDark
-                                                        ? 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                                                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                                ? `${p.color} text-white`
+                                                : isDark
+                                                    ? 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                                 }`}
                                         >
                                             {p.label}
@@ -342,8 +375,8 @@ export default function CustomizationRequestPage() {
                                                     onChange={(e) => updateRequestItem(index, 'sectionName', e.target.value)}
                                                     placeholder="e.g., Header, Footer, Hero Section, About Us"
                                                     className={`w-full px-4 py-3 rounded-xl border transition-all ${isDark
-                                                            ? 'bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-[#FD9A00]'
-                                                            : 'bg-white border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-[#FD9A00]'
+                                                        ? 'bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-[#FD9A00]'
+                                                        : 'bg-white border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-[#FD9A00]'
                                                         }`}
                                                 />
                                             </div>
@@ -361,10 +394,10 @@ export default function CustomizationRequestPage() {
                                                                 key={type.value}
                                                                 onClick={() => updateRequestItem(index, 'editType', type.value)}
                                                                 className={`p-3 rounded-lg text-center transition-all ${item.editType === type.value
-                                                                        ? 'bg-[#FD9A00]/10 border-2 border-[#FD9A00]'
-                                                                        : isDark
-                                                                            ? 'bg-slate-800 border-2 border-transparent hover:border-slate-600'
-                                                                            : 'bg-white border-2 border-transparent hover:border-slate-300'
+                                                                    ? 'bg-[#FD9A00]/10 border-2 border-[#FD9A00]'
+                                                                    : isDark
+                                                                        ? 'bg-slate-800 border-2 border-transparent hover:border-slate-600'
+                                                                        : 'bg-white border-2 border-transparent hover:border-slate-300'
                                                                     }`}
                                                             >
                                                                 <Icon className={`mx-auto mb-1 ${type.color}`} size={20} />
@@ -388,8 +421,8 @@ export default function CustomizationRequestPage() {
                                                     onChange={(e) => updateRequestItem(index, 'newValue', e.target.value)}
                                                     placeholder="Enter the new text or value"
                                                     className={`w-full px-4 py-3 rounded-xl border transition-all ${isDark
-                                                            ? 'bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-[#FD9A00]'
-                                                            : 'bg-white border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-[#FD9A00]'
+                                                        ? 'bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-[#FD9A00]'
+                                                        : 'bg-white border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-[#FD9A00]'
                                                         }`}
                                                 />
                                             </div>
@@ -405,8 +438,8 @@ export default function CustomizationRequestPage() {
                                                     placeholder="Describe what you want to change in detail..."
                                                     rows={3}
                                                     className={`w-full px-4 py-3 rounded-xl border transition-all resize-none ${isDark
-                                                            ? 'bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-[#FD9A00]'
-                                                            : 'bg-white border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-[#FD9A00]'
+                                                        ? 'bg-slate-800 border-slate-600 text-white placeholder:text-slate-500 focus:border-[#FD9A00]'
+                                                        : 'bg-white border-slate-300 text-slate-800 placeholder:text-slate-400 focus:border-[#FD9A00]'
                                                         }`}
                                                 />
                                             </div>
@@ -429,8 +462,8 @@ export default function CustomizationRequestPage() {
                                                         </div>
                                                     ))}
                                                     <label className={`w-20 h-20 rounded-lg border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all ${isDark
-                                                            ? 'border-slate-600 hover:border-[#FD9A00] text-slate-500'
-                                                            : 'border-slate-300 hover:border-[#FD9A00] text-slate-400'
+                                                        ? 'border-slate-600 hover:border-[#FD9A00] text-slate-500'
+                                                        : 'border-slate-300 hover:border-[#FD9A00] text-slate-400'
                                                         }`}>
                                                         <FiUpload size={20} />
                                                         <span className="text-xs mt-1">Upload</span>
@@ -452,8 +485,8 @@ export default function CustomizationRequestPage() {
                                 <button
                                     onClick={addRequestItem}
                                     className={`w-full py-3 rounded-xl border-2 border-dashed transition-all flex items-center justify-center gap-2 ${isDark
-                                            ? 'border-slate-600 text-slate-400 hover:border-[#FD9A00] hover:text-[#FD9A00]'
-                                            : 'border-slate-300 text-slate-500 hover:border-[#FD9A00] hover:text-[#FD9A00]'
+                                        ? 'border-slate-600 text-slate-400 hover:border-[#FD9A00] hover:text-[#FD9A00]'
+                                        : 'border-slate-300 text-slate-500 hover:border-[#FD9A00] hover:text-[#FD9A00]'
                                         }`}
                                 >
                                     <FiPlus size={20} />
@@ -553,13 +586,13 @@ export default function CustomizationRequestPage() {
                                                 <div
                                                     key={item._id || idx}
                                                     className={`p-4 rounded-xl flex items-start gap-3 ${item.isCompleted
-                                                            ? isDark ? 'bg-green-500/10' : 'bg-green-50'
-                                                            : isDark ? 'bg-slate-900/50' : 'bg-slate-50'
+                                                        ? isDark ? 'bg-green-500/10' : 'bg-green-50'
+                                                        : isDark ? 'bg-slate-900/50' : 'bg-slate-50'
                                                         }`}
                                                 >
                                                     <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${item.isCompleted
-                                                            ? 'bg-green-500 text-white'
-                                                            : isDark ? 'bg-slate-700 text-slate-400' : 'bg-slate-300 text-slate-500'
+                                                        ? 'bg-green-500 text-white'
+                                                        : isDark ? 'bg-slate-700 text-slate-400' : 'bg-slate-300 text-slate-500'
                                                         }`}>
                                                         {item.isCompleted ? <FiCheck size={14} /> : item.itemNumber}
                                                     </div>

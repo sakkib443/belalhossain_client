@@ -21,7 +21,7 @@ const CheckoutContent = () => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(!!courseId);
-    const [paymentMethod, setPaymentMethod] = useState('bkash');
+    const [paymentMethod, setPaymentMethod] = useState('manual');
     const [checkoutItems, setCheckoutItems] = useState([]);
     const [totalValue, setTotalValue] = useState(0);
     const [isBooking, setIsBooking] = useState(false);
@@ -311,7 +311,14 @@ const CheckoutContent = () => {
             toast.success('Payment successful! 🎉');
             setIsSuccess(true);
             if (!courseId) dispatch(clearCart());
-            setTimeout(() => router.push('/dashboard/user/courses'), 2500);
+
+            // Redirect based on product type
+            const productType = checkoutItems[0]?.type || 'course';
+            let redirectUrl = '/dashboard/user/courses';
+            if (productType === 'website') redirectUrl = '/dashboard/user/assets/websites';
+            else if (productType === 'software') redirectUrl = '/dashboard/user/assets/softwares';
+
+            setTimeout(() => router.push(redirectUrl), 2500);
 
         } catch (error) {
             toast.error(error.message || 'Payment failed');
@@ -331,6 +338,21 @@ const CheckoutContent = () => {
         );
     }
 
+    // Get redirect URL based on product type
+    const getRedirectUrl = () => {
+        const productType = checkoutItems[0]?.type || 'course';
+        if (productType === 'website') return '/dashboard/user/assets/websites';
+        if (productType === 'software') return '/dashboard/user/assets/softwares';
+        return '/dashboard/user/courses';
+    };
+
+    const getButtonLabel = () => {
+        const productType = checkoutItems[0]?.type || 'course';
+        if (productType === 'website') return 'Go to My Websites';
+        if (productType === 'software') return 'Go to My Softwares';
+        return 'Go to My Courses';
+    };
+
     if (isSuccess) {
         return (
             <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
@@ -346,10 +368,10 @@ const CheckoutContent = () => {
                     Thank you for your purchase. Access your content in the dashboard.
                 </p>
                 <button
-                    onClick={() => router.push('/dashboard/user/courses')}
+                    onClick={() => router.push(getRedirectUrl())}
                     className="px-6 py-3 bg-gray-900 text-white rounded-md font-semibold text-sm hover:bg-[#FD9A00] transition-all flex items-center gap-2"
                 >
-                    Go to My Courses <LuArrowRight size={16} />
+                    {getButtonLabel()} <LuArrowRight size={16} />
                 </button>
             </div>
         );
