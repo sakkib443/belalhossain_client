@@ -12,6 +12,7 @@ import "./globals.css";
 import Navbar from "../components/sheard/Navbar";
 import Footer from "@/components/sheard/Footer";
 import TopHeader from "@/components/sheard/TopHeader";
+import Script from "next/script";
 
 import ReduxProviderWrapper from "@/components/ReduxProvaiderWrapper";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -133,6 +134,21 @@ export default function RootLayout({ children }) {
       className={`${poppins.variable} ${roboto.variable} ${lobster.variable} ${caveat.variable} ${worksans.variable} ${outfit.variable} ${hindSiliguri.variable} ${teko.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Google Analytics (GA4) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-NDYX5VFT6W"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-NDYX5VFT6W');
+          `}
+        </Script>
+      </head>
       <body className="antialiased" suppressHydrationWarning>
         <ReduxProviderWrapper>
           <LanguageProvider>

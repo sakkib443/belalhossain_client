@@ -105,7 +105,7 @@ NEXT_PUBLIC_API_URL=https://your-api.vercel.app
 **Example:**  `/src/app/(mainLayout)/website/page.jsx`
 
 ```javascript
-import { generateMetadata as generateSEOMetadata, commonKeywords } from '@/lib/seo';
+import { generateMet![alt text](image.png)adata as generateSEOMetadata, commonKeywords } from '@/lib/seo';
 
 export const metadata = generateSEOMetadata({
   title: 'Website Templates - Premium Ready-Made Websites | Extrain Web',
