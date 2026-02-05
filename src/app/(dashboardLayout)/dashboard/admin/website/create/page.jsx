@@ -254,6 +254,12 @@ export default function CreateWebsitePage() {
                                 <input {...register('title')} placeholder="e.g. Agency Pro - Next.js Business Template" className={inputClass} />
                                 {errors.title && <p className="text-rose-500 text-xs mt-1">{errors.title.message}</p>}
                             </div>
+                            <div>
+                                <label className={labelClass}>URL Slug (SEO-friendly URL)</label>
+                                <input {...register('slug')} placeholder="e.g. agency-pro-nextjs-template (auto-generated if empty)" className={inputClass} />
+                                <p className="text-xs text-slate-400 mt-1">Leave blank to auto-generate from title</p>
+                                {errors.slug && <p className="text-rose-500 text-xs mt-1">{errors.slug.message}</p>}
+                            </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className={labelClass}>Platform *</label>

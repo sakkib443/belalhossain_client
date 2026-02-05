@@ -3,7 +3,7 @@ import SoftwareDetailsContent from "./SoftwareDetailsContent";
 
 // SEO - Dynamic Metadata Generation
 export async function generateMetadata({ params }) {
-    const { id } = params;
+    const { id } = await params;
 
     try {
         const response = await fetch(`https://extrain-web-server.vercel.app/api/software/${id}`, {
@@ -54,7 +54,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function SoftwareDetailsPage({ params }) {
-    const { id } = params;
+    const { id } = await params;
 
     let software = null;
 

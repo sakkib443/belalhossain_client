@@ -94,6 +94,7 @@ export default function EditWebsitePage() {
                 setWebsiteData(asset);
                 reset({
                     title: asset.title || '',
+                    slug: asset.slug || '',
                     platform: asset.platform || 'WordPress',
                     category: asset.category?._id || asset.category || '',
                     accessType: asset.accessType || 'paid',
@@ -298,6 +299,12 @@ export default function EditWebsitePage() {
                                 <label className={labelClass}>Asset Title</label>
                                 <input {...register('title')} placeholder="e.g. Agency Pro - Next.js Business Template" className={inputClass} />
                                 {errors.title && <p className="text-rose-500 text-xs mt-1">{errors.title.message}</p>}
+                            </div>
+                            <div>
+                                <label className={labelClass}>URL Slug (SEO-friendly URL)</label>
+                                <input {...register('slug')} placeholder="e.g. agency-pro-nextjs-template" className={inputClass} />
+                                <p className="text-xs text-slate-400 mt-1">Current: <span className="text-emerald-600 font-medium">{websiteData?.slug || 'Not set'}</span></p>
+                                {errors.slug && <p className="text-rose-500 text-xs mt-1">{errors.slug.message}</p>}
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>

@@ -114,7 +114,17 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
         }
     };
 
-    if (!website) return null;
+    if (!website) {
+        return (
+            <div className="min-h-screen bg-[#FAFBFC] dark:bg-slate-950 flex items-center justify-center">
+                <div className="text-center p-8">
+                    <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">Loading...</h2>
+                    <p className="text-gray-500">Please wait while we fetch the website details.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[#FAFBFC] dark:bg-slate-950">
@@ -203,9 +213,9 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
             </section>
 
             {/* Content Section */}
-            <section className="bg-white dark:bg-slate-950">
+            <section className="bg-white dark:bg-slate-950 relative">
                 <div className="container mx-auto px-4 lg:px-24 pb-20 relative z-20">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                         {/* Left Side */}
                         <div className="lg:col-span-8 space-y-6">
                             <div className="bg-white rounded-md border border-gray-200 overflow-hidden">
@@ -284,8 +294,8 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
                             </div>
                         </div>
 
-                        {/* Right Sidebar */}
-                        <div className="lg:col-span-4">
+                        {/* Right Sidebar - Positioned to overlap hero */}
+                        <div className="lg:col-span-4 lg:-mt-[450px]">
                             <div className="sticky top-24 space-y-5">
                                 <div className="bg-white rounded-md border border-gray-200 shadow-sm overflow-hidden">
                                     <div className="relative aspect-video group cursor-pointer" onClick={() => website.videoUrl && setShowVideoModal(true)}>
@@ -310,6 +320,48 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
                                         </ul>
                                     </div>
                                 </div>
+
+                                {/* Related Websites - Below Sticky Card */}
+                                {popularWebsites.length > 0 && (
+                                    <div className="bg-white rounded-md border border-gray-200 p-4 mt-5">
+                                        <h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-2 poppins">
+                                            <LuLayoutGrid size={14} className="text-teal-500" />
+                                            Similar Websites
+                                        </h3>
+                                        <div className="space-y-3">
+                                            {popularWebsites.slice(0, 4).map((item) => (
+                                                <Link
+                                                    key={item._id}
+                                                    href={`/website/${item.slug || item.title?.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`}
+                                                    className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-50 transition-colors group"
+                                                >
+                                                    <div className="w-16 h-12 rounded overflow-hidden flex-shrink-0 border border-gray-100">
+                                                        <img
+                                                            src={item.images?.[0] || item.image || "/images/placeholder.png"}
+                                                            alt={item.title}
+                                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                                                        />
+                                                    </div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <h4 className="text-xs font-semibold text-gray-800 truncate group-hover:text-teal-600 transition-colors poppins">
+                                                            {item.title}
+                                                        </h4>
+                                                        <p className="text-[11px] text-gray-500 poppins">
+                                                            ৳{(item.offerPrice || item.price)?.toLocaleString()}
+                                                        </p>
+                                                    </div>
+                                                    <FaArrowRight size={10} className="text-gray-300 group-hover:text-teal-500 transition-colors" />
+                                                </Link>
+                                            ))}
+                                        </div>
+                                        <Link
+                                            href="/website"
+                                            className="block text-center text-xs text-teal-600 font-medium mt-3 pt-3 border-t border-gray-100 hover:text-teal-700 poppins"
+                                        >
+                                            View All Websites →
+                                        </Link>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

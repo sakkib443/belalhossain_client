@@ -2,7 +2,7 @@ import React from 'react';
 import BlogDetailsContent from './BlogDetailsContent';
 
 export async function generateMetadata({ params }) {
-    const { slug } = params;
+    const { slug } = await params;
 
     try {
         const response = await fetch(`https://extrain-web-server.vercel.app/api/blogs/slug/${slug}`, {
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function SingleBlogPage({ params }) {
-    const { slug } = params;
+    const { slug } = await params;
 
     let blog = null;
 

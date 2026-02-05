@@ -1,14 +1,20 @@
 import React from "react";
 import WebsiteDetailsContent from "./WebsiteDetailsContent";
 
+// Helper function to check if string looks like MongoDB ObjectId
+const isObjectId = (str) => /^[a-f\d]{24}$/i.test(str);
+
 // SEO - Dynamic Metadata Generation
 export async function generateMetadata({ params }) {
-    const { id } = params;
+    const { id } = await params;
 
     try {
-        const response = await fetch(`https://extrain-web-server.vercel.app/api/websites/${id}`, {
-            cache: "no-store",
-        });
+        // Try slug first, then ID
+        const apiUrl = isObjectId(id)
+            ? `https://extrain-web-server.vercel.app/api/websites/${id}`
+            : `https://extrain-web-server.vercel.app/api/websites/slug/${id}`;
+
+        const response = await fetch(apiUrl, { cache: "no-store" });
         const result = await response.json();
         const website = result.data;
 
@@ -26,7 +32,7 @@ export async function generateMetadata({ params }) {
             openGraph: {
                 title: `${website.title} | Extrain Web`,
                 description: website.description,
-                url: `https://extrainweb.com/website/${id}`,
+                url: `https://extrainweb.com/website/${website.slug || id}`,
                 siteName: "Extrain Web",
                 images: [
                     {
@@ -55,15 +61,18 @@ export async function generateMetadata({ params }) {
 
 // Server Component
 export default async function WebsiteDetailsPage({ params }) {
-    const { id } = params;
+    const { id } = await params;
 
     let website = null;
     let error = null;
 
     try {
-        const response = await fetch(`https://extrain-web-server.vercel.app/api/websites/${id}`, {
-            cache: "no-store",
-        });
+        // Try slug first, then ID
+        const apiUrl = isObjectId(id)
+            ? `https://extrain-web-server.vercel.app/api/websites/${id}`
+            : `https://extrain-web-server.vercel.app/api/websites/slug/${id}`;
+
+        const response = await fetch(apiUrl, { cache: "no-store" });
 
         if (!response.ok) {
             throw new Error("Failed to fetch website data");
