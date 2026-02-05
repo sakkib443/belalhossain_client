@@ -426,7 +426,7 @@ const Navbar = () => {
                       <div className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-black/50 border border-gray-100 dark:border-white/10">
                         <div className="w-14 h-14 rounded-full border-2 border-[#C4EE18] overflow-hidden bg-black">
                           {user.image ? (
-                            <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                            <img src={user.image} alt={`${user.name || 'User'}'s profile picture`} className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-[#C4EE18] font-bold text-xl font-teko uppercase">
                               {(user.name || user.gmail || "U").charAt(0)}
@@ -584,7 +584,7 @@ const Navbar = () => {
                   >
                     <div className="w-8 h-8 rounded-full border-2 border-rose-600/30 overflow-hidden">
                       {user.image ? (
-                        <img src={user.image} alt="User" className="w-full h-full object-cover" />
+                        <img src={user.image} alt={`${user.name || 'User'}'s profile picture`} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full bg-black flex items-center justify-center text-[#C4EE18] text-sm font-bold font-teko uppercase">
                           {(user.name || "U").charAt(0)}
@@ -612,7 +612,7 @@ const Navbar = () => {
                           <div className="flex items-center gap-3">
                             <div className="w-12 h-12 rounded-full border-2 border-[#C4EE18] overflow-hidden bg-black">
                               {user.image ? (
-                                <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                                <img src={user.image} alt={`${user.name || 'User'}'s profile picture`} className="w-full h-full object-cover" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center text-[#C4EE18] font-bold text-lg font-teko uppercase">
                                   {(user.name || "U").charAt(0)}

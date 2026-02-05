@@ -1,79 +1,39 @@
-"use client";
+import HomeContent from "./HomeContent";
+import { generateMetadata as seoGenerateMetadata, commonKeywords, generateOrganizationSchema } from "@/lib/seo";
 
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+// ==================== SEO METADATA ====================
+export async function generateMetadata() {
+  const metadata = seoGenerateMetadata({
+    title: "Best Website Development Company in Bangladesh | Extrain Web",
+    description: "Extrain Web (Extra in Web) — Top-rated website development agency in Bangladesh. We build high-performance custom websites, premium templates, and business software in Dhaka.",
+    keywords: [
+      ...commonKeywords.brand,
+      ...commonKeywords.bestKeywords,
+      ...commonKeywords.base,
+      ...commonKeywords.local,
+      "web design agency bangladesh",
+      "e-commerce development company dhaka"
+    ],
+    canonicalUrl: "/",
+  });
 
-import { fetchCategories } from "@/redux/categorySlice";
-import Hero from "@/components/Home/Hero";
-import HomeCategory from "@/components/Home/HomeCategory";
+  return metadata;
+}
 
-import WhatWeProvide from "@/components/Home/WhatWeProvide";
-import DigitalProducts from "@/components/Home/DigitalProducts";
-import MissionSection from "@/components/Home/MissionSection";
-import TestimonialSection from "@/components/Home/TestimonialSection";
-import CompanyLogos from "@/components/Home/CompanyLogos";
-import Lenis from 'lenis';
-
-const HomePage = () => {
-  const dispatch = useDispatch();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-
-    // Initialize Lenis Smooth Scroll
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      direction: 'vertical',
-      gestureDirection: 'vertical',
-      smooth: true,
-      mouseMultiplier: 1,
-      smoothTouch: false,
-      touchMultiplier: 2,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      dispatch(fetchCategories());
-    }
-  }, [dispatch, mounted]);
+// ==================== HOME PAGE ====================
+export default function HomePage() {
+  const organizationSchema = generateOrganizationSchema();
 
   return (
-    <div className="relative min-h-screen bg-white dark:bg-black selection:bg-rose-600 selection:text-black font-poppins antialiased">
-      <main className="relative">
-        {/* Hero Section */}
-        <section className="relative w-full overflow-hidden z-0 bg-white dark:bg-black">
-          <Hero />
-        </section>
+    <>
+      {/* Schema.org Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
 
-
-
-        {/* Other Sections */}
-        <section className="relative z-10 bg-white dark:bg-[#020202]">
-          <HomeCategory />
-
-          <DigitalProducts />
-          <MissionSection />
-          <CompanyLogos />
-          <WhatWeProvide />
-          <TestimonialSection />
-        </section>
-      </main>
-    </div>
+      {/* Home Content Component */}
+      <HomeContent />
+    </>
   );
-};
-
-export default HomePage;
+}

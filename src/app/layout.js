@@ -79,11 +79,30 @@ export const metadata = {
     shortcut: "/images/logo.png",
     apple: "/images/logo.png",
   },
+  metadataBase: new URL("https://extrainweb.com"),
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": "/en",
+      "bn-BD": "/bn",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     alternateLocale: ["bn_BD"],
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://extrainweb.com",
+    url: "https://extrainweb.com",
     siteName: "Extrain Web",
     title: "Extrain Web - Best Website Development Company in Bangladesh",
     description: "Best website development company in Bangladesh. Founded by Sheikh Sakibul Hasan. Custom web development, templates & software solutions. Top-rated agency in Dhaka.",

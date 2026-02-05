@@ -592,7 +592,7 @@ const CheckoutContent = () => {
                                 {checkoutItems.map((item) => (
                                     <div key={item.id} className="flex gap-3 items-center">
                                         <div className="w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
-                                            <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                                            <img src={item.image} alt={`Cart Item: ${item.title}`} className="w-full h-full object-cover" />
                                         </div>
 
                                         {/* Debug Info (Only visible if something is wrong) */}

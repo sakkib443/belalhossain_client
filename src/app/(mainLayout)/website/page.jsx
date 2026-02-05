@@ -1,156 +1,71 @@
-"use client";
-import React, { Suspense, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchWebsites } from "@/redux/websiteSlice";
-import { fetchCategories } from "@/redux/categorySlice";
-import dynamic from "next/dynamic";
-import { LuGlobe, LuPlus } from "react-icons/lu";
-import { useLanguage } from "@/context/LanguageContext";
-import { motion } from "framer-motion";
+import React, { Suspense } from "react";
+import WebsitePageContent from "./WebsitePageContent";
 
-const RightWebsiteDetails = dynamic(
-    () => import("@/components/websitepage/RightWebsiteDetails"),
-    { ssr: false }
-);
-
-// Loading fallback component
-const LoadingFallback = () => (
-    <div className="flex items-center justify-center py-20">
-        <div className="w-8 h-8 border-4 border-[#C4EE18] border-t-transparent rounded-full animate-spin"></div>
-    </div>
-);
-
-const WebsiteContent = () => {
-    const dispatch = useDispatch();
-    const { websiteList = [], loading } = useSelector((state) => state.websites || {});
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedType, setSelectedType] = useState("All");
-    const [mounted, setMounted] = useState(false);
-    const { t, language } = useLanguage();
-    const bengaliClass = language === "bn" ? "hind-siliguri" : "";
-
-    useEffect(() => {
-        setMounted(true);
-        dispatch(fetchWebsites());
-        dispatch(fetchCategories({ type: 'website' }));
-    }, [dispatch]);
-
-    if (!mounted) return <LoadingFallback />;
-
-    return (
-        <div className="min-h-screen bg-white dark:bg-black transition-colors duration-300 relative selection:bg-[#C4EE18] selection:text-black">
-            {/* Unified Filtered Background - Spans entire page */}
-            <div className="fixed inset-0 pointer-events-none z-0">
-                <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-                    style={{ backgroundImage: 'linear-gradient(#000 0.5px, transparent 0.5px), linear-gradient(90deg, #000 0.5px, transparent 0.5px)', backgroundSize: '40px 40px' }}
-                />
-            </div>
-
-            {/* Ambient Animated Blobs - Green Theme to match Website color */}
-            <motion.div
-                animate={{ x: [0, 50, 0], y: [0, 30, 0], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="fixed top-[-10%] right-[-5%] w-[600px] h-[600px] bg-[#C4EE18]/5 rounded-full blur-[120px] pointer-events-none z-0"
-            />
-            <motion.div
-                animate={{ x: [0, -30, 0], y: [0, -50, 0], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 18, repeat: Infinity, ease: "linear", delay: 2 }}
-                className="fixed bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#C4EE18]/5 rounded-full blur-[100px] pointer-events-none z-0"
-            />
-
-            {/* Main Content Container */}
-            <div className="relative z-10">
-                {/* Hero Header Section - Left Aligned */}
-                <section className="relative overflow-hidden pt-20 pb-6 lg:pt-24 lg:pb-8">
-                    <div className="container mx-auto px-4 lg:px-16">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                            className="max-w-4xl"
-                        >
-                            {/* Modern Left Header */}
-                            <div className="flex items-center gap-3 mb-6">
-                                <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: 40 }}
-                                    transition={{ delay: 0.5, duration: 0.5 }}
-                                    className="h-[2px] bg-[#C4EE18]"
-                                />
-                                <span className={`text-[10px] font-black text-[#C4EE18] uppercase tracking-[0.4em] ${bengaliClass}`}>
-                                    {language === 'bn' ? 'প্রিমিয়াম ওয়েবসাইট' : 'Premium Websites'}
-                                </span>
-                            </div>
-
-                            <motion.h1
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.3, duration: 0.8 }}
-                                className={`text-5xl lg:text-7xl font-black text-gray-950 dark:text-white mb-6 uppercase leading-[0.85] tracking-tighter font-teko ${bengaliClass}`}
-                            >
-                                {language === 'bn' ? 'আমাদের' : 'Our Website '}<span className="text-[#C4EE18]">{language === 'bn' ? 'মার্কেটপ্লেস' : 'Marketplace'}</span>
-                            </motion.h1>
-
-                            <p className={`text-gray-500 dark:text-gray-400 text-sm lg:text-base max-w-2xl leading-relaxed mb-10 ${bengaliClass}`}>
-                                {language === 'bn'
-                                    ? 'রেডি-মেড ওয়েবসাইট সমাধান যা আপনার ব্যবসাকে দ্রুত অনলাইনে নিয়ে আসবে। আমাদের মার্কেটপ্লেসে আছে সেরা ডিজাইনের ওয়েবসাইট সমুহ।'
-                                    : 'Fully functional, ready-to-deploy websites for startups and enterprises. Get online in minutes with our premium templates.'}
-                            </p>
-
-                            {/* Stats - Left Aligned & Modern */}
-                            <div className="flex flex-wrap items-center gap-12">
-                                <div className="flex items-center gap-4 group">
-                                    <div className="w-12 h-12 bg-gray-50 dark:bg-white/5 rounded-md flex items-center justify-center border border-gray-100 dark:border-white/10 group-hover:border-[#C4EE18] transition-colors">
-                                        <LuGlobe className="text-gray-400 group-hover:text-[#C4EE18] transition-colors text-xl" />
-                                    </div>
-                                    <div>
-                                        <p className="text-2xl font-black text-gray-900 dark:text-white font-teko leading-none mb-1">{websiteList.length || '1'}+</p>
-                                        <p className={`text-[11px] font-bold text-gray-400 uppercase tracking-widest ${bengaliClass}`}>{language === 'bn' ? 'ওয়েবসাইট' : 'Websites'}</p>
-                                    </div>
-                                </div>
-
-                                <div className="w-px h-12 bg-gray-200 dark:bg-white/10 hidden sm:block"></div>
-
-                                <div className="flex items-center gap-4 group">
-                                    <div className="w-12 h-12 bg-gray-50 dark:bg-white/5 rounded-md flex items-center justify-center border border-gray-100 dark:border-white/10 group-hover:border-[#C4EE18] transition-colors">
-                                        <LuPlus className="text-gray-400 group-hover:text-[#C4EE18] transition-colors text-xl" />
-                                    </div>
-                                    <div>
-                                        <p className="text-2xl font-black text-gray-900 dark:text-white font-teko leading-none mb-1">24/7</p>
-                                        <p className={`text-[11px] font-bold text-gray-400 uppercase tracking-widest ${bengaliClass}`}>{language === 'bn' ? 'সাপোর্ট' : 'Support'}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                </section>
-
-                {/* Main Content Area */}
-                <section className="container mx-auto px-4 lg:px-16 pb-20">
-                    <Suspense fallback={<LoadingFallback />}>
-                        <motion.div
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6, duration: 0.8 }}
-                        >
-                            <RightWebsiteDetails
-                                searchQuery={searchQuery}
-                                selectedType={selectedType}
-                            />
-                        </motion.div>
-                    </Suspense>
-                </section>
-            </div>
-        </div>
-    );
+// SEO - Metadata for the listing page
+export const metadata = {
+    title: "Premium Website Marketplace | Ready-to-use Websites",
+    description: "Browse our collection of premium, fully-functional websites. Get your business online instantly with our high-quality website templates and custom solutions. Best website marketplace in Bangladesh.",
+    keywords: "website marketplace, buy websites, premium website templates, ready-made websites, website development Bangladesh, portfolio, e-commerce, real estate websites",
+    alternates: {
+        canonical: "https://extrainweb.com/website",
+    },
+    openGraph: {
+        title: "Extrain Web Marketplace - Premium Websites",
+        description: "Explore the best collection of ready-to-deploy websites for startups and enterprises.",
+        url: "https://extrainweb.com/website",
+        images: [
+            {
+                url: "/images/logo.png",
+                width: 1200,
+                height: 630,
+                alt: "Extrain Web Marketplace",
+            },
+        ],
+    },
 };
 
-const WebsitePage = () => {
-    return (
-        <Suspense fallback={<LoadingFallback />}>
-            <WebsiteContent />
-        </Suspense>
-    );
-};
+// Server Component
+export default async function WebsitePage() {
+    let websites = [];
 
-export default WebsitePage;
+    try {
+        const response = await fetch("https://extrain-web-server.vercel.app/api/websites", {
+            cache: "no-store",
+        });
+        const result = await response.json();
+        websites = result.data || [];
+    } catch (error) {
+        console.error("Failed to fetch websites for SSR:", error);
+    }
+
+    return (
+        <>
+            {/* JSON-LD for CollectionPage and ItemList SEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        "name": "Extrain Web Marketplace - Premium Websites",
+                        "description": "A curated collection of professional websites for sale.",
+                        "url": "https://extrainweb.com/website",
+                        "mainEntity": {
+                            "@type": "ItemList",
+                            "numberOfItems": websites.length,
+                            "itemListElement": websites.slice(0, 10).map((site, index) => ({
+                                "@type": "ListItem",
+                                "position": index + 1,
+                                "url": `https://extrainweb.com/website/${site._id}`,
+                                "name": site.title,
+                                "image": site.images?.[0] || site.image
+                            }))
+                        }
+                    })
+                }}
+            />
+
+            <WebsitePageContent initialWebsites={websites} />
+        </>
+    );
+}

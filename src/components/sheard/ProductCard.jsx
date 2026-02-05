@@ -71,7 +71,7 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                     <Link href={detailUrl} className="block h-full w-full">
                         <img
                             src={productImage}
-                            alt={title}
+                            alt={`${title} - Professional ${type === 'website' ? 'Website Design' : 'Software Application'} in Bangladesh`}
                             className="h-full w-full object-cover rounded-lg transition-transform duration-700 group-hover:scale-105"
                         />
                     </Link>
@@ -168,7 +168,7 @@ const ProductCard = ({ product, type, view = "grid" }) => {
                     <Link href={detailUrl} className="block h-full w-full">
                         <img
                             src={productImage}
-                            alt={title}
+                            alt={`${title} - Premium ${type === 'website' ? 'Website Template' : 'Software Solution'} for Business`}
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                     </Link>
