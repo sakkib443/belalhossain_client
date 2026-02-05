@@ -71,9 +71,7 @@ export function generateMetadata({
             creator: '@extrainweb', // আপনার Twitter handle দিয়ে replace করবেন
         },
         verification: {
-            google: 'YOUR_GOOGLE_VERIFICATION_CODE', // Google Search Console এ verify করার পর এটি add করবেন
-            // yandex: 'YOUR_YANDEX_CODE',
-            // bing: 'YOUR_BING_CODE',
+            google: 'yxl3yWdFkrclIR7zzpyfjc5mCC0AmjTpeaii_z6yUVg', // Google Search Console verification code
         },
     };
 

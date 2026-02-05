@@ -121,6 +121,9 @@ export const metadata = {
     description: "Top-rated web development agency. Custom websites, templates & software. Founded by Sheikh Sakibul Hasan.",
     images: ["/images/logo.png"],
   },
+  verification: {
+    google: "yxl3yWdFkrclIR7zzpyfjc5mCC0AmjTpeaii_z6yUVg",
+  },
 };
 
 export default function RootLayout({ children }) {
