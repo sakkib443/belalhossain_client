@@ -69,14 +69,12 @@ const CategoryMegaMenu = ({ closeMobileMenu, language, bengaliClass }) => {
 
   const handleCategoryClick = (slug, type) => {
     closeMobileMenu();
-    if (type === 'course') {
-      router.push(`/courses?category=${slug}`);
-    } else if (type === 'website') {
+    if (type === 'website') {
       router.push(`/website?category=${slug}`);
     } else if (type === 'software') {
       router.push(`/software?category=${slug}`);
     } else {
-      router.push(`/courses?category=${slug}`);
+      router.push(`/website?category=${slug}`);
     }
   };
 
@@ -305,22 +303,12 @@ const Navbar = () => {
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const courseTypes = [
-    { key: "Online", label: t("navbar.onlineCourse"), icon: "🌐" },
-    { key: "Offline", label: t("navbar.offlineCourse"), icon: "🏫" },
-    { key: "Recorded", label: t("navbar.recordedCourse"), icon: "📹" },
-  ];
-
-  const handleCourseTypeClick = (courseType) => {
-    closeMobileMenu();
-    router.push(`/courses?type=${courseType}`);
-  };
 
   const menu = [
     { href: "/", label: language === 'bn' ? "হোম" : "Home" },
     { href: "/website", label: language === 'bn' ? "ওয়েবসাইট" : "Websites" },
     { href: "/software", label: language === 'bn' ? "সফটওয়্যার" : "Software" },
-    { href: "/blog", label: language === 'bn' ? "ব্লগ" : "Blog" },
+    { href: "/happy-clients", label: language === 'bn' ? "সন্তুষ্ট ক্লায়েন্ট" : "Happy Clients" },
     { href: "/about", label: language === 'bn' ? "আমাদের সম্পর্কে" : "About" },
     { href: "/contact", label: language === 'bn' ? "যোগাযোগ" : "Contact" },
   ];

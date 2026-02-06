@@ -19,10 +19,10 @@ const AboutMission = () => {
     const headingFont = "font-outfit";
 
     const cards = [
-        { icon: LuTarget, title: language === 'bn' ? 'আমাদের মিশন' : 'Mission', desc: language === 'bn' ? 'প্রতিটি শিক্ষার্থীকে বিশ্বমানের শিক্ষা প্রদান করা।' : 'Forging the definitive path for elite digital talent.', number: '01' },
-        { icon: LuEye, title: language === 'bn' ? 'আমাদের ভিশন' : 'Vision', desc: language === 'bn' ? 'সফল ডিজিটাল উদ্যোক্তা তৈরি করা।' : 'Redefining the standard of modern IT education.', number: '02' },
+        { icon: LuTarget, title: language === 'bn' ? 'আমাদের মিশন' : 'Mission', desc: language === 'bn' ? 'প্রতিটি ব্যবসার জন্য বিশ্বমানের ডিজিটাল সমাধান প্রদান করা।' : 'Delivering premium digital solutions for every business.', number: '01' },
+        { icon: LuEye, title: language === 'bn' ? 'আমাদের ভিশন' : 'Vision', desc: language === 'bn' ? 'বাংলাদেশের শীর্ষ ডিজিটাল মার্কেটপ্লেস হওয়া।' : 'Becoming Bangladesh\'s top digital marketplace.', number: '02' },
         { icon: LuHeart, title: language === 'bn' ? 'মূল্যবোধ' : 'Values', desc: language === 'bn' ? 'সততা এবং উদ্ভাবনই আমাদের ভিত্তি।' : 'Radical transparency and industrial-scale innovation.', number: '03' },
-        { icon: LuStar, title: language === 'bn' ? 'বিশেষত্ব' : 'USP', desc: language === 'bn' ? 'প্র্যাক্টিক্যাল প্রজেক্ট এবং আজীবন সাপোর্ট।' : 'Hyper-practical training with 24/7 dedicated support.', number: '04' },
+        { icon: LuStar, title: language === 'bn' ? 'বিশেষত্ব' : 'USP', desc: language === 'bn' ? 'প্রিমিয়াম প্রোডাক্ট এবং আজীবন সাপোর্ট।' : 'Premium products with lifetime support.', number: '04' },
     ];
 
     return (
@@ -53,8 +53,8 @@ const AboutMission = () => {
 
                             <p className={`text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-medium mb-12 max-w-lg ${bengaliClass}`}>
                                 {language === 'bn'
-                                    ? 'আমরা শুধু শিক্ষা দিই না, আমরা আপনার ক্যারিয়ার গড়ার অংশীদার হিসেবে কাজ করি। আমাদের প্রতিটি পদক্ষেপই আপনার সাফল্যের জন্য।'
-                                    : 'We are architecting a future where skill meets strategy. ejobs it is more than an academy; it\'s your partner in professional evolution.'
+                                    ? 'আমরা শুধু প্রোডাক্ট বিক্রি করি না, আমরা আপনার ব্যবসার ডিজিটাল সাফল্যের অংশীদার হিসেবে কাজ করি। আমাদের প্রতিটি পদক্ষেপই আপনার সাফল্যের জন্য।'
+                                    : 'We are architecting a future where quality meets innovation. Extrain Web is more than a marketplace; it\'s your partner in digital success.'
                                 }
                             </p>
 

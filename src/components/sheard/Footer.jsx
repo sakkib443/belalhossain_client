@@ -102,7 +102,7 @@ const Footer = () => {
               </h2>
             </Link>
             <p className={`text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-sm font-medium ${bengaliClass}`}>
-              {t("footer.brandDescription") || "Extrain Web is a leading IT training and digital platform in Bangladesh, offering career-oriented courses to help you master modern skills and build a standout professional career."}
+              {t("footer.brandDescription") || "Extrain Web is a premium website and software marketplace in Bangladesh, providing high-quality digital products and custom development services."}
             </p>
 
             {/* Newsletter */}

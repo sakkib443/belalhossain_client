@@ -70,8 +70,8 @@ export const metadata = {
     default: "Extrain Web - Best Website Development Company in Bangladesh",
   },
   description:
-    "Extrain Web (Extra in Web) — Best website development company in Bangladesh. Founded by Sheikh Sakibul Hasan. We specialize in custom web development, premium website templates, and business software solutions. Top-rated web development agency in Dhaka.",
-  keywords: "Extrain Web, Extra in Web, best website development company Bangladesh, Sheikh Sakibul Hasan, top web development agency Dhaka, custom website design Bangladesh, e-commerce development, professional web design, leading website developer Bangladesh, #1 web development company",
+    "Extrain Web (Extra in Web) — The best website and software marketplace in Bangladesh. Founded by Sheikh Sakibul Hasan. Get premium website templates, ready-made software scripts, and custom web development services. Your one-stop shop for business digital solutions.",
+  keywords: "Extrain Web, Extra in Web, website marketplace Bangladesh, software marketplace, buy website templates, ready-made software scripts, Sheikh Sakibul Hasan, top web development agency Dhaka, custom website design, e-commerce scripts",
   authors: [{ name: "Sheikh Sakibul Hasan" }, { name: "Extrain Web Team" }],
   creator: "Sheikh Sakibul Hasan",
   publisher: "Extrain Web",
