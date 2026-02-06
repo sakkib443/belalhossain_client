@@ -8,7 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { addToCart } from "@/redux/cartSlice";
 import {
     LuDownload, LuExternalLink, LuClock, LuLayoutGrid, LuEye, LuPackage,
-    LuShieldCheck, LuSettings, LuFileCode, LuGlobe, LuCheck, LuSparkles, LuZap, LuX, LuImage
+    LuShieldCheck, LuSettings, LuFileCode, LuGlobe, LuCheck, LuSparkles, LuZap, LuX, LuImage, LuChevronLeft, LuChevronRight
 } from "react-icons/lu";
 import { FaHeart, FaRegHeart, FaStar, FaArrowRight } from "react-icons/fa";
 import { MdVerified, MdPlayCircleOutline } from "react-icons/md";
@@ -167,30 +167,30 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
 
                         {/* Stats Row */}
                         <div className="flex flex-wrap items-center gap-3 mb-5">
-                            <div className="flex items-center gap-2 bg-white px-8 py-2.5 rounded-md border border-gray-200">
+                            <div className="flex items-center gap-2 bg-white dark:bg-slate-800 px-8 py-2.5 rounded-md border border-gray-200 dark:border-slate-700">
                                 <div className="flex text-amber-400 gap-0.5">
                                     {[1, 2, 3, 4, 5].map((s) => <FaStar key={s} size={12} />)}
                                 </div>
-                                <span className="font-bold outfit text-gray-900">{website.rating || '5.0'}</span>
-                                <span className="text-gray-400 text-xs poppins">({website.reviewCount || 0})</span>
+                                <span className="font-bold outfit text-gray-900 dark:text-white">{website.rating || '5.0'}</span>
+                                <span className="text-gray-400 dark:text-gray-500 text-xs poppins">({website.reviewCount || 0})</span>
                             </div>
 
-                            <div className="flex items-center gap-3 bg-white px-8 py-2.5 rounded-md border border-gray-200">
-                                <div className="w-7 h-7 rounded bg-emerald-50 flex items-center justify-center">
+                            <div className="flex items-center gap-3 bg-white dark:bg-slate-800 px-8 py-2.5 rounded-md border border-gray-200 dark:border-slate-700">
+                                <div className="w-7 h-7 rounded bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center">
                                     <LuPackage className="text-emerald-600" size={14} />
                                 </div>
-                                <span className="text-gray-700 font-medium text-sm poppins">
+                                <span className="text-gray-700 dark:text-gray-300 font-medium text-sm poppins">
                                     <AnimatedCounter value={website.salesCount || 0} />
-                                    <span className="text-gray-400 ml-1">sold</span>
+                                    <span className="text-gray-400 dark:text-gray-500 ml-1">sold</span>
                                 </span>
                             </div>
                         </div>
 
                         {/* Platform & Like */}
                         <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-md border border-gray-200">
-                                <span className="text-gray-400 text-sm poppins">Type</span>
-                                <span className="text-teal-600 font-semibold text-sm outfit">{website.projectType || 'Full Stack'}</span>
+                            <div className="flex items-center gap-2 bg-white dark:bg-slate-800 px-3 py-2 rounded-md border border-gray-200 dark:border-slate-700">
+                                <span className="text-gray-400 dark:text-gray-500 text-sm poppins">Type</span>
+                                <span className="text-teal-600 dark:text-teal-400 font-semibold text-sm outfit">{website.projectType || 'Full Stack'}</span>
                                 <MdVerified className="text-blue-500" size={16} />
                             </div>
 
@@ -198,8 +198,8 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
                                 onClick={handleToggleLike}
                                 disabled={isLiking}
                                 className={`flex items-center gap-2 px-3 py-2 rounded-md border transition-all ${website.isLiked
-                                    ? 'bg-rose-50 border-rose-200 text-rose-600'
-                                    : 'bg-white border-gray-200 text-gray-600 hover:border-rose-200 hover:text-rose-500'
+                                    ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400'
+                                    : 'bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 text-gray-600 dark:text-gray-400 hover:border-rose-200 dark:hover:border-rose-700 hover:text-rose-500'
                                     }`}
                             >
                                 {website.isLiked ? <FaHeart size={14} /> : <FaRegHeart size={14} />}
@@ -287,6 +287,75 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
                                         </motion.div>
                                     )}
 
+                                    {activeTab === "technical" && (
+                                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+                                            {/* Tech Stack */}
+                                            <div>
+                                                <h3 className="text-lg font-bold outfit text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                                    <span className="w-1 h-5 bg-teal-500 rounded-full"></span>
+                                                    Technology Stack
+                                                </h3>
+                                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                                    {(website.techStack || ['HTML5', 'CSS3', 'JavaScript', 'React.js', 'Node.js', 'MongoDB']).map((tech, idx) => (
+                                                        <div key={idx} className="flex items-center gap-2 p-3 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-900 border border-gray-200 dark:border-slate-700 rounded-lg">
+                                                            <LuFileCode className="text-teal-500" size={16} />
+                                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 poppins">{tech}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+
+                                            {/* Project Info Grid */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div className="p-4 bg-gray-50 dark:bg-slate-800/50 rounded-lg border border-gray-100 dark:border-slate-700">
+                                                    <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2 poppins">Project Type</h4>
+                                                    <p className="text-gray-900 dark:text-white font-semibold outfit">{website.projectType || 'Full Stack'}</p>
+                                                </div>
+                                                <div className="p-4 bg-gray-50 dark:bg-slate-800/50 rounded-lg border border-gray-100 dark:border-slate-700">
+                                                    <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2 poppins">Total Pages</h4>
+                                                    <p className="text-gray-900 dark:text-white font-semibold outfit">{website.totalPages || '10+'} Pages</p>
+                                                </div>
+                                                <div className="p-4 bg-gray-50 dark:bg-slate-800/50 rounded-lg border border-gray-100 dark:border-slate-700">
+                                                    <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2 poppins">Responsive</h4>
+                                                    <p className="text-emerald-600 font-semibold outfit flex items-center gap-2">
+                                                        <LuCheck size={16} /> Fully Responsive
+                                                    </p>
+                                                </div>
+                                                <div className="p-4 bg-gray-50 dark:bg-slate-800/50 rounded-lg border border-gray-100 dark:border-slate-700">
+                                                    <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2 poppins">Browser Support</h4>
+                                                    <p className="text-gray-900 dark:text-white font-semibold outfit">All Modern Browsers</p>
+                                                </div>
+                                            </div>
+
+                                            {/* What's Included */}
+                                            <div>
+                                                <h3 className="text-lg font-bold outfit text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                                    <span className="w-1 h-5 bg-emerald-500 rounded-full"></span>
+                                                    What's Included
+                                                </h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                    {[
+                                                        'Complete Source Code',
+                                                        'Responsive Design',
+                                                        'Cross-Browser Compatible',
+                                                        'Clean & Well Documented',
+                                                        'SEO Optimized',
+                                                        'Fast Loading Speed',
+                                                        'Easy to Customize',
+                                                        'Free Updates (6 Months)'
+                                                    ].map((item, idx) => (
+                                                        <div key={idx} className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/30 rounded-lg">
+                                                            <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
+                                                                <LuCheck className="text-white" size={14} />
+                                                            </div>
+                                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300 poppins">{item}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
+
                                     {activeTab === "reviews" && (
                                         <ReviewsSection productId={website._id} productType="website" />
                                     )}
@@ -371,11 +440,79 @@ export default function WebsiteDetailsContent({ initialWebsite }) {
             {/* Modal for Images and Videos */}
             <AnimatePresence>
                 {selectedImage && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedImage(null)} className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"><img src={selectedImage} className="max-w-full max-h-[90vh] object-contain" /></motion.div>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+                        onClick={() => setSelectedImage(null)}
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setSelectedImage(null)}
+                            className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all z-10"
+                        >
+                            <LuX size={20} />
+                        </button>
+
+                        {/* Image Counter */}
+                        {website.images?.length > 1 && (
+                            <div className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm font-medium poppins">
+                                {website.images.indexOf(selectedImage) + 1} / {website.images.length}
+                            </div>
+                        )}
+
+                        {/* Navigation Arrows */}
+                        {website.images?.length > 1 && (
+                            <>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const currentIndex = website.images.indexOf(selectedImage);
+                                        const prevIndex = currentIndex === 0 ? website.images.length - 1 : currentIndex - 1;
+                                        setSelectedImage(website.images[prevIndex]);
+                                    }}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all"
+                                >
+                                    <LuChevronLeft size={24} />
+                                </button>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        const currentIndex = website.images.indexOf(selectedImage);
+                                        const nextIndex = currentIndex === website.images.length - 1 ? 0 : currentIndex + 1;
+                                        setSelectedImage(website.images[nextIndex]);
+                                    }}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all"
+                                >
+                                    <LuChevronRight size={24} />
+                                </button>
+                            </>
+                        )}
+
+                        {/* Main Image */}
+                        <motion.img
+                            key={selectedImage}
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            src={selectedImage}
+                            alt="Gallery Preview"
+                            className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                    </motion.div>
                 )}
                 {showVideoModal && website.videoUrl && (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setShowVideoModal(false)} className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
-                        <div className="relative w-full max-w-4xl aspect-video">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setShowVideoModal(false)}
+                            className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all z-10"
+                        >
+                            <LuX size={20} />
+                        </button>
+                        <div className="relative w-full max-w-4xl aspect-video" onClick={(e) => e.stopPropagation()}>
                             <iframe src={`https://www.youtube.com/embed/${website.videoUrl.split('v=')[1] || website.videoUrl.split('/').pop()}?autoplay=1`} className="w-full h-full rounded-lg" allowFullScreen />
                         </div>
                     </motion.div>
