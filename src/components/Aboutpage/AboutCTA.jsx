@@ -51,7 +51,7 @@ const AboutCTA = () => {
 
                             <div className="flex flex-wrap items-center gap-5 mt-10">
                                 <Link
-                                    href="/courses"
+                                    href="/website"
                                     className="group relative inline-flex items-center gap-3 bg-rose-600 text-white px-8 py-4 rounded-xl font-medium text-base transition-all hover:scale-105 active:scale-95 shadow-lg shadow-rose-600/20"
                                 >
                                     <span className="uppercase tracking-tighter font-normal">{language === 'bn' ? 'এনরোল করুন' : 'ENROLL NOW'}</span>

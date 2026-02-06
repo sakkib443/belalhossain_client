@@ -75,7 +75,7 @@ const CheckoutContent = () => {
                         setTotalValue(item.price);
                     } else {
                         toast.error("Failed to load course");
-                        router.push('/courses');
+                        router.push('/website');
                     }
                 } catch (error) {
                     console.error("Error:", error);
@@ -385,8 +385,8 @@ const CheckoutContent = () => {
                 </div>
                 <h2 className="text-xl font-bold text-gray-800 mb-3">Your cart is empty</h2>
                 <p className="text-gray-500 mb-6 max-w-sm text-sm">Add some products to continue.</p>
-                <button onClick={() => router.push('/courses')} className="px-6 py-3 bg-[#FD9A00] text-white rounded-md font-semibold text-sm">
-                    Browse Courses
+                <button onClick={() => router.push('/website')} className="px-6 py-3 bg-[#FD9A00] text-white rounded-md font-semibold text-sm">
+                    Browse Templates
                 </button>
             </div>
         );

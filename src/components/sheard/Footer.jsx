@@ -79,7 +79,7 @@ const Footer = () => {
               </p>
             </div>
             <Link
-              href="/courses"
+              href="/website"
               className={`group inline-flex items-center gap-2 px-8 py-4 bg-[#C4EE18] text-black rounded-md font-bold uppercase tracking-widest hover:bg-black hover:text-[#C4EE18] hover:shadow-lg hover:shadow-[#C4EE18]/20 transition-all duration-300 font-teko text-xl ${bengaliClass}`}
             >
               <span>{t("footer.exploreCourses")}</span>

@@ -148,7 +148,7 @@ export default function UserPurchasesPage() {
                         Sync
                     </button>
                     <Link
-                        href="/courses"
+                        href="/website"
                         className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl text-sm font-bold shadow-md shadow-[#FD9A00]/10 hover:scale-105 transition-all"
                     >
                         <FiPackage size={16} />
@@ -280,10 +280,10 @@ export default function UserPurchasesPage() {
                     </p>
                     {!searchTerm && statusFilter === 'all' && (
                         <Link
-                            href="/courses"
+                            href="/website"
                             className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 bg-gradient-to-r from-[#FD9A00] to-[#FD9A00] text-white rounded-xl font-bold text-sm shadow-md hover:scale-105 transition-all"
                         >
-                            Browse Courses <FiArrowRight />
+                            Browse Templates <FiArrowRight />
                         </Link>
                     )}
                 </div>

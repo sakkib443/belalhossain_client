@@ -79,7 +79,7 @@ const FavoritesPage = () => {
         switch (item.productType) {
             case "website": return `/website/${id}`;
             case "software": return `/software/${id}`;
-            case "course": return `/courses/${id}`;
+            case "course": return `/website/${id}`;
             default: return "#";
         }
     };
@@ -137,7 +137,7 @@ const FavoritesPage = () => {
                         You haven't liked any {filter === 'all' ? 'products' : filter} yet. Browse our marketplace to find things you like!
                     </p>
                     <Link
-                        href={filter === 'course' ? '/courses' : filter === 'website' ? '/website' : filter === 'software' ? '/software' : '/'}
+                        href={filter === 'course' ? '/website' : filter === 'website' ? '/website' : filter === 'software' ? '/software' : '/'}
                         className="mt-6 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-rose-600 transition-all flex items-center gap-2"
                     >
                         Explore Now <FiExternalLink />
