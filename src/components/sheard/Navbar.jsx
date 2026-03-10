@@ -307,8 +307,7 @@ const Navbar = () => {
   const menu = [
     { href: "/", label: language === 'bn' ? "হোম" : "Home" },
     { href: "/website", label: language === 'bn' ? "ওয়েবসাইট" : "Websites" },
-    { href: "/software", label: language === 'bn' ? "সফটওয়্যার" : "Software" },
-    { href: "/happy-clients", label: language === 'bn' ? "সন্তুষ্ট ক্লায়েন্ট" : "Happy Clients" },
+    { href: "/software", label: language === 'bn' ? "সফটওয়্যার" : "Software" },    { href: "/ielts-software", label: language === 'bn' ? "IELTS সফটওয়্যার" : "IELTS Software" },    { href: "/happy-clients", label: language === 'bn' ? "সন্তুষ্ট ক্লায়েন্ট" : "Happy Clients" },
     { href: "/about", label: language === 'bn' ? "আমাদের সম্পর্কে" : "About" },
     { href: "/contact", label: language === 'bn' ? "যোগাযোগ" : "Contact" },
   ];
