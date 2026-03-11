@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
@@ -15,7 +16,8 @@ import {
     LuUsers,
     LuShield,
     LuBrain,
-    LuHeadphones
+    LuHeadphones,
+    LuRepeat
 } from "react-icons/lu";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -23,14 +25,16 @@ const IeltsPricing = () => {
     const { language } = useLanguage();
     const bengaliClass = language === "bn" ? "hind-siliguri" : "";
     const router = useRouter();
+    const [pricingMode, setPricingMode] = useState('onetime'); // 'onetime' or 'subscription'
 
     const packages = [
         {
             id: "starter",
             name: language === 'bn' ? "স্টার্টার" : "Starter",
             subtitle: language === 'bn' ? "ছোট কোচিং সেন্টারের জন্য" : "For Small Coaching Centers",
-            price: 42999,
-            priceNote: language === 'bn' ? "/এককালীন" : "/one-time",
+            oneTimePrice: 42999,
+            setupPrice: 10000,
+            monthlyPrice: 1000,
             icon: LuBuilding,
             color: "secondary",
             popular: false,
@@ -52,8 +56,9 @@ const IeltsPricing = () => {
             id: "professional",
             name: language === 'bn' ? "প্রফেশনাল" : "Professional",
             subtitle: language === 'bn' ? "AI সহ সম্পূর্ণ সমাধান" : "Complete AI Solution",
-            price: 80000,
-            priceNote: language === 'bn' ? "/এককালীন" : "/one-time",
+            oneTimePrice: 80000,
+            setupPrice: 10000,
+            monthlyPrice: 2000,
             icon: LuBuilding2,
             color: "primary",
             popular: true,
@@ -75,8 +80,9 @@ const IeltsPricing = () => {
             id: "enterprise",
             name: language === 'bn' ? "এন্টারপ্রাইজ" : "Enterprise",
             subtitle: language === 'bn' ? "প্রিমিয়াম বিজনেস সমাধান" : "Premium Business Solution",
-            price: 250000,
-            priceNote: language === 'bn' ? "/এককালীন" : "/one-time",
+            oneTimePrice: 250000,
+            setupPrice: 20000,
+            monthlyPrice: 4000,
             icon: LuGraduationCap,
             color: "tertiary",
             popular: false,
@@ -158,9 +164,34 @@ const IeltsPricing = () => {
                     </h2>
                     <p className={`text-lg text-gray-600 dark:text-gray-400 ${bengaliClass}`}>
                         {language === 'bn'
-                            ? 'আপনার প্রয়োজন অনুযায়ী প্ল্যান বেছে নিন। সব প্ল্যানে Unlimited Student ও Admin Dashboard অন্তর্ভুক্ত।'
-                            : 'Choose a plan based on your needs. All plans include Unlimited Students & Admin Dashboard.'}
+                            ? 'আপনার প্রয়োজন অনুযায়ী প্ল্যান বেছে নিন। সব প্ল্যানে Admin Dashboard অন্তর্ভুক্ত।'
+                            : 'Choose a plan based on your needs. All plans include Admin Dashboard.'}
                     </p>
+
+                    {/* Pricing Toggle */}
+                    <div className="mt-8 inline-flex items-center p-1.5 bg-gray-100 dark:bg-white/5 rounded-xl">
+                        <button
+                            onClick={() => setPricingMode('onetime')}
+                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 ${bengaliClass} ${
+                                pricingMode === 'onetime'
+                                    ? 'bg-white dark:bg-[#111] text-gray-900 dark:text-white shadow-md'
+                                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                            }`}
+                        >
+                            {language === 'bn' ? 'এককালীন' : 'One-time'}
+                        </button>
+                        <button
+                            onClick={() => setPricingMode('subscription')}
+                            className={`px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${bengaliClass} ${
+                                pricingMode === 'subscription'
+                                    ? 'bg-white dark:bg-[#111] text-gray-900 dark:text-white shadow-md'
+                                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                            }`}
+                        >
+                            <LuRepeat size={14} />
+                            {language === 'bn' ? 'সাবস্ক্রিপশন' : 'Subscription'}
+                        </button>
+                    </div>
                 </motion.div>
 
                 {/* Pricing Cards */}
@@ -194,30 +225,26 @@ const IeltsPricing = () => {
                                         </div>
                                         <div>
                                             <h3 className={`text-2xl font-black text-gray-900 dark:text-white ${bengaliClass}`}>{pkg.name}</h3>
-                                            <p className={`text-sm ${colors.text} font-medium ${bengaliClass}`}>{pkg.subtitle}</p>
+                                            <p className={`text-sm text-gray-600 dark:text-gray-400 font-medium ${bengaliClass}`}>{pkg.subtitle}</p>
                                         </div>
-                                    </div>
-
-                                    {/* Student Limit Badge */}
-                                    <div className={`mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full ${colors.bg} ${colors.text}`}>
-                                        <LuUsers size={16} />
-                                        <span className="text-sm font-semibold">
-                                            {pkg.studentLimit} {language === 'bn' ? 'স্টুডেন্ট' : 'Students'}
-                                        </span>
                                     </div>
 
                                     {/* Price */}
                                     <div className="mb-8">
-                                        {pkg.price ? (
+                                        {pricingMode === 'onetime' ? (
                                             <div className="flex items-baseline gap-2">
-                                                <span className="text-4xl font-black text-gray-900 dark:text-white">৳{pkg.price.toLocaleString()}</span>
-                                                <span className="text-lg text-gray-400">{pkg.priceNote}</span>
+                                                <span className="text-4xl font-black text-gray-900 dark:text-white">৳{pkg.oneTimePrice.toLocaleString()}</span>
+                                                <span className="text-lg text-gray-400">{language === 'bn' ? '/এককালীন' : '/one-time'}</span>
                                             </div>
                                         ) : (
-                                            <div>
-                                                <span className={`text-3xl font-black ${colors.text}`}>
-                                                    {pkg.priceNote}
-                                                </span>
+                                            <div className="space-y-2">
+                                                <div className="flex items-baseline gap-2">
+                                                    <span className="text-3xl font-black text-gray-900 dark:text-white">৳{pkg.monthlyPrice.toLocaleString()}</span>
+                                                    <span className="text-base text-gray-400">{language === 'bn' ? '/মাস' : '/month'}</span>
+                                                </div>
+                                                <p className={`text-sm text-gray-500 dark:text-gray-400 ${bengaliClass}`}>
+                                                    + ৳{pkg.setupPrice.toLocaleString()} {language === 'bn' ? 'সেটআপ ফি (এককালীন)' : 'setup fee (one-time)'}
+                                                </p>
                                             </div>
                                         )}
                                     </div>
