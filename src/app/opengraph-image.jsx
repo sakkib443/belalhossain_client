@@ -1,17 +1,17 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 
 export const alt = "Belal Hossain Sunny — CNC Programmer & CAM Specialist";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+const HERO_IMAGE_URL =
+  "https://i.ibb.co.com/wr3m0xgW/Gemini-Generated-Image-1r5yvc1r5yvc1r5y.png";
+
 export default async function Image() {
-  // Load the hero image from public folder
-  const heroImageData = await readFile(
-    join(process.cwd(), "public", "heroimage.png")
-  );
-  const heroBase64 = `data:image/png;base64,${heroImageData.toString("base64")}`;
+  // Fetch hero image from external URL and convert to base64
+  const res = await fetch(HERO_IMAGE_URL);
+  const arrayBuffer = await res.arrayBuffer();
+  const heroBase64 = `data:image/png;base64,${Buffer.from(arrayBuffer).toString("base64")}`;
 
   return new ImageResponse(
     (
