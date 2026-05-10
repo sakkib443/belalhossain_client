@@ -37,7 +37,7 @@ export const metadata = {
     "Belal Hossain Sunny, CNC Programmer, PowerMill Expert, CAM Specialist, Die-Mould Manufacturing, 5-Axis CNC, Jo Young Engineering Korea",
   authors: [{ name: "Belal Hossain Sunny" }],
   creator: "Belal Hossain Sunny",
-  metadataBase: new URL("https://belalhossainsunny.com"),
+  metadataBase: new URL("https://belalhossain-client.vercel.app"),
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -52,14 +52,14 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://belalhossainsunny.com",
+    url: "https://belalhossain-client.vercel.app",
     siteName: "Belal Hossain Sunny",
     title: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
     description:
       "9+ years of precision CNC programming and die-mould manufacturing expertise. PowerMill & PowerShape specialist based in Korea.",
     images: [
       {
-        url: "https://i.ibb.co.com/wr3m0xgW/Gemini-Generated-Image-1r5yvc1r5yvc1r5y.png",
+        url: "https://i.ibb.co.com/Mx14Y6VQ/Gemini-Generated-Image-1r5yvc1r5yvc1r5y.png",
         width: 1200,
         height: 630,
         alt: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
@@ -71,7 +71,7 @@ export const metadata = {
     title: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
     description:
       "9+ years of precision CNC programming and die-mould manufacturing expertise. PowerMill & PowerShape specialist based in Korea.",
-    images: ["https://i.ibb.co.com/wr3m0xgW/Gemini-Generated-Image-1r5yvc1r5yvc1r5y.png"],
+    images: ["https://i.ibb.co.com/Mx14Y6VQ/Gemini-Generated-Image-1r5yvc1r5yvc1r5y.png"],
     creator: "@belalhossainsunny",
   },
 };
