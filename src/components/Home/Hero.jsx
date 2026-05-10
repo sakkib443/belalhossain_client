@@ -58,6 +58,72 @@ const Hero = () => {
                 backgroundSize: "60px 60px",
             }} />
 
+            {/* ── Animated Orb 1 — top left, red pulse ── */}
+            <div style={{
+                position: "absolute", top: "-10%", left: "-5%",
+                width: "520px", height: "520px", borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(232,52,58,0.18) 0%, transparent 70%)",
+                animation: "orbFloat1 10s ease-in-out infinite",
+                pointerEvents: "none", zIndex: 0,
+            }} />
+
+            {/* ── Animated Orb 2 — bottom right, subtle ── */}
+            <div style={{
+                position: "absolute", bottom: "-15%", right: "-8%",
+                width: "600px", height: "600px", borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(232,52,58,0.1) 0%, transparent 65%)",
+                animation: "orbFloat2 13s ease-in-out infinite",
+                pointerEvents: "none", zIndex: 0,
+            }} />
+
+            {/* ── Animated Orb 3 — center top, white glow ── */}
+            <div style={{
+                position: "absolute", top: "10%", left: "45%",
+                width: "300px", height: "300px", borderRadius: "50%",
+                background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+                animation: "orbFloat3 8s ease-in-out infinite",
+                pointerEvents: "none", zIndex: 0,
+            }} />
+
+
+            {/* ── Floating bubbles — rise from bottom with sway ── */}
+            {[
+                { left: 5,  size: 4,  dur: 7,  delay: 0,   color: "rgba(232,52,58,0.6)",   sway: "swayA" },
+                { left: 12, size: 2,  dur: 9,  delay: 1.2, color: "rgba(255,255,255,0.15)", sway: "swayB" },
+                { left: 20, size: 5,  dur: 6,  delay: 0.5, color: "rgba(232,52,58,0.4)",   sway: "swayA" },
+                { left: 28, size: 2,  dur: 11, delay: 2.1, color: "rgba(255,255,255,0.1)",  sway: "swayC" },
+                { left: 35, size: 3,  dur: 8,  delay: 0.8, color: "rgba(232,52,58,0.5)",   sway: "swayB" },
+                { left: 42, size: 6,  dur: 10, delay: 1.5, color: "rgba(232,52,58,0.25)",  sway: "swayA" },
+                { left: 50, size: 2,  dur: 7,  delay: 3.0, color: "rgba(255,255,255,0.12)", sway: "swayC" },
+                { left: 57, size: 4,  dur: 9,  delay: 0.3, color: "rgba(232,52,58,0.5)",   sway: "swayB" },
+                { left: 63, size: 3,  dur: 6,  delay: 1.8, color: "rgba(255,255,255,0.15)", sway: "swayA" },
+                { left: 70, size: 5,  dur: 8,  delay: 0.7, color: "rgba(232,52,58,0.35)",  sway: "swayC" },
+                { left: 76, size: 2,  dur: 12, delay: 2.5, color: "rgba(255,255,255,0.1)",  sway: "swayB" },
+                { left: 82, size: 4,  dur: 7,  delay: 1.0, color: "rgba(232,52,58,0.55)",  sway: "swayA" },
+                { left: 88, size: 3,  dur: 9,  delay: 0.4, color: "rgba(255,255,255,0.12)", sway: "swayC" },
+                { left: 93, size: 5,  dur: 6,  delay: 1.6, color: "rgba(232,52,58,0.3)",   sway: "swayB" },
+                { left: 15, size: 2,  dur: 10, delay: 4.0, color: "rgba(232,52,58,0.4)",   sway: "swayC" },
+                { left: 45, size: 3,  dur: 8,  delay: 3.5, color: "rgba(255,255,255,0.1)",  sway: "swayA" },
+                { left: 60, size: 2,  dur: 11, delay: 2.8, color: "rgba(232,52,58,0.5)",   sway: "swayB" },
+                { left: 78, size: 4,  dur: 7,  delay: 0.9, color: "rgba(255,255,255,0.15)", sway: "swayC" },
+                { left: 33, size: 3,  dur: 9,  delay: 1.3, color: "rgba(232,52,58,0.45)",  sway: "swayA" },
+                { left: 67, size: 2,  dur: 6,  delay: 2.2, color: "rgba(255,255,255,0.12)", sway: "swayB" },
+            ].map(({ left, size, dur, delay, color, sway }, i) => (
+                <div key={i} style={{
+                    position: "absolute",
+                    left: `${left}%`,
+                    bottom: "-8px",
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    borderRadius: "50%",
+                    backgroundColor: color,
+                    boxShadow: `0 0 ${size * 3}px ${color}`,
+                    animation: `bubbleRise ${dur}s ease-in ${delay}s infinite, ${sway} ${dur * 0.6}s ease-in-out ${delay}s infinite alternate`,
+                    pointerEvents: "none", zIndex: 1,
+                }} />
+            ))}
+
+
             {/* ══════════════════════════════════════
                 DESKTOP LAYOUT (lg and above)
                 3-col: Left | Center Image | Right
@@ -293,6 +359,38 @@ const Hero = () => {
                 @keyframes pulse {
                     0%, 100% { opacity: 1; }
                     50% { opacity: 0.4; }
+                }
+                @keyframes orbFloat1 {
+                    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+                    33%       { transform: translate(40px, 30px) scale(1.08); opacity: 1; }
+                    66%       { transform: translate(-20px, 50px) scale(0.95); opacity: 0.7; }
+                }
+                @keyframes orbFloat2 {
+                    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+                    40%       { transform: translate(-50px, -40px) scale(1.1); opacity: 0.9; }
+                    70%       { transform: translate(30px, -20px) scale(0.92); opacity: 0.5; }
+                }
+                @keyframes orbFloat3 {
+                    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+                    50%       { transform: translate(-30px, 40px) scale(1.15); opacity: 0.8; }
+                }
+                @keyframes bubbleRise {
+                    0%   { transform: translateY(0); opacity: 0; }
+                    8%   { opacity: 1; }
+                    92%  { opacity: 0.7; }
+                    100% { transform: translateY(-95vh); opacity: 0; }
+                }
+                @keyframes swayA {
+                    0%   { margin-left: 0px; }
+                    100% { margin-left: 28px; }
+                }
+                @keyframes swayB {
+                    0%   { margin-left: 0px; }
+                    100% { margin-left: -22px; }
+                }
+                @keyframes swayC {
+                    0%   { margin-left: 10px; }
+                    100% { margin-left: -18px; }
                 }
             `}</style>
         </section>
