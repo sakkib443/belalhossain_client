@@ -1,4 +1,4 @@
-// SEO Metadata Utility - সব pages এ use করার জন্য
+﻿// SEO Metadata Utility - সব pages এ use করার জন্য
 // This generates comprehensive metadata for better SEO
 
 export function generateMetadata({
@@ -11,13 +11,13 @@ export function generateMetadata({
     alternateLocales = ['bn_BD'],
     publishedTime,
     modifiedTime,
-    author = 'Extrain Web',
+    author = 'BELAL HOSSAIN SUNNY',
     section,
     tags = [],
     noIndex = false,
     canonicalUrl,
 }) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://extrainweb.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://BelalHossainSunny.com';
     const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
     const canonical = canonicalUrl || baseUrl;
 
@@ -26,8 +26,8 @@ export function generateMetadata({
         description,
         keywords: keywords.join(', '),
         authors: [{ name: author }],
-        creator: 'Extrain Web',
-        publisher: 'Extrain Web',
+        creator: 'BELAL HOSSAIN SUNNY',
+        publisher: 'BELAL HOSSAIN SUNNY',
         robots: {
             index: !noIndex,
             follow: !noIndex,
@@ -53,7 +53,7 @@ export function generateMetadata({
             url: canonical,
             title,
             description,
-            siteName: 'Extrain Web',
+            siteName: 'BELAL HOSSAIN SUNNY',
             images: [
                 {
                     url: fullImageUrl,
@@ -68,7 +68,7 @@ export function generateMetadata({
             title,
             description,
             images: [fullImageUrl],
-            creator: '@extrainweb', // আপনার Twitter handle দিয়ে replace করবেন
+            creator: '@BelalHossainSunny', // আপনার Twitter handle দিয়ে replace করবেন
         },
         verification: {
             google: 'yxl3yWdFkrclIR7zzpyfjc5mCC0AmjTpeaii_z6yUVg', // Google Search Console verification code
@@ -90,19 +90,19 @@ export function generateMetadata({
 }
 
 // Common keyword sets - Website Development Company এর জন্য
-// PRIMARY FOCUS: Extrain Web, Extra in Web, Best/Top variants
+// PRIMARY FOCUS: BELAL HOSSAIN SUNNY, Extra in Web, Best/Top variants
 export const commonKeywords = {
     brand: [
-        'Extrain Web',
+        'BELAL HOSSAIN SUNNY',
         'Extra in Web',
-        'ExtrainWeb',
-        'Extrain Web Bangladesh',
+        'BelalHossainSunny',
+        'BELAL HOSSAIN SUNNY Bangladesh',
         'Extra in Web Bangladesh',
         'Sheikh Sakibul Hasan',
         'Sheikh Sakib',
         'Sakib sir',
         'Sakib',
-        'Sheikh Sakibul Hasan Extrain Web',
+        'Sheikh Sakibul Hasan BELAL HOSSAIN SUNNY',
     ],
     bestKeywords: [
         'best website development company Bangladesh',
@@ -116,7 +116,7 @@ export const commonKeywords = {
         '#1 website development company Bangladesh',
     ],
     base: [
-        'Extrain Web',
+        'BELAL HOSSAIN SUNNY',
         'Extra in Web',
         'website development company Bangladesh',
         'web development agency Dhaka',
@@ -165,13 +165,13 @@ export const commonKeywords = {
 
 // Schema.org JSON-LD generators
 export function generateOrganizationSchema() {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://extrainweb.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://BelalHossainSunny.com';
 
     return {
         '@context': 'https://schema.org',
         '@type': 'Organization',
         '@id': `${baseUrl}/#organization`,
-        name: 'Extrain Web',
+        name: 'BELAL HOSSAIN SUNNY',
         alternateName: 'Extra in Web',
         url: baseUrl,
         logo: `${baseUrl}/images/logo.png`,
@@ -186,22 +186,22 @@ export function generateOrganizationSchema() {
         contactPoint: {
             '@type': 'ContactPoint',
             contactType: 'Customer Service',
-            email: 'info@extrainweb.com', // আপনার email দিয়ে update করবেন
+            email: 'info@BelalHossainSunny.com', // আপনার email দিয়ে update করবেন
             availableLanguage: ['English', 'Bengali'],
         },
         sameAs: [
             // আপনার social media links add করবেন
-            'https://facebook.com/extrainweb',
-            'https://linkedin.com/company/extrainweb',
-            // 'https://twitter.com/extrainweb',
-            // 'https://youtube.com/@extrainweb',
+            'https://facebook.com/BelalHossainSunny',
+            'https://linkedin.com/company/BelalHossainSunny',
+            // 'https://twitter.com/BelalHossainSunny',
+            // 'https://youtube.com/@BelalHossainSunny',
         ],
     };
 }
 
 // Service Schema for Web Development Services
 export function generateServiceSchema(service) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://extrainweb.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://BelalHossainSunny.com';
 
     return {
         '@context': 'https://schema.org',
@@ -210,7 +210,7 @@ export function generateServiceSchema(service) {
         description: service.description,
         provider: {
             '@type': 'Organization',
-            name: 'Extrain Web',
+            name: 'BELAL HOSSAIN SUNNY',
             url: baseUrl,
         },
         areaServed: {
@@ -229,7 +229,7 @@ export function generateServiceSchema(service) {
 }
 
 export function generateProductSchema(product) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://extrainweb.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://BelalHossainSunny.com';
 
     return {
         '@context': 'https://schema.org',
@@ -239,7 +239,7 @@ export function generateProductSchema(product) {
         image: product.image || `${baseUrl}/images/logo.png`,
         brand: {
             '@type': 'Brand',
-            name: 'Extrain Web',
+            name: 'BELAL HOSSAIN SUNNY',
         },
         ...(product.price && {
             offers: {
@@ -261,7 +261,7 @@ export function generateProductSchema(product) {
 }
 
 export function generateBreadcrumbSchema(items) {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://extrainweb.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://BelalHossainSunny.com';
 
     return {
         '@context': 'https://schema.org',

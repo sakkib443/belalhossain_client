@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -80,7 +80,7 @@ const NotFound = () => {
                     transition={{ delay: 0.8, duration: 0.6 }}
                     className="mt-16 text-sm text-gray-400 dark:text-gray-600 font-medium"
                 >
-                    Error Code: 404 • Extrain Web System
+                    Error Code: 404 • BELAL HOSSAIN SUNNY System
                 </motion.p>
 
             </div>

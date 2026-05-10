@@ -6,212 +6,188 @@ import { motion, AnimatePresence } from "framer-motion";
 const Preloader = () => {
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
-    const [phase, setPhase] = useState(1); // 1: loading, 2: reveal
-    const [showContent, setShowContent] = useState(false);
+    const [phase, setPhase] = useState(1);
 
     useEffect(() => {
-        // Check if this is the first visit in this session
-        const hasVisited = sessionStorage.getItem('hasVisited');
-
+        const hasVisited = sessionStorage.getItem("preloaderDone");
         if (hasVisited) {
             setLoading(false);
-            setShowContent(true);
             return;
         }
 
-        // Faster progress - complete in ~1.2 seconds
         let current = 0;
         const interval = setInterval(() => {
-            current += 5; // Fast increment
+            current += 4;
             if (current >= 100) {
                 current = 100;
                 clearInterval(interval);
             }
             setProgress(current);
-        }, 25);
+        }, 20);
 
         return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
         if (progress >= 100) {
-            // Start reveal phase
-            const timer1 = setTimeout(() => {
-                setPhase(2);
-            }, 300);
-
-            // Hide preloader and show content with blur effect
-            const timer2 = setTimeout(() => {
-                setShowContent(true);
-            }, 800);
-
-            const timer3 = setTimeout(() => {
+            const t1 = setTimeout(() => setPhase(2), 300);
+            const t2 = setTimeout(() => {
                 setLoading(false);
-                sessionStorage.setItem('hasVisited', 'true');
-            }, 1600);
-
-            return () => {
-                clearTimeout(timer1);
-                clearTimeout(timer2);
-                clearTimeout(timer3);
-            };
+                sessionStorage.setItem("preloaderDone", "true");
+            }, 1400);
+            return () => { clearTimeout(t1); clearTimeout(t2); };
         }
     }, [progress]);
 
-    // Stagger animation for letters
-    const logoText = "EXTRAIN WEB";
     const letterVariants = {
-        hidden: { opacity: 0, y: 30 },
+        hidden: { opacity: 0, y: 24 },
         visible: (i) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                delay: i * 0.03,
-                duration: 0.3,
-                ease: [0.6, -0.05, 0.01, 0.99]
-            }
-        })
+            opacity: 1, y: 0,
+            transition: { delay: i * 0.04, duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+        }),
     };
+
+    const name = "BELAL HOSSAIN SUNNY";
 
     return (
         <AnimatePresence>
             {loading && (
                 <motion.div
-                    className="fixed inset-0 z-[9999] overflow-hidden bg-[#0A0A0A]"
+                    style={{
+                        position: "fixed", inset: 0, zIndex: 9999,
+                        backgroundColor: "#080808", overflow: "hidden",
+                        display: "flex", flexDirection: "column",
+                        alignItems: "center", justifyContent: "center",
+                    }}
                     animate={phase === 2 ? { y: "-100%" } : { y: 0 }}
                     exit={{ y: "-100%" }}
-                    transition={{
-                        duration: 1.1,
-                        ease: [0.76, 0, 0.24, 1],
-                    }}
+                    transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
                 >
-                    {/* Content Container (Logo, Number, Grid) */}
-                    <div className="absolute inset-0">
-                        {/* Grid Pattern */}
-                        <div
-                            className="absolute inset-0 opacity-[0.04]"
-                            style={{
-                                backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-                                backgroundSize: '60px 60px'
-                            }}
-                        />
+                    {/* Grid bg */}
+                    <div style={{
+                        position: "absolute", inset: 0, pointerEvents: "none",
+                        backgroundImage: `linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)`,
+                        backgroundSize: "60px 60px",
+                    }} />
 
-                        {/* Gradient Orbs */}
-                        <motion.div
-                            className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#FD9A00]/10 rounded-full blur-[150px]"
-                            animate={{
-                                scale: [1, 1.3, 1],
-                                x: [0, 50, 0],
-                            }}
-                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                        />
-                        <motion.div
-                            className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#C4EE18]/10 rounded-full blur-[150px]"
-                            animate={{
-                                scale: [1, 1.2, 1],
-                                x: [0, -40, 0],
-                            }}
-                            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                        />
-
-                        {/* Content Container */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-
-                            {/* Greeting Text - Small on top */}
-                            <motion.p
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.4 }}
-                                className="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.5em] mb-6 font-medium"
-                            >
-                                Assalamu Alaikum
-                            </motion.p>
-
-                            {/* Animated Logo Letters */}
-                            <div className="overflow-hidden mb-6">
-                                <motion.div
-                                    className="flex"
-                                    initial="hidden"
-                                    animate="visible"
-                                >
-                                    {logoText.split("").map((char, i) => (
-                                        <motion.span
-                                            key={i}
-                                            custom={i}
-                                            variants={letterVariants}
-                                            className={`text-3xl md:text-5xl lg:text-6xl font-black font-teko tracking-tight ${char === " " ? "mx-2" : ""
-                                                } ${i >= 7 ? "text-[#FD9A00]" : "text-white"}`}
-                                        >
-                                            {char}
-                                        </motion.span>
-                                    ))}
-                                    <motion.span
-                                        custom={logoText.length}
-                                        variants={letterVariants}
-                                        className="text-3xl md:text-5xl lg:text-6xl font-black font-teko text-[#C4EE18]"
-                                    >
-                                        .
-                                    </motion.span>
-                                </motion.div>
-                            </div>
-
-                            {/* Progress Number */}
-                            <div className="relative mb-8">
-                                <div className="text-[80px] md:text-[120px] lg:text-[160px] font-black text-white/5 font-teko leading-none select-none">
-                                    {progress.toString().padStart(2, '0')}
-                                </div>
-
-                                {/* Overlay Number */}
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <span className="text-[60px] md:text-[100px] lg:text-[130px] font-black font-teko leading-none bg-gradient-to-r from-[#FD9A00] via-[#FFBA4F] to-[#C4EE18] bg-clip-text text-transparent">
-                                        {progress.toString().padStart(2, '0')}
-                                    </span>
-                                    <span className="text-[30px] md:text-[50px] text-[#C4EE18] font-bold font-teko">%</span>
-                                </div>
-                            </div>
-
-                            {/* Progress Bar */}
-                            <div className="w-[200px] md:w-[300px] relative">
-                                <div className="h-[2px] bg-white/10 rounded-full overflow-hidden">
-                                    <motion.div
-                                        className="h-full bg-gradient-to-r from-[#FD9A00] via-[#FFBA4F] to-[#C4EE18] rounded-full"
-                                        style={{ width: `${progress}%` }}
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Loading Text */}
-                            <motion.p
-                                className="mt-6 text-[10px] text-gray-600 uppercase tracking-[0.3em] font-medium"
-                                animate={{ opacity: [0.4, 0.8, 0.4] }}
-                                transition={{ duration: 1.5, repeat: Infinity }}
-                            >
-                                Loading...
-                            </motion.p>
-                        </div>
-                    </div>
-
-                    {/* Reveal Overlay - Orange (Stays on top and moves up) */}
+                    {/* Red glow orb */}
                     <motion.div
-                        className="absolute inset-0 bg-[#FD9A00]"
-                        initial={{ y: "100%" }}
-                        animate={phase === 2 ? { y: 0 } : { y: "100%" }}
-                        transition={{
-                            duration: 0.5,
-                            ease: [0.76, 0, 0.24, 1],
+                        animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.25, 0.15] }}
+                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                        style={{
+                            position: "absolute", width: "500px", height: "500px",
+                            borderRadius: "50%", background: "radial-gradient(circle, rgba(232,52,58,0.3) 0%, transparent 70%)",
+                            top: "50%", left: "50%", transform: "translate(-50%,-50%)",
+                            pointerEvents: "none",
                         }}
                     />
 
-                    {/* Reveal Overlay - Green (Stays on top and moves up) */}
+                    {/* Content */}
+                    <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
+
+                        {/* Badge */}
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            style={{
+                                display: "inline-flex", alignItems: "center", gap: "6px",
+                                padding: "4px 14px", borderRadius: "50px", marginBottom: "28px",
+                                background: "rgba(232,52,58,0.08)", border: "1px solid rgba(232,52,58,0.2)",
+                            }}
+                        >
+                            <span style={{ width: "5px", height: "5px", borderRadius: "50%", backgroundColor: "#E8343A", display: "inline-block" }} />
+                            <span style={{ color: "#E8343A", fontSize: "10px", fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase" }}>
+                                CNC Programmer & CAM Specialist
+                            </span>
+                        </motion.div>
+
+                        {/* Animated Name */}
+                        <div style={{ overflow: "hidden", marginBottom: "12px" }}>
+                            <motion.div
+                                initial="hidden"
+                                animate="visible"
+                                style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "0px" }}
+                            >
+                                {name.split("").map((char, i) => (
+                                    <motion.span
+                                        key={i}
+                                        custom={i}
+                                        variants={letterVariants}
+                                        style={{
+                                            color: i >= 6 && i <= 12 ? "#E8343A" : "#ffffff",
+                                            fontSize: "clamp(28px, 5vw, 64px)",
+                                            fontWeight: 900,
+                                            letterSpacing: "-0.02em",
+                                            lineHeight: 1,
+                                            whiteSpace: char === " " ? "pre" : "normal",
+                                            marginRight: char === " " ? "14px" : "0",
+                                        }}
+                                    >
+                                        {char}
+                                    </motion.span>
+                                ))}
+                            </motion.div>
+                        </div>
+
+                        {/* Subtitle */}
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.8, duration: 0.5 }}
+                            style={{ color: "#4b5563", fontSize: "12px", letterSpacing: "0.18em", textTransform: "uppercase", marginBottom: "48px" }}
+                        >
+                            Jo Young Engineering · Korea
+                        </motion.p>
+
+                        {/* Progress number */}
+                        <div style={{ position: "relative", marginBottom: "24px" }}>
+                            <span style={{
+                                fontSize: "clamp(64px, 10vw, 120px)",
+                                fontWeight: 900, lineHeight: 1,
+                                background: "linear-gradient(135deg, #E8343A, #ff6b6b)",
+                                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                                letterSpacing: "-0.04em",
+                            }}>
+                                {progress.toString().padStart(2, "0")}
+                            </span>
+                            <span style={{ color: "#E8343A", fontSize: "28px", fontWeight: 700, verticalAlign: "top", marginTop: "16px", display: "inline-block" }}>%</span>
+                        </div>
+
+                        {/* Progress bar */}
+                        <div style={{ width: "240px", height: "2px", background: "rgba(255,255,255,0.08)", borderRadius: "2px", overflow: "hidden", margin: "0 auto 16px" }}>
+                            <motion.div
+                                style={{
+                                    height: "100%", borderRadius: "2px",
+                                    background: "linear-gradient(90deg, #E8343A, #ff6b6b)",
+                                    width: `${progress}%`,
+                                    transition: "width 0.02s linear",
+                                }}
+                            />
+                        </div>
+
+                        {/* Loading label */}
+                        <motion.p
+                            animate={{ opacity: [0.3, 0.7, 0.3] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                            style={{ color: "#374151", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase" }}
+                        >
+                            Loading
+                        </motion.p>
+                    </div>
+
+                    {/* Slide-out overlay */}
                     <motion.div
-                        className="absolute inset-0 bg-[#C4EE18]"
                         initial={{ y: "100%" }}
                         animate={phase === 2 ? { y: 0 } : { y: "100%" }}
-                        transition={{
-                            duration: 0.5,
-                            ease: [0.76, 0, 0.24, 1],
-                            delay: 0.1
-                        }}
+                        transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+                        style={{ position: "absolute", inset: 0, background: "#E8343A" }}
+                    />
+                    <motion.div
+                        initial={{ y: "100%" }}
+                        animate={phase === 2 ? { y: 0 } : { y: "100%" }}
+                        transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1], delay: 0.08 }}
+                        style={{ position: "absolute", inset: 0, background: "#080808" }}
                     />
                 </motion.div>
             )}

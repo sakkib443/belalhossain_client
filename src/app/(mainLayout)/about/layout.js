@@ -1,6 +1,6 @@
-export const metadata = {
+﻿export const metadata = {
     title: "About",
-    description: "Learn about Extrain Web - a premium website and software marketplace in Bangladesh providing digital solutions.",
+    description: "Learn about BELAL HOSSAIN SUNNY - a premium website and software marketplace in Bangladesh providing digital solutions.",
 };
 
 export default function AboutLayout({ children }) {

@@ -3,424 +3,297 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { FiPlay, FiArrowDown } from "react-icons/fi";
-import { useLanguage } from "@/context/LanguageContext";
-import { API_BASE_URL } from "@/config/api";
-
-const avatars = [
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100",
-    "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=100"
-];
-
-const tickerItems = [
-    { en: "DESIGN", bn: "ডিজাইন" },
-    { en: "DEVELOPMENT", bn: "ডেভেলপমেন্ট" },
-    { en: "STRATEGY", bn: "স্ট্র্যাটেজি" },
-    { en: "SOLUTIONS", bn: "সল্যুশন" },
-];
+import { FaInstagram, FaLinkedinIn, FaTwitter, FaFacebookF } from "react-icons/fa";
+import { LuArrowRight, LuMapPin, LuBriefcase } from "react-icons/lu";
 
 const Hero = () => {
-    const { language } = useLanguage();
-    const isBn = language === 'bn';
-    const bengaliClass = isBn ? "hind-siliguri" : "";
-
-    const [softwareCount, setSoftwareCount] = useState(0);
-    const [websiteCount, setWebsiteCount] = useState(0);
+    const [displayText, setDisplayText] = useState("");
+    const roles = ["CNC Programmer", "PowerMill Expert", "CAM Specialist", "Die-Mould Expert"];
+    const [roleIndex, setRoleIndex] = useState(0);
+    const [charIndex, setCharIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     useEffect(() => {
-        const fetchCounts = async () => {
-            try {
-                const [softRes, webRes] = await Promise.all([
-                    fetch(`${API_BASE_URL}/software`),
-                    fetch(`${API_BASE_URL}/websites`)
-                ]);
-                const softData = await softRes.json();
-                const webData = await webRes.json();
-                setSoftwareCount(softData.meta?.total || (Array.isArray(softData.data) ? softData.data.length : 0));
-                setWebsiteCount(webData.meta?.total || (Array.isArray(webData.data) ? webData.data.length : 0));
-            } catch (error) {
-                console.error('Error fetching counts:', error);
+        const current = roles[roleIndex];
+        const speed = isDeleting ? 50 : 90;
+        const timer = setTimeout(() => {
+            if (!isDeleting && charIndex < current.length) {
+                setDisplayText(current.slice(0, charIndex + 1));
+                setCharIndex((c) => c + 1);
+            } else if (isDeleting && charIndex > 0) {
+                setDisplayText(current.slice(0, charIndex - 1));
+                setCharIndex((c) => c - 1);
+            } else if (!isDeleting && charIndex === current.length) {
+                setTimeout(() => setIsDeleting(true), 2000);
+            } else if (isDeleting && charIndex === 0) {
+                setIsDeleting(false);
+                setRoleIndex((r) => (r + 1) % roles.length);
             }
-        };
-        fetchCounts();
-    }, []);
+        }, speed);
+        return () => clearTimeout(timer);
+    }, [charIndex, isDeleting, roleIndex]);
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-        }
-    };
+    const socialLinks = [
+        { icon: FaInstagram, href: "https://instagram.com/belalhossainsunny", label: "Instagram" },
+        { icon: FaLinkedinIn, href: "https://www.linkedin.com/in/belal-hossain-sunny-6195b0119/", label: "LinkedIn" },
+        { icon: FaTwitter, href: "https://twitter.com/belalhossainsunny", label: "Twitter" },
+        { icon: FaFacebookF, href: "https://facebook.com/belalhossainsunny", label: "Facebook" },
+    ];
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
-        }
-    };
-
-    const floatingVariants = {
-        animate: {
-            y: [0, -10, 0],
-            transition: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-        }
-    };
-
-    const translations = {
-        description: isBn ? "আমরা এক্সট্রেন ওয়েব, আপনার ব্যবসার জন্য ক্রিয়েটিভ এবং ইউজার-কেন্দ্রিক ডিজিটাল সমাধান তৈরি করি।" : "We're Extrain Web, to build creative & user-centric designs also develop for customer.",
-        line1: isBn ? "ওয়েবসাইট ও" : "WEBSITE &",
-        line2Part1: isBn ? "সফটওয়্যার" : "SOFTWARE",
-        line2Part2: isBn ? "সল্যুশন" : "SOLUTION",
-        line3: isBn ? "সাথে এক্সট্রেন ওয়েব" : "WITH EXTRAIN WEB.",
-        statsCount: `${websiteCount + softwareCount}+`,
-        statsText: isBn ? "সন্তুষ্ট গ্রাহক বিশ্বজুড়ে।" : "customers in world-wide.",
-        agencyType: isBn ? "গ্লোবাল ডিজিটাল মার্কেটপ্লেস।" : "Global Digital Marketplace."
-    };
+    const stats = [
+        { value: "9+", label: "Years Exp." },
+        { value: "200+", label: "Projects" },
+        { value: "2.5K+", label: "Followers" },
+        { value: "100%", label: "Precision" },
+    ];
 
     return (
-        <section className="relative min-h-[90vh] flex flex-col pt-24 lg:pt-32 pb-12 overflow-hidden bg-white dark:bg-[#0A0A0A]">
-            {/* Background Grid Pattern */}
-            <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05]"
-                style={{ backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+        <section style={{ position: "relative", backgroundColor: "#080808", overflow: "hidden" }}
+            className="min-h-[100svh] lg:h-[85vh] lg:min-h-0">
 
-            {/* Floating Geometric Shapes - Simple Elements with Hover */}
-            {/* Circle 1 - Top Right */}
-            <motion.div
-                className="absolute top-[12%] right-[12%] w-5 h-5 border-2 border-[#FD9A00]/40 rounded-full hidden lg:block cursor-pointer"
-                animate={{ y: [0, -15, 0], rotate: [0, 180, 360] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                whileHover={{ scale: 2, borderColor: "#FD9A00", borderWidth: "3px" }}
-            />
-            {/* Circle 2 - Left Side */}
-            <motion.div
-                className="absolute top-[30%] left-[6%] w-4 h-4 border-2 border-[#C4EE18]/50 rounded-full hidden lg:block cursor-pointer"
-                animate={{ y: [0, 20, 0], x: [0, 5, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                whileHover={{ scale: 2.5, backgroundColor: "#C4EE18", borderColor: "#C4EE18" }}
-            />
-            {/* Circle 3 - Bottom Right */}
-            <motion.div
-                className="absolute bottom-[40%] right-[20%] w-3 h-3 bg-[#FD9A00]/30 rounded-full hidden lg:block cursor-pointer"
-                animate={{ y: [0, -12, 0], x: [0, -8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                whileHover={{ scale: 3, backgroundColor: "#FD9A00" }}
-            />
+            {/* Background grid */}
+            <div style={{
+                position: "absolute", inset: 0, pointerEvents: "none",
+                backgroundImage: `linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)`,
+                backgroundSize: "60px 60px",
+            }} />
 
-            {/* Square 1 - Rotating */}
-            <motion.div
-                className="absolute top-[22%] left-[18%] w-4 h-4 border-2 border-[#C4EE18]/30 hidden lg:block cursor-pointer"
-                animate={{ rotate: [0, 90, 180, 270, 360], y: [0, -10, 0] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-                whileHover={{ scale: 2, borderColor: "#C4EE18", backgroundColor: "rgba(196, 238, 24, 0.2)" }}
-            />
-            {/* Square 2 */}
-            <motion.div
-                className="absolute bottom-[50%] right-[8%] w-3 h-3 border-2 border-[#FD9A00]/25 hidden lg:block cursor-pointer"
-                animate={{ rotate: [45, 135, 225, 315, 405] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-                whileHover={{ scale: 2.5, borderColor: "#FD9A00", backgroundColor: "rgba(253, 154, 0, 0.2)" }}
-            />
-
-            {/* Plus Sign 1 */}
-            <motion.div
-                className="absolute top-[45%] left-[10%] text-[#C4EE18]/40 text-2xl font-light hidden lg:block cursor-pointer select-none"
-                animate={{ rotate: [0, 90, 0], scale: [1, 1.1, 1] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                whileHover={{ scale: 1.8, color: "#C4EE18" }}
-            >
-                +
-            </motion.div>
-            {/* Plus Sign 2 */}
-            <motion.div
-                className="absolute top-[18%] right-[25%] text-[#FD9A00]/35 text-xl font-light hidden lg:block cursor-pointer select-none"
-                animate={{ rotate: [0, -90, 0] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                whileHover={{ scale: 2, color: "#FD9A00" }}
-            >
-                +
-            </motion.div>
-
-            {/* Dots Pattern */}
-            <motion.div
-                className="absolute top-[55%] right-[15%] hidden lg:block cursor-pointer"
-                animate={{ opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                whileHover={{ opacity: 1, scale: 1.2 }}
-            >
-                <div className="flex gap-1.5">
-                    <div className="w-1.5 h-1.5 bg-[#FD9A00]/40 rounded-full" />
-                    <div className="w-1.5 h-1.5 bg-[#FD9A00]/40 rounded-full" />
-                    <div className="w-1.5 h-1.5 bg-[#FD9A00]/40 rounded-full" />
-                </div>
-            </motion.div>
-
-            {/* Small Line Elements */}
-            <motion.div
-                className="absolute top-[35%] right-[5%] w-8 h-[2px] bg-[#C4EE18]/30 hidden lg:block cursor-pointer"
-                animate={{ x: [0, 10, 0], opacity: [0.3, 0.6, 0.3] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                whileHover={{ width: "60px", backgroundColor: "#C4EE18" }}
-            />
-            <motion.div
-                className="absolute bottom-[55%] left-[15%] w-6 h-[2px] bg-[#FD9A00]/25 hidden lg:block cursor-pointer"
-                animate={{ x: [0, -8, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                whileHover={{ width: "50px", backgroundColor: "#FD9A00" }}
-            />
-
-            {/* Diamond Shape */}
-            <motion.div
-                className="absolute top-[60%] left-[5%] w-3 h-3 border-2 border-[#FD9A00]/30 hidden lg:block cursor-pointer"
-                style={{ transform: "rotate(45deg)" }}
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                whileHover={{ scale: 2, borderColor: "#FD9A00", backgroundColor: "rgba(253, 154, 0, 0.15)" }}
-            />
-
-            {/* Ring Element */}
-            <motion.div
-                className="absolute top-[40%] right-[30%] w-6 h-6 border border-[#C4EE18]/20 rounded-full hidden lg:block cursor-pointer"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeOut" }}
-                whileHover={{ scale: 1.8, borderWidth: "2px", borderColor: "#C4EE18" }}
-            />
-
-            <div className="container relative z-10 px-6 lg:px-12 max-w-[1400px] mx-auto flex-1">
-                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
-
-                    {/* Left Content Area */}
-                    <div className="flex-1">
-                        <motion.div variants={containerVariants} initial="hidden" animate="visible">
-
-                            {/* Row 1: Desc + Line 1 + Bird */}
-                            <div className="flex items-start gap-6 lg:gap-12 mb-2 lg:mb-4">
-                                <motion.div
-                                    variants={itemVariants}
-                                    className="w-32 lg:w-48 pt-4 hidden md:block group cursor-default"
-                                    whileHover={{ x: 5 }}
-                                >
-                                    <div className="w-12 lg:w-16 h-[1.5px] bg-black dark:bg-white mb-3 transition-all duration-300 group-hover:w-20 group-hover:bg-[#FD9A00]" />
-                                    <p className={`text-[10px] lg:text-[11px] leading-relaxed text-gray-500 font-medium transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-300 ${bengaliClass}`}>
-                                        {translations.description}
-                                    </p>
-                                </motion.div>
-
-                                <motion.h1
-                                    className={`text-5xl lg:text-[85px] font-black text-gray-950 dark:text-white uppercase font-teko leading-[0.95] tracking-tight cursor-default ${bengaliClass}`}
-                                    whileHover={{ scale: 1.02, x: 5 }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    {translations.line1}
-                                </motion.h1>
-
-                                <motion.div
-                                    variants={floatingVariants}
-                                    animate="animate"
-                                    className="mt-2 hidden lg:block cursor-pointer"
-                                    whileHover={{ scale: 1.3, rotate: 10 }}
-                                >
-                                    <svg width="60" height="40" viewBox="0 0 112 60" fill="none" className="text-gray-900 dark:text-white transition-colors hover:text-[#FD9A00]">
-                                        <path d="M0 1C30.8503 1 34.8743 21.4865 34.8743 42.3801C46.3872 37.2924 68.8096 33.4936 66.3952 59C71.3134 46.6764 81.1497 11.5146 112 11.5146" stroke="currentColor" strokeWidth="1.5" />
-                                        <path d="M40.5749 20.3333C41.1337 22.4815 42.1844 27.5918 41.9162 30.848C43.7046 29.039 48.4216 25.8281 52.982 27.4561" stroke="currentColor" strokeWidth="1.5" />
-                                    </svg>
-                                </motion.div>
-                            </div>
-
-                            {/* Row 2: SOFTWARE + Arrow + SOLUTION */}
-                            <motion.div variants={itemVariants} className="flex items-center gap-4 lg:gap-6 ml-0 lg:ml-48 mb-2 lg:mb-4">
-                                <motion.h1
-                                    className={`text-5xl lg:text-[85px] font-black uppercase font-teko leading-[0.95] tracking-tight cursor-default ${bengaliClass}`}
-                                    style={{ color: '#FD9A00' }}
-                                    whileHover={{ scale: 1.05, textShadow: "0 0 20px rgba(253, 154, 0, 0.5)" }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    {translations.line2Part1}
-                                </motion.h1>
-
-                                <motion.div
-                                    className="h-10 lg:h-14 px-5 lg:px-8 bg-[#C4EE18] rounded-full flex items-center justify-center shadow-lg cursor-pointer"
-                                    whileHover={{ scale: 1.15, boxShadow: "0 10px 30px rgba(196, 238, 24, 0.4)" }}
-                                    whileTap={{ scale: 0.95 }}
-                                    transition={{ type: "spring", stiffness: 400 }}
-                                >
-                                    <motion.svg
-                                        className="w-8 lg:w-10 text-black"
-                                        viewBox="0 0 40 16"
-                                        fill="currentColor"
-                                        whileHover={{ x: 5 }}
-                                    >
-                                        <path d="M29.88 15.8569L39.552 9.01379C39.6896 8.90372 39.8026 8.75338 39.8808 8.57638C39.959 8.39937 40 8.20127 40 8C40 7.79873 39.959 7.60063 39.8808 7.42363C39.8026 7.24662 39.6896 7.09628 39.552 6.98621L29.88 0.143139C29.6915 0.0179054 29.4743 -0.0269382 29.2628 0.0156776C29.0512 0.0582934 28.8572 0.185945 28.7114 0.378507C28.5656 0.571069 28.4763 0.817589 28.4575 1.0792C28.4387 1.34081 28.4916 1.60264 28.6077 1.8234L31.4128 6.82663L0.958012 6.82663C0.70393 6.82663 0.460255 6.95026 0.280594 7.1703C0.100933 7.39035 0 7.6888 0 8C0 8.3112 0.100933 8.60965 0.280594 8.8297C0.460255 9.04975 0.70393 9.17337 0.958012 9.17337L31.4128 9.17337L28.6077 14.1766C28.4916 14.3974 28.4387 14.6592 28.4575 14.9208C28.4763 15.1824 28.5656 15.4289 28.7114 15.6215C28.8572 15.8141 29.0512 15.9417 29.2628 15.9843C29.4743 16.0269 29.6915 15.9821 29.88 15.8569Z" />
-                                    </motion.svg>
-                                </motion.div>
-
-                                <motion.h1
-                                    className={`text-5xl lg:text-[85px] font-black text-gray-950 dark:text-white uppercase font-teko leading-[0.95] tracking-tight cursor-default ${bengaliClass}`}
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    {translations.line2Part2}
-                                </motion.h1>
-                            </motion.div>
-
-                            {/* Row 3: SOLUTIONS. + Shape */}
-                            <motion.div variants={itemVariants} className="flex items-center gap-6 ml-0 lg:ml-30 mb-12 relative">
-                                <motion.span
-                                    className={`absolute -top-1 -left-12 lg:-left-16 text-2xl lg:text-4xl text-[#FD9A00] font-normal lowercase tracking-wide z-10 caveat cursor-default ${bengaliClass}`}
-                                    whileHover={{ scale: 1.2, rotate: -5 }}
-                                >
-                                    {isBn ? "সাথে" : "with"}
-                                </motion.span>
-                                <motion.h1
-                                    className={`text-5xl lg:text-[85px] font-black text-gray-950 dark:text-white uppercase font-teko leading-[0.95] tracking-tight cursor-default ${bengaliClass}`}
-                                    whileHover={{ scale: 1.02, x: 5 }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    {isBn ? "এক্সট্রেন ওয়েব" : "EXTRA IN WEB."}
-                                </motion.h1>
-                                <motion.div
-                                    className="w-10 lg:w-12 h-10 lg:h-12 border-4 border-[#C4EE18] rounded-full hidden lg:block cursor-pointer"
-                                    whileHover={{ scale: 1.3, rotate: 180, borderColor: "#FD9A00" }}
-                                    transition={{ type: "spring", stiffness: 200 }}
-                                />
-                            </motion.div>
-
-                            {/* Bottom Row: Stats & Play */}
-                            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-10 lg:gap-16 ml-0 lg:ml-20">
-                                <motion.div
-                                    className="flex items-center gap-4 cursor-default"
-                                    whileHover={{ x: 5 }}
-                                >
-                                    <div className="flex -space-x-3">
-                                        {avatars.map((url, i) => (
-                                            <motion.img
-                                                key={i}
-                                                src={url}
-                                                className="w-10 h-10 rounded-full border-2 border-white dark:border-[#0A0A0A] object-cover shadow-sm"
-                                                alt="User"
-                                                whileHover={{ scale: 1.2, zIndex: 10 }}
-                                                transition={{ type: "spring", stiffness: 300 }}
-                                            />
-                                        ))}
-                                    </div>
-                                    <p className={`text-[12px] leading-tight text-gray-400 font-medium ${bengaliClass}`}>
-                                        We have <span className="font-bold text-gray-900 dark:text-white text-base">{translations.statsCount}</span><br />
-                                        {translations.statsText}
-                                    </p>
-                                </motion.div>
-
-                                <div className="flex items-center gap-4 -ml-2.5">
-                                    <motion.div
-                                        className="w-12 h-12 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-black cursor-pointer shadow-lg"
-                                        whileHover={{ scale: 1.2, boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)" }}
-                                        whileTap={{ scale: 0.9 }}
-                                        transition={{ type: "spring", stiffness: 400 }}
-                                    >
-                                        <FiPlay className="ml-1" size={18} />
-                                    </motion.div>
-                                    <p className={`text-[12px] leading-tight text-gray-400 font-medium ${bengaliClass}`}>
-                                        {isBn ? "আমরা গ্লোবাল" : "We're Global"}<br />
-                                        <span className="font-bold text-gray-900 dark:text-white">{translations.agencyType}</span>
-                                    </p>
-                                </div>
-                            </motion.div>
-                        </motion.div>
-                    </div>
-
-                    {/* Right Card Panel */}
-                    <Link href="/websites" className="block w-full lg:w-[360px]">
-                        <motion.div
-                            initial={{ opacity: 0, x: 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            whileHover={{ scale: 1.05, translateY: -5 }}
-                            transition={{ delay: 0.5, duration: 0.8 }}
-                            className="bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-white/5 rounded-md p-8 lg:mt-40 shadow-xl cursor-pointer overflow-hidden group"
-                        >
-                            <div className="flex items-center gap-4 mb-14">
-                                <div className="w-12 h-12 bg-black dark:bg-white rounded-full flex items-center justify-center text-white dark:text-black font-black text-xl">
-                                    E.
-                                </div>
-                                <div className="w-12 h-12 bg-[#C4EE18] rounded-full flex items-center justify-center text-black shadow-inner transition-transform group-hover:rotate-45">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                        <path d="M7 17l10-10M17 17V7H7" />
-                                    </svg>
-                                </div>
-                            </div>
-
-                            <h3 className={`text-xl font-black text-gray-900 dark:text-white mb-2 uppercase font-teko ${bengaliClass}`}>
-                                {isBn ? "এক্সট্রেন প্রোভাইডার" : "Extrain Provider"}
-                            </h3>
-                            <p className={`text-[12px] text-gray-500 leading-relaxed mb-6 ${bengaliClass}`}>
-                                {isBn ? "২০১৯ থেকে আপনার বিশ্বস্ত ডিজিটাল পার্টনার।" : "Helping businesses scale with expert solutions since 2019."}
-                            </p>
-
-                            {/* Project Info Stats */}
-                            <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-white/10">
-                                <div className="p-3 bg-white dark:bg-black/40 rounded-md border border-gray-100 dark:border-white/5 shadow-sm">
-                                    <h4 className="text-xl font-black text-gray-900 dark:text-white font-teko leading-none">{websiteCount}+</h4>
-                                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mt-1">
-                                        {isBn ? "ওয়েবসাইট" : "Websites"}
-                                    </p>
-                                </div>
-                                <div className="p-3 bg-white dark:bg-black/40 rounded-md border border-gray-100 dark:border-white/5 shadow-sm">
-                                    <h4 className="text-xl font-black text-gray-900 dark:text-white font-teko leading-none">{softwareCount}+</h4>
-                                    <p className="text-[9px] text-gray-500 uppercase font-bold tracking-wider mt-1">
-                                        {isBn ? "সফটওয়্যার" : "Software"}
-                                    </p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </Link>
-                </div>
-            </div>
-
-            {/* Infinite Text Marquee (Ticker) - As requested */}
-            <div className="absolute bottom-4 lg:bottom-8 left-0 w-full bg-[#C4EE18] py-3 lg:py-5 overflow-hidden border-t-2 border-black/5">
+            {/* ══════════════════════════════════════
+                DESKTOP LAYOUT (lg and above)
+                3-col: Left | Center Image | Right
+            ══════════════════════════════════════ */}
+            <div className="hidden lg:flex" style={{
+                height: "100%", maxWidth: "1400px", margin: "0 auto",
+                padding: "0 40px", alignItems: "center", position: "relative", zIndex: 10,
+            }}>
+                {/* ═══ LEFT PANEL ═══ */}
                 <motion.div
-                    className="flex whitespace-nowrap items-center"
-                    animate={{ x: [0, "-50%"] }}
-                    transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ width: "300px", flexShrink: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}
                 >
-                    {/* Duplicate contents for seamless loop */}
-                    {[...Array(10)].map((_, i) => (
-                        <div key={i} className="flex items-center">
-                            {tickerItems.map((item, idx) => (
-                                <React.Fragment key={idx}>
-                                    <span className={`text-xl lg:text-3xl font-black text-black uppercase tracking-tighter mx-8 lg:mx-12 font-teko`}>
-                                        {isBn ? item.bn : item.en}
-                                    </span>
-                                    {idx % 2 === 0 ? (
-                                        <span className="text-black text-2xl lg:text-4xl">●</span>
-                                    ) : (
-                                        <div className="flex items-center">
-                                            <svg className="w-8 lg:w-12 h-6 lg:h-8 text-black" viewBox="0 0 40 16" fill="currentColor">
-                                                <path d="M29.88 15.8569L39.552 9.01379C39.6896 8.90372 39.8026 8.75338 39.8808 8.57638C39.959 8.39937 40 8.20127 40 8C40 7.79873 39.959 7.60063 39.8808 7.42363C39.8026 7.24662 39.6896 7.09628 39.552 6.98621L29.88 0.143139C29.6915 0.0179054 29.4743 -0.0269382 29.2628 0.0156776C29.0512 0.0582934 28.8572 0.185945 28.7114 0.378507C28.5656 0.571069 28.4763 0.817589 28.4575 1.0792C28.4387 1.34081 28.4916 1.60264 28.6077 1.8234L31.4128 6.82663L0.958012 6.82663C0.70393 6.82663 0.460255 6.95026 0.280594 7.1703C0.100933 7.39035 0 7.6888 0 8C0 8.3112 0.100933 8.60965 0.280594 8.8297C0.460255 9.04975 0.70393 9.17337 0.958012 9.17337L31.4128 9.17337L28.6077 14.1766C28.4916 14.3974 28.4387 14.6592 28.4575 14.9208C28.4763 15.1824 28.5656 15.4289 28.7114 15.6215C28.8572 15.8141 29.0512 15.9417 29.2628 15.9843C29.4743 16.0269 29.6915 15.9821 29.88 15.8569Z" />
-                                            </svg>
-                                        </div>
-                                    )}
-                                </React.Fragment>
+                    {/* Badge */}
+                    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+                        style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "5px 14px", borderRadius: "50px", marginBottom: "20px", width: "fit-content", background: "rgba(232,52,58,0.1)", border: "1px solid rgba(232,52,58,0.25)" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#E8343A", display: "inline-block", animation: "pulse 2s infinite" }} />
+                        <span style={{ color: "#E8343A", fontSize: "11px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>Available for Work</span>
+                    </motion.div>
+                    <p style={{ color: "#6b7280", fontSize: "13px", fontWeight: 500, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "10px" }}>HELLO, I'M</p>
+                    <h1 style={{ color: "#ffffff", fontWeight: 900, lineHeight: 0.88, marginBottom: "24px", letterSpacing: "-0.02em" }}>
+                        <span style={{ display: "block", fontSize: "clamp(50px, 4.5vw, 78px)" }}>Belal</span>
+                        <span style={{ display: "block", fontSize: "clamp(50px, 4.5vw, 78px)" }}>Hossain</span>
+                        <span style={{ display: "block", fontSize: "clamp(50px, 4.5vw, 78px)", background: "linear-gradient(135deg, #E8343A 0%, #ff6b6b 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Sunny</span>
+                    </h1>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                        <div style={{ width: "28px", height: "2px", backgroundColor: "#E8343A", borderRadius: "2px" }} />
+                        <span style={{ color: "#d1d5db", fontSize: "14px", fontWeight: 500, minHeight: "22px" }}>
+                            {displayText}<span style={{ color: "#E8343A" }}>|</span>
+                        </span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "28px", color: "#6b7280" }}>
+                        <LuMapPin size={13} />
+                        <span style={{ fontSize: "12px" }}>Dhaka, Bangladesh</span>
+                        <span style={{ margin: "0 4px", color: "#2d2d2d" }}>·</span>
+                        <LuBriefcase size={13} />
+                        <span style={{ fontSize: "12px" }}>Jo Young Engineering Korea</span>
+                    </div>
+                    <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                        <Link href="/projects" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "11px 24px", borderRadius: "50px", background: "linear-gradient(135deg, #E8343A, #c52b31)", color: "#ffffff", fontSize: "13px", fontWeight: 600, textDecoration: "none", transition: "all 0.3s" }}
+                            onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; }}>
+                            View Projects <LuArrowRight size={14} />
+                        </Link>
+                        <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "11px 24px", borderRadius: "50px", background: "transparent", border: "1px solid rgba(255,255,255,0.15)", color: "#d1d5db", fontSize: "13px", fontWeight: 600, textDecoration: "none", transition: "all 0.3s" }}
+                            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)"; e.currentTarget.style.color = "#fff"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = "#d1d5db"; }}>
+                            Hire Me
+                        </Link>
+                    </div>
+                </motion.div>
+
+                {/* ═══ CENTER: IMAGE ═══ */}
+                <div style={{ flex: 1, position: "relative", height: "100%", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+                    <motion.img src="/heroimage.png" alt="Belal Hossain Sunny — CNC Programmer"
+                        initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        style={{ position: "relative", zIndex: 10, height: "92%", maxHeight: "650px", width: "auto", objectFit: "contain", objectPosition: "bottom", display: "block" }}
+                    />
+                    {/* Floating skill badge */}
+                    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9 }}
+                        style={{ position: "absolute", left: "4%", top: "20%", padding: "10px 14px", borderRadius: "12px", background: "rgba(15,15,15,0.9)", border: "1px solid rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", boxShadow: "0 8px 32px rgba(0,0,0,0.4)" }}>
+                        <p style={{ color: "#6b7280", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "4px" }}>Expertise</p>
+                        <p style={{ color: "#ffffff", fontSize: "13px", fontWeight: 700 }}>Autodesk PowerMill</p>
+                        <p style={{ color: "#E8343A", fontSize: "11px", fontWeight: 500 }}>& PowerShape</p>
+                    </motion.div>
+                    {/* Floating company badge */}
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.1 }}
+                        style={{ position: "absolute", right: "4%", top: "25%", padding: "10px 14px", borderRadius: "12px", background: "rgba(15,15,15,0.9)", border: "1px solid rgba(232,52,58,0.2)", backdropFilter: "blur(12px)", boxShadow: "0 8px 32px rgba(0,0,0,0.4)" }}>
+                        <p style={{ color: "#6b7280", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "4px" }}>Currently at</p>
+                        <p style={{ color: "#ffffff", fontSize: "12px", fontWeight: 700, lineHeight: 1.3 }}>Jo Young Engineering</p>
+                        <p style={{ color: "#E8343A", fontSize: "11px", fontWeight: 500 }}>Korea 🇰🇷</p>
+                    </motion.div>
+                </div>
+
+                {/* ═══ RIGHT PANEL ═══ */}
+                <motion.div initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ width: "280px", flexShrink: 0, display: "flex", flexDirection: "column", justifyContent: "center", gap: "28px" }}>
+                    <div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                            <div style={{ width: "20px", height: "2px", backgroundColor: "#E8343A", borderRadius: "2px" }} />
+                            <h3 style={{ color: "#ffffff", fontWeight: 700, fontSize: "15px", margin: 0 }}>About Me</h3>
+                        </div>
+                        <p style={{ color: "#9ca3af", fontSize: "13px", lineHeight: 1.8, margin: 0 }}>
+                            Strong experienced <span style={{ color: "#E8343A", fontWeight: 600 }}>CNC Programmer</span> using Autodesk PowerMill & PowerShape. Successfully finished many projects in <span style={{ color: "#E8343A", fontWeight: 600 }}>Precision Die-Mould Manufacturing</span>.
+                        </p>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                        {stats.map(({ value, label }) => (
+                            <div key={label} style={{ padding: "14px", borderRadius: "12px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", transition: "all 0.3s" }}
+                                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(232,52,58,0.3)"; e.currentTarget.style.background = "rgba(232,52,58,0.05)"; }}
+                                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}>
+                                <span style={{ color: "#ffffff", fontWeight: 800, fontSize: "22px", display: "block" }}>{value}</span>
+                                <span style={{ color: "#6b7280", fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{label}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+                            <div style={{ width: "20px", height: "2px", backgroundColor: "#E8343A", borderRadius: "2px" }} />
+                            <h3 style={{ color: "#ffffff", fontWeight: 700, fontSize: "15px", margin: 0 }}>Find Me On</h3>
+                        </div>
+                        <div style={{ display: "flex", gap: "10px" }}>
+                            {socialLinks.map(({ icon: Icon, href, label }) => (
+                                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                                    style={{ width: "38px", height: "38px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af", textDecoration: "none", transition: "all 0.3s" }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.background = "#E8343A"; e.currentTarget.style.borderColor = "#E8343A"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.transform = "translateY(-3px)"; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "#9ca3af"; e.currentTarget.style.transform = "none"; }}>
+                                    <Icon size={14} />
+                                </a>
                             ))}
                         </div>
-                    ))}
+                    </div>
+                    <div style={{ padding: "12px 16px", borderRadius: "12px", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", gap: "12px" }}>
+                        <div style={{ width: "36px", height: "36px", borderRadius: "8px", backgroundColor: "rgba(232,52,58,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                            <span style={{ fontSize: "18px" }}>🎓</span>
+                        </div>
+                        <div>
+                            <p style={{ color: "#ffffff", fontSize: "12px", fontWeight: 600, margin: 0 }}>Dhaka Polytechnic Institute</p>
+                            <p style={{ color: "#6b7280", fontSize: "11px", margin: 0 }}>Education Background</p>
+                        </div>
+                    </div>
                 </motion.div>
             </div>
 
-            {/* Scroll Down Indication - Positioned above ticker */}
-            <div className="absolute left-6 lg:left-12 bottom-20 lg:bottom-28 hidden lg:flex flex-col items-center gap-4 opacity-30">
-                <FiArrowDown size={20} className="animate-bounce" />
-                <div className="w-[1px] h-12 bg-black dark:bg-white" />
+            {/* ══════════════════════════════════════
+                MOBILE LAYOUT (below lg)
+            ══════════════════════════════════════ */}
+            <div className="flex lg:hidden flex-col relative z-10">
+
+                {/* Top: Content */}
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="px-5 pt-10 pb-4 flex flex-col items-center text-center">
+
+                    {/* Badge */}
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "5px 14px", borderRadius: "50px", marginBottom: "16px", background: "rgba(232,52,58,0.1)", border: "1px solid rgba(232,52,58,0.25)" }}>
+                        <span style={{ width: "6px", height: "6px", borderRadius: "50%", backgroundColor: "#E8343A", display: "inline-block", animation: "pulse 2s infinite" }} />
+                        <span style={{ color: "#E8343A", fontSize: "11px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>Available for Work</span>
+                    </div>
+
+                    <p style={{ color: "#6b7280", fontSize: "12px", fontWeight: 500, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "8px" }}>HELLO, I'M</p>
+
+                    <h1 style={{ color: "#ffffff", fontWeight: 900, lineHeight: 0.9, marginBottom: "16px", letterSpacing: "-0.02em" }}>
+                        <span style={{ display: "block", fontSize: "clamp(52px, 16vw, 80px)" }}>Belal</span>
+                        <span style={{ display: "block", fontSize: "clamp(38px, 11vw, 60px)", whiteSpace: "nowrap" }}>
+                            Hossain{" "}
+                            <span style={{ background: "linear-gradient(135deg, #E8343A 0%, #ff6b6b 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Sunny</span>
+                        </span>
+                    </h1>
+
+                    {/* Typewriter */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px", justifyContent: "center" }}>
+                        <div style={{ width: "22px", height: "2px", backgroundColor: "#E8343A", borderRadius: "2px" }} />
+                        <span style={{ color: "#d1d5db", fontSize: "14px", fontWeight: 500, minHeight: "22px" }}>
+                            {displayText}<span style={{ color: "#E8343A" }}>|</span>
+                        </span>
+                    </div>
+
+                    {/* Location */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "5px", marginBottom: "20px", color: "#6b7280", flexWrap: "wrap", justifyContent: "center" }}>
+                        <LuMapPin size={12} />
+                        <span style={{ fontSize: "12px" }}>Dhaka, Bangladesh</span>
+                        <span style={{ color: "#2d2d2d" }}>·</span>
+                        <LuBriefcase size={12} />
+                        <span style={{ fontSize: "12px" }}>Jo Young Engineering, Korea</span>
+                    </div>
+
+                    {/* CTA Buttons */}
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+                        <Link href="/projects" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "11px 22px", borderRadius: "50px", background: "linear-gradient(135deg, #E8343A, #c52b31)", color: "#ffffff", fontSize: "13px", fontWeight: 600, textDecoration: "none" }}>
+                            View Projects <LuArrowRight size={14} />
+                        </Link>
+                        <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "11px 22px", borderRadius: "50px", background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "#d1d5db", fontSize: "13px", fontWeight: 600, textDecoration: "none" }}>
+                            Hire Me
+                        </Link>
+                    </div>
+                </motion.div>
+
+                {/* Center: Hero Image */}
+                <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                    className="relative flex justify-center overflow-hidden"
+                    style={{ maxHeight: "55vw", minHeight: "240px" }}>
+                    <img src="/heroimage.png" alt="Belal Hossain Sunny"
+                        style={{ height: "100%", maxHeight: "340px", width: "auto", objectFit: "contain", objectPosition: "bottom", display: "block", position: "relative", zIndex: 10 }}
+                    />
+                    {/* Subtle bottom fade */}
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: "linear-gradient(to top, #080808, transparent)", zIndex: 11 }} />
+                </motion.div>
+
+                {/* Bottom: Stats + Socials */}
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.4 }}
+                    className="px-5 pb-8">
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-4 gap-3 mb-5">
+                        {stats.map(({ value, label }) => (
+                            <div key={label} style={{ padding: "12px 8px", borderRadius: "12px", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", textAlign: "center" }}>
+                                <span style={{ color: "#ffffff", fontWeight: 800, fontSize: "18px", display: "block", lineHeight: 1 }}>{value}</span>
+                                <span style={{ color: "#6b7280", fontSize: "9px", textTransform: "uppercase", letterSpacing: "0.06em" }}>{label}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Social Links */}
+                    <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+                        {socialLinks.map(({ icon: Icon, href, label }) => (
+                            <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+                                style={{ width: "40px", height: "40px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af", textDecoration: "none" }}>
+                                <Icon size={14} />
+                            </a>
+                        ))}
+                    </div>
+                </motion.div>
             </div>
 
-            <style jsx global>{`
-                @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
-                .caveat { font-family: 'Caveat', cursive; }
+            {/* ══ BOTTOM BIG TEXT (both layouts) ══ */}
+            <div style={{ position: "absolute", bottom: 0, left: 0, width: "100%", pointerEvents: "none", overflow: "hidden" }}>
+                <div style={{ textAlign: "center", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(55px, 12vw, 160px)", letterSpacing: "0.02em", lineHeight: 0.82, WebkitTextStroke: "1px rgba(255,255,255,0.06)", color: "transparent" }}>
+                    CNC EXPERT
+                </div>
+                <div style={{ textAlign: "center", fontWeight: 900, textTransform: "uppercase", fontSize: "clamp(55px, 12vw, 160px)", letterSpacing: "0.02em", lineHeight: 0.82, color: "#E8343A", marginTop: "-0.82em", clipPath: "inset(58% 0 0 0)", WebkitTextStroke: "1px rgba(232,52,58,0.3)" }}>
+                    CNC EXPERT
+                </div>
+            </div>
+
+            <style>{`
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.4; }
+                }
             `}</style>
         </section>
     );

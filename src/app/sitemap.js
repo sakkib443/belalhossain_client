@@ -1,8 +1,8 @@
-// Dynamic Sitemap for Extrain Web
+﻿// Dynamic Sitemap for BELAL HOSSAIN SUNNY
 // This will automatically generate sitemap.xml for better SEO
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://extrainweb.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://BelalHossainSunny.com';
 
   // Static pages - সব main pages
   const staticPages = [

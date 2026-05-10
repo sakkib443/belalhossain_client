@@ -1,7 +1,7 @@
-// robots.txt - Search Engine Crawlers এর জন্য instructions
+﻿// robots.txt - Search Engine Crawlers এর জন্য instructions
 
 export default function robots() {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://extrainweb.com';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://BelalHossainSunny.com';
 
     return {
         rules: [
