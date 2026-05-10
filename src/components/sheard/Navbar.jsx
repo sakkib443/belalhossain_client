@@ -204,15 +204,15 @@ const Navbar = () => {
                 Hire Me
               </Link>
 
-              {/* Hamburger (Mobile only) */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              {/* Contact Menu Button */}
+              <Link
+                href="/contact"
                 className="lg:hidden"
-                style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: "#E8343A", border: "none", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 14px rgba(232,52,58,0.35)" }}
-                aria-label="Open menu"
+                style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundColor: "#E8343A", border: "none", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 14px rgba(232,52,58,0.35)", textDecoration: "none" }}
+                aria-label="Contact Me"
               >
-                {isMobileMenuOpen ? <BiX size={18} /> : <BiMenu size={18} />}
-              </button>
+                <BiMenu size={18} />
+              </Link>
             </div>
           </div>
         </div>

@@ -19,19 +19,25 @@ const ScrollToTopOnNavigate = () => {
         }
 
         // 2. Scroll to top when pathname changes
-        // Using requestAnimationFrame to ensure the scroll happens after the page content is rendered
+        // Using multiple approaches to ensure scroll always reaches top
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+
         const scroll = () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "instant"
-            });
+            window.scrollTo({ top: 0, behavior: "instant" });
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
         };
 
-        requestAnimationFrame(() => {
-            scroll();
-            // Double check after a small delay for content that might load/shift
-            setTimeout(scroll, 10);
-        });
+        requestAnimationFrame(scroll);
+        const t1 = setTimeout(scroll, 50);
+        const t2 = setTimeout(scroll, 150);
+
+        return () => {
+            clearTimeout(t1);
+            clearTimeout(t2);
+        };
     }, [pathname]);
 
     return null; // This component doesn't render anything
