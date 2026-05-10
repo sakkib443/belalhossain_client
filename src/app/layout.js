@@ -57,6 +57,23 @@ export const metadata = {
     title: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
     description:
       "9+ years of precision CNC programming and die-mould manufacturing expertise. PowerMill & PowerShape specialist based in Korea.",
+    images: [
+      {
+        url: "/heroimage.png",
+        width: 1200,
+        height: 630,
+        alt: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
+        type: "image/png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
+    description:
+      "9+ years of precision CNC programming and die-mould manufacturing expertise. PowerMill & PowerShape specialist based in Korea.",
+    images: ["/heroimage.png"],
+    creator: "@belalhossainsunny",
   },
 };
 
