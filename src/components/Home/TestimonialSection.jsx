@@ -57,8 +57,11 @@ const testimonials = [
 
 const TestimonialSection = () => {
     return (
-        <section style={{ backgroundColor: "#080808", padding: "100px 0", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 40px" }}>
+        <section
+            style={{ backgroundColor: "#080808", borderTop: "1px solid rgba(255,255,255,0.05)" }}
+            className="py-16 md:py-24"
+        >
+            <div className="max-w-[1400px] mx-auto px-4 md:px-10">
 
                 {/* Header */}
                 <motion.div
@@ -66,17 +69,13 @@ const TestimonialSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    style={{ textAlign: "center", marginBottom: "64px" }}
+                    style={{ textAlign: "center", marginBottom: "48px" }}
                 >
-                    <div style={{
-                        display: "inline-flex", alignItems: "center", gap: "8px",
-                        padding: "4px 14px", borderRadius: "50px", marginBottom: "16px",
-                        background: "rgba(232,52,58,0.08)", border: "1px solid rgba(232,52,58,0.2)",
-                    }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "4px 14px", borderRadius: "50px", marginBottom: "16px", background: "rgba(232,52,58,0.08)", border: "1px solid rgba(232,52,58,0.2)" }}>
                         <span style={{ width: "5px", height: "5px", borderRadius: "50%", backgroundColor: "#E8343A", display: "inline-block" }} />
                         <span style={{ color: "#E8343A", fontSize: "11px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>Testimonials</span>
                     </div>
-                    <h2 style={{ color: "#ffffff", fontWeight: 800, fontSize: "clamp(30px, 4vw, 48px)", margin: "0 0 16px", letterSpacing: "-0.02em" }}>
+                    <h2 style={{ color: "#ffffff", fontWeight: 800, fontSize: "clamp(28px, 4vw, 48px)", margin: "0 0 16px", letterSpacing: "-0.02em" }}>
                         What Clients{" "}
                         <span style={{ background: "linear-gradient(135deg, #E8343A, #ff6b6b)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                             Say
@@ -87,8 +86,8 @@ const TestimonialSection = () => {
                     </p>
                 </motion.div>
 
-                {/* Grid */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+                {/* Grid — 1-col mobile, 2-col tablet, 3-col desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     {testimonials.map(({ name, role, company, avatar, rating, text }, i) => (
                         <motion.div
                             key={name}
@@ -97,11 +96,11 @@ const TestimonialSection = () => {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.08, duration: 0.6 }}
                             style={{
-                                padding: "32px",
+                                padding: "clamp(20px, 4vw, 32px)",
                                 borderRadius: "20px",
                                 background: "rgba(255,255,255,0.02)",
                                 border: "1px solid rgba(255,255,255,0.07)",
-                                display: "flex", flexDirection: "column", gap: "20px",
+                                display: "flex", flexDirection: "column", gap: "16px",
                                 transition: "all 0.3s",
                             }}
                             whileHover={{ borderColor: "rgba(232,52,58,0.2)", background: "rgba(232,52,58,0.02)" }}
@@ -116,16 +115,16 @@ const TestimonialSection = () => {
                                 ))}
                             </div>
 
-                            {/* Text */}
+                            {/* Review Text */}
                             <p style={{ color: "#9ca3af", fontSize: "14px", lineHeight: 1.8, margin: 0, flex: 1 }}>{text}</p>
 
                             {/* Divider */}
                             <div style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
 
                             {/* Profile */}
-                            <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                                 <div style={{
-                                    width: "44px", height: "44px", borderRadius: "50%",
+                                    width: "42px", height: "42px", borderRadius: "50%",
                                     background: "linear-gradient(135deg, #E8343A, #c52b31)",
                                     display: "flex", alignItems: "center", justifyContent: "center",
                                     flexShrink: 0,
@@ -140,6 +139,7 @@ const TestimonialSection = () => {
                         </motion.div>
                     ))}
                 </div>
+
             </div>
         </section>
     );
