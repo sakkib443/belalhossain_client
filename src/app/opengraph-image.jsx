@@ -89,7 +89,6 @@ export default async function Image() {
               background: "rgba(232,52,58,0.12)",
               border: "1px solid rgba(232,52,58,0.3)",
               marginBottom: "28px",
-              width: "fit-content",
             }}
           >
             <div
