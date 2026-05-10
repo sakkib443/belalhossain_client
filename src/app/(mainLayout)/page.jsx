@@ -1,24 +1,29 @@
-﻿import HomeContent from "./HomeContent";
-import { generateMetadata as seoGenerateMetadata, commonKeywords, generateOrganizationSchema } from "@/lib/seo";
+import HomeContent from "./HomeContent";
+import { generateOrganizationSchema } from "@/lib/seo";
 
 // ==================== SEO METADATA ====================
-export async function generateMetadata() {
-  const metadata = seoGenerateMetadata({
-    title: "Best Website Development Company in Bangladesh | BELAL HOSSAIN SUNNY",
-    description: "BELAL HOSSAIN SUNNY (Extra in Web) — Top-rated website development agency in Bangladesh. We build high-performance custom websites, premium templates, and business software in Dhaka.",
-    keywords: [
-      ...commonKeywords.brand,
-      ...commonKeywords.bestKeywords,
-      ...commonKeywords.base,
-      ...commonKeywords.local,
-      "web design agency bangladesh",
-      "e-commerce development company dhaka"
-    ],
-    canonicalUrl: "/",
-  });
-
-  return metadata;
-}
+export const metadata = {
+  title: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
+  description:
+    "Belal Hossain Sunny — Experienced CNC Programmer & CAM Specialist with 9+ years in Precision Die-Mould Manufacturing. Expert in Autodesk PowerMill & PowerShape. Currently working at Jo Young Engineering, Korea.",
+  keywords:
+    "Belal Hossain Sunny, CNC Programmer, PowerMill Expert, CAM Specialist, Die-Mould Manufacturing, 5-Axis CNC, Autodesk PowerMill, PowerShape, Jo Young Engineering Korea, Dhaka Bangladesh",
+  openGraph: {
+    type: "website",
+    url: "https://belalhossainsunny.com",
+    siteName: "Belal Hossain Sunny",
+    title: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
+    description:
+      "9+ years of precision CNC programming and die-mould manufacturing expertise. Expert in Autodesk PowerMill & PowerShape. Currently at Jo Young Engineering, Korea.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Belal Hossain Sunny — CNC Programmer & CAM Specialist",
+    description:
+      "9+ years of precision CNC programming and die-mould manufacturing expertise. Expert in Autodesk PowerMill & PowerShape. Currently at Jo Young Engineering, Korea.",
+    creator: "@belalhossainsunny",
+  },
+};
 
 // ==================== HOME PAGE ====================
 export default function HomePage() {
